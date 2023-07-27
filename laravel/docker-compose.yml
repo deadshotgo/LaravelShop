@@ -1,17 +1,16 @@
 version: "2.0"
 services:
   #PHP Service
-  laravel:
+  backend:
     build:
-      context: ./
-      dockerfile: laravel.dockerfile
-    image: laravel
-    user: "1000:1000"
-    container_name: laravel
+      context: .
+      dockerfile: Dockerfile
+    image: cloudsigma.com/php
+    container_name: backend
     restart: unless-stopped
     tty: true
     environment:
-      SERVICE_NAME: laravel
+      SERVICE_NAME: backend
       SERVICE_TAGS: dev
     working_dir: /var/www/html/
     volumes:
@@ -20,61 +19,53 @@ services:
     networks:
       - app-network
 
-  vue:
+  frontend:
     stdin_open: true
-    container_name: vue
-    restart: always
+    container_name: frontend
     build:
       context: ../vue
-      dockerfile: vue.dockerfile
+      dockerfile: Dockerfile
     volumes:
       - /app/node_modules
-      - ../vue:/app:cached
+      - ../frontend-code:/var/www/html/
     networks:
       - app-network
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-    expose:
-      - "80"
-    ports:
-      - "8080:8080"
-      - "8081:8081"
 
   #Nginx Service
   webserver:
     depends_on:
-      - laravel
-      - vue
+      - backend
+      - frontend
     build:
       context: ./nginx
-      dockerfile: nginx.dockerfile
+      dockerfile: Dockerfile
     container_name: webserver
     restart: unless-stopped
     tty: true
     ports:
-      - "81:80"
+      - "83:80"
     networks:
       - app-network
 
   #Mysql DB
   mysql:
-    image: mysql:8.0
-    container_name: dbs
-    restart: unless-stopped
-    tty: true
-    ports:
-        - "33062:3306"
-    environment:
-        MYSQL_USER: www-data
-        MYSQL_PASSWORD: root
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: shopLaravel
-    volumes:
-      - ../mysql:/mysql
-    networks:
-      - app-network
+      image: mysql:8.0
+      container_name: dbs
+      restart: unless-stopped
+      tty: true
+      ports:
+          - "33062:3306"
+      environment:
+          MYSQL_USER: www-data
+          MYSQL_PASSWORD: root
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: shopLaravel
+      volumes:
+          - ../mysql:/mysql
+      networks:
+          - app-network
 
-  #phpMyAdmin DB
+      #phpMyAdmin DB
   phpmyadmin:
       image: phpmyadmin/phpmyadmin
       container_name: phpAdmin
@@ -92,5 +83,5 @@ networks:
     driver: bridge
 
 volumes:
-  mysql:
-    driver: local
+    mysql:
+        driver: local
