@@ -27,7 +27,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - /app/node_modules
-      - ../frontend-code:/var/www/html/
+      - ../vue:/var/www/html/
     networks:
       - app-network
 
