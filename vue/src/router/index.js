@@ -8,12 +8,24 @@ const routes = [
     meta: { layout: "main" },
     component: HomeView,
   },
-  // {
-  //   path: "/login",
-  //   name: "login",
-  //   meta: { layout: "auth" },
-  //   component: () => import("../views/Login.vue"),
-  // },
+  {
+    path: "/contact",
+    name: "contact",
+    meta: { layout: "main" },
+    component: () => import("../views/VContact.vue"),
+  },
+  {
+    path: "/about-us",
+    name: "aboutUs",
+    meta: { layout: "main" },
+    component: () => import("../views/VAboutUs.vue"),
+  },
+  {
+    path: "/cart",
+    name: "cart",
+    meta: { layout: "main" },
+    component: () => import("../views/VCart.vue"),
+  },
 ];
 
 const router = createRouter({
