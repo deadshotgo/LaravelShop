@@ -645,6 +645,19 @@
             </li>
             <li>
               <a href="shop.html">Products</a>
+              <ul
+                class="dropdown-product"
+                :class="{ 'dropdown-after-product': menuOpenProduct }"
+              >
+                <li><a href="#">Product 1</a></li>
+              </ul>
+              <a
+                @click="menuOpenProduct = !menuOpenProduct"
+                class="mean-expand"
+                href="#"
+                style="font-size: 18px"
+                >+</a
+              >
             </li>
             <li>
               <a href="#">Pages</a>
@@ -894,6 +907,7 @@ export default {
   data() {
     return {
       menuOpen: false,
+      menuOpenProduct: false,
     };
   },
 };
@@ -917,8 +931,23 @@ export default {
   overflow: hidden;
 }
 
+.dropdown-product {
+  height: 0px;
+  transition: height 0.2s ease;
+  display: block;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
 .dropdown-after {
-  height: calc(50vh - 50px);
+  display: block;
+  height: auto;
+  transition: height 0.5s ease;
+}
+
+.dropdown-after-product {
+  height: auto;
   transition: height 0.5s ease;
 }
 

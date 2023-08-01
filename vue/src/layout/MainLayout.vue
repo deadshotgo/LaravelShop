@@ -1,5 +1,5 @@
 <script>
-import HeaderPC from "@/headers/HeaderPC.vue";
+import HeaderPC from "@/headers/HeaderDesktop.vue";
 import HeaderMobile from "@/headers/HeaderMobile.vue";
 
 export default {
