@@ -2,9 +2,11 @@
 import HeaderPC from "@/headers/HeaderDesktop.vue";
 import HeaderMobile from "@/headers/HeaderMobile.vue";
 
+import ModalCart from "@/components/cart/ModalCart.vue";
+
 export default {
   name: "MainLayout",
-  components: { HeaderMobile, HeaderPC },
+  components: { ModalCart, HeaderMobile, HeaderPC },
   methods: {
     getWidth() {
       return window.innerWidth;
