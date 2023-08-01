@@ -26,6 +26,12 @@ const routes = [
     meta: { layout: "main" },
     component: () => import("../views/VCart.vue"),
   },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "notFound",
+    meta: { layout: "main" },
+    component: () => import("../components/errors/NotFound.vue"),
+  },
 ];
 
 const router = createRouter({
