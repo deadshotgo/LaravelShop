@@ -1,6 +1,6 @@
 <script>
-import HeaderPC from "@/headers/HeaderDesktop.vue";
-import HeaderMobile from "@/headers/HeaderMobile.vue";
+import HeaderPC from "@/components/headers/HeaderDesktop.vue";
+import HeaderMobile from "@/components/headers/HeaderMobile.vue";
 
 import ModalCart from "@/components/cart/ModalCart.vue";
 
