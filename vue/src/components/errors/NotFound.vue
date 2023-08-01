@@ -21,7 +21,7 @@
             <div class="error-404 box-shadow">
               <img src="" alt="" />
               <div class="go-to-btn btn-hover-2">
-                <a href="index.html">go to home page</a>
+                <router-link to="/">go to home page</router-link>
               </div>
             </div>
           </div>

@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/Home.vue";
-import Error404Component from "@/components/errors/Error404Component.vue";
 
 const routes = [
   {
@@ -27,7 +26,12 @@ const routes = [
     meta: { layout: "main" },
     component: () => import("../views/VCart.vue"),
   },
-  { path: "/:pathMatch(.*)*", name: "NotFound", component: Error404Component },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "notFound",
+    meta: { layout: "main" },
+    component: () => import("../components/errors/NotFound.vue"),
+  },
 ];
 
 const router = createRouter({
