@@ -15,7 +15,6 @@ export default {
   },
   data: () => ({
     small: false,
-    onlySmall: false,
   }),
   created() {
     window.addEventListener("resize", this.onResize);
@@ -27,7 +26,6 @@ export default {
   methods: {
     onResize() {
       this.small = window.innerWidth <= 1200;
-      this.onlySmall = window.innerWidth <= 768;
     },
   },
 };
