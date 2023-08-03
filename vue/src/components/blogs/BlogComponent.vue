@@ -24,13 +24,13 @@
           <div class="blog-option box-shadow mb-30 clearfix">
             <!-- categories -->
             <div class="dropdown f-left">
-              <button class="option-btn" @click="isActiveCat = !isActiveCat">
+              <button class="option-btn" @click="toggleList(1)">
                 Categories
                 <i class="zmdi zmdi-chevron-down"></i>
               </button>
               <div
                 class="dropdown-width mt-30 dropdownn opened-menu"
-                :class="{ 'dropdownn-after': isActiveCat }"
+                :class="{ 'dropdownn-after': activeList === 1 }"
               >
                 <aside
                   class="widget widget-categories box-shadow"
@@ -109,13 +109,13 @@
             </div>
             <!-- recent-product -->
             <div class="dropdown f-left">
-              <button class="option-btn" @click="isActiveRec = !isActiveRec">
+              <button class="option-btn" @click="toggleList(2)">
                 Recent Post
                 <i class="zmdi zmdi-chevron-down"></i>
               </button>
               <div
                 class="dropdown-width mt-30 dropdownn opened-menu"
-                :class="{ 'dropdownn-after': isActiveRec }"
+                :class="{ 'dropdownn-after': activeList === 2 }"
               >
                 <aside class="widget widget-product box-shadow bord">
                   <h6 class="widget-title border-left mb-20">
@@ -177,13 +177,13 @@
             </div>
             <!-- Tags -->
             <div class="dropdown f-left">
-              <button class="option-btn" @click="isActiveTag = !isActiveTag">
+              <button class="option-btn" @click="toggleList(3)">
                 Tags
                 <i class="zmdi zmdi-chevron-down"></i>
               </button>
               <div
                 class="dropdown-width mt-30 dropdownn opened-menu"
-                :class="{ 'dropdownn-after': isActiveTag }"
+                :class="{ 'dropdownn-after': activeList === 3 }"
               >
                 <aside class="widget widget-tags box-shadow bord" style="">
                   <h6 class="widget-title border-left mb-20">Tags</h6>
@@ -376,10 +376,20 @@ export default {
   name: "BlogComponent",
   data() {
     return {
-      isActiveTag: false,
-      isActiveRec: false,
-      isActiveCat: false,
+      isActiveTag: 1,
+      isActiveRec: 2,
+      isActiveCat: 3,
+      activeList: null,
     };
+  },
+  methods: {
+    toggleList(listNumber) {
+      if (this.activeList === listNumber) {
+        this.activeList = null; // Если список уже активен, закрываем его
+      } else {
+        this.activeList = listNumber;
+      }
+    },
   },
 };
 </script>
