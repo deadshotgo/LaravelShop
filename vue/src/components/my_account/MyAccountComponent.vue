@@ -25,22 +25,23 @@
             <div class="my-account-content" id="accordion2">
               <!-- My Personal Information -->
               <div class="panel panel-default">
-                <div class="panel-heading">
+                <div
+                  class="panel-heading"
+                  @click="
+                    menuPersonal = menuPersonal == menuOpen ? 1 : menuOpen
+                  "
+                >
                   <h4 class="panel-title">
-                    <a
-                      data-toggle="collapse"
-                      data-parent="#accordion2"
-                      href="#personal_info"
+                    <a data-toggle="collapse" data-parent="#accordion2"
                       >My Personal Information</a
                     >
                   </h4>
                 </div>
-                <div
-                  id="personal_info"
-                  class="panel-collapse collapse in"
-                  role="tabpanel"
-                >
-                  <div class="panel-body">
+                <div id="personal_info" role="tabpanel" style="display: block">
+                  <div
+                    class="dropdownn"
+                    :class="{ 'dropdownn-after': menuOpen == menuPersonal }"
+                  >
                     <form action="#">
                       <div class="new-customers">
                         <div class="p-30">
@@ -142,22 +143,27 @@
               </div>
               <!-- My shipping address -->
               <div class="panel panel-default">
-                <div class="panel-heading">
+                <div
+                  class="panel-heading"
+                  @click="
+                    menuShipping = menuShipping == menuOpen ? 2 : menuOpen
+                  "
+                >
                   <h4 class="panel-title">
-                    <a
-                      data-toggle="collapse"
-                      data-parent="#accordion2"
-                      href="#my_shipping"
+                    <a data-toggle="collapse" data-parent="#accordion2"
                       >My shipping address</a
                     >
                   </h4>
                 </div>
                 <div
                   id="my_shipping"
-                  class="panel-collapse collapse"
                   role="tabpanel"
+                  style="display: block; height: auto"
                 >
-                  <div class="panel-body">
+                  <div
+                    class="dropdownn"
+                    :class="{ 'dropdownn-after': menuOpen == menuShipping }"
+                  >
                     <form action="#">
                       <div class="new-customers p-30">
                         <div class="row">
@@ -233,12 +239,12 @@
               </div>
               <!-- My billing details -->
               <div class="panel panel-default">
-                <div class="panel-heading">
+                <div
+                  class="panel-heading"
+                  @click="menuBilling = menuBilling == menuOpen ? 3 : menuOpen"
+                >
                   <h4 class="panel-title">
-                    <a
-                      data-toggle="collapse"
-                      data-parent="#accordion2"
-                      href="#billing_address"
+                    <a data-toggle="collapse" data-parent="#accordion2"
                       >My billing details</a
                     >
                   </h4>
@@ -247,8 +253,12 @@
                   id="billing_address"
                   class="panel-collapse collapse"
                   role="tabpanel"
+                  style="display: block"
                 >
-                  <div class="panel-body">
+                  <div
+                    class="dropdownn"
+                    :class="{ 'dropdownn-after': menuOpen == menuBilling }"
+                  >
                     <form action="#">
                       <div class="billing-details p-30">
                         <input type="text" placeholder="Your Name Here..." />
@@ -309,22 +319,26 @@
               </div>
               <!-- My Order info -->
               <div class="panel panel-default">
-                <div class="panel-heading">
+                <div
+                  class="panel-heading"
+                  @click="menuOrder = menuOrder == menuOpen ? 4 : menuOpen"
+                >
                   <h4 class="panel-title">
-                    <a
-                      data-toggle="collapse"
-                      data-parent="#accordion2"
-                      href="#My_order_info"
+                    <a data-toggle="collapse" data-parent="#accordion2"
                       >My Order info</a
                     >
                   </h4>
                 </div>
                 <div
+                  style="display: block"
                   id="My_order_info"
                   class="panel-collapse collapse"
                   role="tabpanel"
                 >
-                  <div class="panel-body">
+                  <div
+                    class="dropdownn"
+                    :class="{ 'dropdownn-after': menuOpen == menuOrder }"
+                  >
                     <form action="#">
                       <!-- our order -->
                       <div class="payment-details p-30">
@@ -370,22 +384,26 @@
               </div>
               <!-- Payment Method -->
               <div class="panel panel-default">
-                <div class="panel-heading">
+                <div
+                  class="panel-heading"
+                  @click="menuPayment = menuPayment == menuOpen ? 5 : menuOpen"
+                >
                   <h4 class="panel-title">
-                    <a
-                      data-toggle="collapse"
-                      data-parent="#accordion2"
-                      href="#My_payment_method"
+                    <a data-toggle="collapse" data-parent="#accordion2"
                       >Payment Method</a
                     >
                   </h4>
                 </div>
                 <div
+                  style="display: block"
                   id="My_payment_method"
                   class="panel-collapse collapse"
                   role="tabpanel"
                 >
-                  <div class="panel-body">
+                  <div
+                    class="dropdownn"
+                    :class="{ 'dropdownn-after': menuOpen == menuPayment }"
+                  >
                     <form action="#">
                       <div class="new-customers p-30">
                         <select class="custom-select">
@@ -470,7 +488,31 @@
 <script>
 export default {
   name: "MyAccountComponent",
+  data() {
+    return {
+      menuOpen: " ",
+      menuPersonal: 1,
+      menuShipping: 2,
+      menuBilling: 3,
+      menuOrder: 4,
+      menuPayment: 5,
+    };
+  },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.dropdownn {
+  max-height: 0px;
+  transition: max-height 0.2s ease-in-out;
+  align-items: center;
+  display: block;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.dropdownn-after {
+  max-height: 700px;
+  transition: max-height 0.5s ease-in-out;
+}
+</style>
