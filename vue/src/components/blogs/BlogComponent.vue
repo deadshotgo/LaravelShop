@@ -29,22 +29,28 @@
                 <i class="zmdi zmdi-chevron-down"></i>
               </button>
               <div
-                class="dropdown-width mt-30 dropdownn opened-menu"
+                class="dropdown-width mt-30 dropdownn opened-menu menu-center"
                 :class="{ 'dropdownn-after': activeList === 1 }"
               >
                 <aside
                   class="widget widget-categories box-shadow"
-                  style="border: 1px solid rgba(0, 0, 0, 0.15)"
+                  style="
+                    border: 1px solid rgba(0, 0, 0, 0.15);
+                    margin-right: auto;
+                  "
                 >
                   <h6 class="widget-title border-left mb-20">Categories</h6>
                   <div id="cat-treeview" class="product-cat">
-                    <ul class="treeview">
+                    <ul>
                       <li class="closed expandable">
                         <div
                           class="hitarea closed-hitarea expandable-hitarea"
                         ></div>
-                        <a href="#">Brand One</a>
-                        <ul class="treeview" style="display: none">
+                        <a @click="toggleSmallList(1)">Brand One</a>
+                        <ul
+                          class="dropdownn"
+                          :class="{ 'dropdownn-after': activeSmallList === 1 }"
+                        >
                           <li><a href="#">Mobile</a></li>
                           <li><a href="#">Tab</a></li>
                           <li><a href="#">Watch</a></li>
@@ -56,8 +62,11 @@
                         <div
                           class="hitarea open-hitarea expandable-hitarea"
                         ></div>
-                        <a href="#">Brand Two</a>
-                        <ul class="treeview">
+                        <a @click="toggleSmallList(2)">Brand Two</a>
+                        <ul
+                          class="dropdownn"
+                          :class="{ 'dropdownn-after': activeSmallList === 2 }"
+                        >
                           <li><a href="#">Mobile</a></li>
                           <li><a href="#">Tab</a></li>
                           <li><a href="#">Watch</a></li>
@@ -69,8 +78,11 @@
                         <div
                           class="hitarea closed-hitarea expandable-hitarea"
                         ></div>
-                        <a href="#">Accessories</a>
-                        <ul class="treeview" style="display: none">
+                        <a @click="toggleSmallList(3)">Accessories</a>
+                        <ul
+                          class="dropdownn"
+                          :class="{ 'dropdownn-after': activeSmallList === 3 }"
+                        >
                           <li><a href="#">Footwear</a></li>
                           <li><a href="#">Sunglasses</a></li>
                           <li><a href="#">Watches</a></li>
@@ -78,11 +90,12 @@
                         </ul>
                       </li>
                       <li class="closed expandable">
-                        <div
-                          class="hitarea closed-hitarea expandable-hitarea"
-                        ></div>
-                        <a href="#">Top Brands</a>
-                        <ul class="treeview" style="display: none">
+                        <div class="hitarea expandable-hitarea"></div>
+                        <a @click="toggleSmallList(4)">Top Brands</a>
+                        <ul
+                          class="dropdownn"
+                          :class="{ 'dropdownn-after': activeSmallList === 4 }"
+                        >
                           <li><a href="#">Mobile</a></li>
                           <li><a href="#">Tab</a></li>
                           <li><a href="#">Watch</a></li>
@@ -94,8 +107,11 @@
                         <div
                           class="hitarea closed-hitarea expandable-hitarea lastExpandable-hitarea"
                         ></div>
-                        <a href="#">Jewelry</a>
-                        <ul class="treeview" style="display: none">
+                        <a @click="toggleSmallList(5)">Jewelry</a>
+                        <ul
+                          class="dropdownn"
+                          :class="{ 'dropdownn-after': activeSmallList === 5 }"
+                        >
                           <li><a href="#">Footwear</a></li>
                           <li><a href="#">Sunglasses</a></li>
                           <li><a href="#">Watches</a></li>
@@ -185,7 +201,7 @@
                 class="dropdown-width mt-30 dropdownn opened-menu"
                 :class="{ 'dropdownn-after': activeList === 3 }"
               >
-                <aside class="widget widget-tags box-shadow bord" style="">
+                <aside class="widget widget-tags box-shadow bord menu-center">
                   <h6 class="widget-title border-left mb-20">Tags</h6>
                   <ul class="widget-tags-list">
                     <li><a href="#">Bleckgerry ios</a></li>
@@ -376,9 +392,7 @@ export default {
   name: "BlogComponent",
   data() {
     return {
-      isActiveTag: 1,
-      isActiveRec: 2,
-      isActiveCat: 3,
+      activeSmallList: null,
       activeList: null,
     };
   },
@@ -388,6 +402,13 @@ export default {
         this.activeList = null; // Если список уже активен, закрываем его
       } else {
         this.activeList = listNumber;
+      }
+    },
+    toggleSmallList(listNumber) {
+      if (this.activeSmallList === listNumber) {
+        this.activeSmallList = null; // Если список уже активен, закрываем его
+      } else {
+        this.activeSmallList = listNumber;
       }
     },
   },
@@ -400,7 +421,6 @@ export default {
   transition: max-height 0.2s ease-in-out;
   overflow: hidden;
 }
-
 .dropdownn-after {
   max-height: 700px;
   transition: max-height 0.5s ease-in-out;
@@ -412,5 +432,7 @@ export default {
 }
 .bord {
   border: 1px solid rgba(0, 0, 0, 0.15);
+}
+.menu-center {
 }
 </style>

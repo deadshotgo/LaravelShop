@@ -25,12 +25,7 @@
             <div class="my-account-content" id="accordion2">
               <!-- My Personal Information -->
               <div class="panel panel-default">
-                <div
-                  class="panel-heading"
-                  @click="
-                    menuPersonal = menuPersonal == menuOpen ? 1 : menuOpen
-                  "
-                >
+                <div class="panel-heading" @click="toggleList(1)">
                   <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion2"
                       >My Personal Information</a
@@ -40,7 +35,7 @@
                 <div id="personal_info" role="tabpanel" style="display: block">
                   <div
                     class="dropdownn"
-                    :class="{ 'dropdownn-after': menuOpen == menuPersonal }"
+                    :class="{ 'dropdownn-after': activeList === 1 }"
                   >
                     <form action="#">
                       <div class="new-customers">
@@ -143,12 +138,7 @@
               </div>
               <!-- My shipping address -->
               <div class="panel panel-default">
-                <div
-                  class="panel-heading"
-                  @click="
-                    menuShipping = menuShipping == menuOpen ? 2 : menuOpen
-                  "
-                >
+                <div class="panel-heading" @click="toggleList(2)">
                   <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion2"
                       >My shipping address</a
@@ -162,7 +152,7 @@
                 >
                   <div
                     class="dropdownn"
-                    :class="{ 'dropdownn-after': menuOpen == menuShipping }"
+                    :class="{ 'dropdownn-after': activeList === 2 }"
                   >
                     <form action="#">
                       <div class="new-customers p-30">
@@ -239,10 +229,7 @@
               </div>
               <!-- My billing details -->
               <div class="panel panel-default">
-                <div
-                  class="panel-heading"
-                  @click="menuBilling = menuBilling == menuOpen ? 3 : menuOpen"
-                >
+                <div class="panel-heading" @click="toggleList(3)">
                   <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion2"
                       >My billing details</a
@@ -257,7 +244,7 @@
                 >
                   <div
                     class="dropdownn"
-                    :class="{ 'dropdownn-after': menuOpen == menuBilling }"
+                    :class="{ 'dropdownn-after': activeList === 3 }"
                   >
                     <form action="#">
                       <div class="billing-details p-30">
@@ -319,10 +306,7 @@
               </div>
               <!-- My Order info -->
               <div class="panel panel-default">
-                <div
-                  class="panel-heading"
-                  @click="menuOrder = menuOrder == menuOpen ? 4 : menuOpen"
-                >
+                <div class="panel-heading" @click="toggleList(4)">
                   <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion2"
                       >My Order info</a
@@ -337,7 +321,7 @@
                 >
                   <div
                     class="dropdownn"
-                    :class="{ 'dropdownn-after': menuOpen == menuOrder }"
+                    :class="{ 'dropdownn-after': activeList === 4 }"
                   >
                     <form action="#">
                       <!-- our order -->
@@ -384,10 +368,7 @@
               </div>
               <!-- Payment Method -->
               <div class="panel panel-default">
-                <div
-                  class="panel-heading"
-                  @click="menuPayment = menuPayment == menuOpen ? 5 : menuOpen"
-                >
+                <div class="panel-heading" @click="toggleList(5)">
                   <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion2"
                       >Payment Method</a
@@ -402,7 +383,7 @@
                 >
                   <div
                     class="dropdownn"
-                    :class="{ 'dropdownn-after': menuOpen == menuPayment }"
+                    :class="{ 'dropdownn-after': activeList === 5 }"
                   >
                     <form action="#">
                       <div class="new-customers p-30">
@@ -490,13 +471,17 @@ export default {
   name: "MyAccountComponent",
   data() {
     return {
-      menuOpen: " ",
-      menuPersonal: 1,
-      menuShipping: 2,
-      menuBilling: 3,
-      menuOrder: 4,
-      menuPayment: 5,
+      activeList: null,
     };
+  },
+  methods: {
+    toggleList(listNumber) {
+      if (this.activeList === listNumber) {
+        this.activeList = null; // Если список уже активен, закрываем его
+      } else {
+        this.activeList = listNumber; // Иначе открываем выбранный список
+      }
+    },
   },
 };
 </script>
@@ -512,7 +497,7 @@ export default {
 }
 
 .dropdownn-after {
-  max-height: 700px;
+  max-height: 10000px;
   transition: max-height 0.5s ease-in-out;
 }
 </style>
