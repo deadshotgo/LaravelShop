@@ -24,12 +24,18 @@
           <div class="blog-option box-shadow mb-30 clearfix">
             <!-- categories -->
             <div class="dropdown f-left">
-              <button class="option-btn">
+              <button class="option-btn" @click="isActiveCat = !isActiveCat">
                 Categories
                 <i class="zmdi zmdi-chevron-down"></i>
               </button>
-              <div class="dropdown-menu dropdown-width mt-30">
-                <aside class="widget widget-categories box-shadow">
+              <div
+                class="dropdown-width mt-30 dropdownn opened-menu"
+                :class="{ 'dropdownn-after': isActiveCat }"
+              >
+                <aside
+                  class="widget widget-categories box-shadow"
+                  style="border: 1px solid rgba(0, 0, 0, 0.15)"
+                >
                   <h6 class="widget-title border-left mb-20">Categories</h6>
                   <div id="cat-treeview" class="product-cat">
                     <ul class="treeview">
@@ -103,12 +109,15 @@
             </div>
             <!-- recent-product -->
             <div class="dropdown f-left">
-              <button class="option-btn">
+              <button class="option-btn" @click="isActiveRec = !isActiveRec">
                 Recent Post
                 <i class="zmdi zmdi-chevron-down"></i>
               </button>
-              <div class="dropdown-menu dropdown-width mt-30">
-                <aside class="widget widget-product box-shadow">
+              <div
+                class="dropdown-width mt-30 dropdownn opened-menu"
+                :class="{ 'dropdownn-after': isActiveRec }"
+              >
+                <aside class="widget widget-product box-shadow bord">
                   <h6 class="widget-title border-left mb-20">
                     recent products
                   </h6>
@@ -116,7 +125,10 @@
                   <div class="product-item">
                     <div class="product-img">
                       <a href="single-product.html">
-                        <img src="img/cart/4.jpg" alt="" />
+                        <img
+                          src="../../assets/img/others/404Error.jpg"
+                          alt=""
+                        />
                       </a>
                     </div>
                     <div class="product-info">
@@ -130,7 +142,10 @@
                   <div class="product-item">
                     <div class="product-img">
                       <a href="single-product.html">
-                        <img src="img/cart/5.jpg" alt="" />
+                        <img
+                          src="../../assets/img/others/404Error.jpg"
+                          alt=""
+                        />
                       </a>
                     </div>
                     <div class="product-info">
@@ -144,7 +159,10 @@
                   <div class="product-item">
                     <div class="product-img">
                       <a href="single-product.html">
-                        <img src="img/cart/6.jpg" alt="" />
+                        <img
+                          src="../../assets/img/others/404Error.jpg"
+                          alt=""
+                        />
                       </a>
                     </div>
                     <div class="product-info">
@@ -159,12 +177,15 @@
             </div>
             <!-- Tags -->
             <div class="dropdown f-left">
-              <button class="option-btn">
+              <button class="option-btn" @click="isActiveTag = !isActiveTag">
                 Tags
                 <i class="zmdi zmdi-chevron-down"></i>
               </button>
-              <div class="dropdown-menu dropdown-width mt-30">
-                <aside class="widget widget-tags box-shadow">
+              <div
+                class="dropdown-width mt-30 dropdownn opened-menu"
+                :class="{ 'dropdownn-after': isActiveTag }"
+              >
+                <aside class="widget widget-tags box-shadow bord" style="">
                   <h6 class="widget-title border-left mb-20">Tags</h6>
                   <ul class="widget-tags-list">
                     <li><a href="#">Bleckgerry ios</a></li>
@@ -353,7 +374,33 @@
 <script>
 export default {
   name: "BlogComponent",
+  data() {
+    return {
+      isActiveTag: false,
+      isActiveRec: false,
+      isActiveCat: false,
+    };
+  },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.dropdownn {
+  max-height: 0px;
+  transition: max-height 0.2s ease-in-out;
+  overflow: hidden;
+}
+
+.dropdownn-after {
+  max-height: 700px;
+  transition: max-height 0.5s ease-in-out;
+}
+.opened-menu {
+  position: absolute;
+  background-color: white;
+  z-index: 9999;
+}
+.bord {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+</style>
