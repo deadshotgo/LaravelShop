@@ -436,6 +436,10 @@ export default {
 .bord {
   border: 1px solid rgba(0, 0, 0, 0.15);
 }
-.menu-center {
+@media screen and (max-width: 500px) {
+  .dropdownn {
+    left: 50%;
+    margin: 0 0 0 -125px;
+  }
 }
 </style>
