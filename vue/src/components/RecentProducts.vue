@@ -12,7 +12,7 @@ export default {
       <div class="product-item">
         <div class="product-img">
           <a href="single-product.html">
-            <img src="img/product/4.jpg" alt="" />
+            <img src="../assets/img/product/4.jpg" alt="" />
           </a>
         </div>
         <div class="product-info">
@@ -27,7 +27,7 @@ export default {
       <div class="product-item">
         <div class="product-img">
           <a href="single-product.html">
-            <img src="img/product/8.jpg" alt="" />
+            <img src="../assets/img/product/4.jpg" alt="" />
           </a>
         </div>
         <div class="product-info">
@@ -42,7 +42,7 @@ export default {
       <div class="product-item">
         <div class="product-img">
           <a href="single-product.html">
-            <img src="img/product/12.jpg" alt="" />
+            <img src="../assets/img/product/4.jpg" alt="" />
           </a>
         </div>
         <div class="product-info">

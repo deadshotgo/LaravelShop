@@ -46,7 +46,11 @@
                   <div role="tabpanel" class="tab-pane active" id="grid-view">
                     <div class="row">
                       <!-- product-item start -->
-                      <div class="col-md-4 col-sm-4 col-xs-12">
+                      <div
+                        v-for="(n, i) in 5"
+                        :key="i"
+                        class="col-md-4 col-sm-4 col-xs-12"
+                      >
                         <ProductCard />
                       </div>
                       <!-- product-item end -->
