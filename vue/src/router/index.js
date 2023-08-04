@@ -27,6 +27,24 @@ const routes = [
     component: () => import("../views/VCart.vue"),
   },
   {
+    path: "/blog",
+    name: "blog",
+    meta: { layout: "main" },
+    component: () => import("../components/blogs/BlogComponent.vue"),
+  },
+  {
+    path: "/login",
+    name: "login",
+    meta: { layout: "main" },
+    component: () => import("../components/login/LoginComponent.vue"),
+  },
+  {
+    path: "/my-account",
+    name: "myAccount",
+    meta: { layout: "main" },
+    component: () => import("../components/my_account/MyAccountComponent.vue"),
+  },
+  {
     path: "/:pathMatch(.*)*",
     name: "notFound",
     meta: { layout: "main" },
