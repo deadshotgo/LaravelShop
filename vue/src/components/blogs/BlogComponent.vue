@@ -26,7 +26,8 @@
             <div class="dropdown f-left">
               <button class="option-btn" @click="toggleList(1)">
                 Categories
-                <i class="zmdi zmdi-chevron-down"></i>
+                <i v-if="activeList === 1" class="zmdi zmdi-chevron-up"></i>
+                <i v-else class="zmdi zmdi-chevron-down"></i>
               </button>
               <div
                 class="dropdown-width mt-30 dropdownn opened-menu menu-center"
@@ -127,7 +128,8 @@
             <div class="dropdown f-left">
               <button class="option-btn" @click="toggleList(2)">
                 Recent Post
-                <i class="zmdi zmdi-chevron-down"></i>
+                <i v-if="activeList === 2" class="zmdi zmdi-chevron-up"></i>
+                <i v-else class="zmdi zmdi-chevron-down"></i>
               </button>
               <div
                 class="dropdown-width mt-30 dropdownn opened-menu"
@@ -195,7 +197,8 @@
             <div class="dropdown f-left">
               <button class="option-btn" @click="toggleList(3)">
                 Tags
-                <i class="zmdi zmdi-chevron-down"></i>
+                <i v-if="activeList === 3" class="zmdi zmdi-chevron-up"></i>
+                <i v-else class="zmdi zmdi-chevron-down"></i>
               </button>
               <div
                 class="dropdown-width mt-30 dropdownn opened-menu"
