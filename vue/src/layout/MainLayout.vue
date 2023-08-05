@@ -1,30 +1,13 @@
 <script>
-import HeaderPC from "@/components/headers/HeaderDesktop.vue";
-import HeaderMobile from "@/components/headers/HeaderMobile.vue";
-
 export default {
   name: "MainLayout",
-  components: { HeaderMobile, HeaderPC },
-  methods: {
-    getWidth() {
-      return window.innerWidth;
-    },
-  },
 };
 </script>
 
 <template>
   <div class="wrapper">
     <!-- START HEADER AREA -->
-    <header class="header-area header-wrapper">
-      <!-- header-top-bar -->
-      <div v-if="getWidth >= 1000">
-        <HeaderPC></HeaderPC>
-      </div>
-      <div v-else>
-        <HeaderMobile></HeaderMobile>
-      </div>
-    </header>
+    <header class="header-area header-wrapper"></header>
     <!-- END HEADER AREA -->
 
     <router-view />
