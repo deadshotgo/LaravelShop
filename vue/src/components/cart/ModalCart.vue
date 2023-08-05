@@ -5,79 +5,96 @@ export default {
 </script>
 
 <template>
-  <div class="total-cart f-left">
-    <div class="total-cart-in">
-      <div class="cart-toggler">
-        <a href="#">
-          <span class="cart-quantity">01</span><br />
-          <span class="cart-icon">
-            <i class="zmdi zmdi-shopping-cart-plus"></i>
-          </span>
-        </a>
-      </div>
-      <ul>
-        <li>
-          <div class="top-cart-inner your-cart">
-            <h5 class="text-capitalize">Your Cart</h5>
+  <div class="search-top-cart f-right">
+    <div class="header-search f-left">
+      <div class="header-search-inner">
+        <button class="search-toggle">
+          <i class="zmdi zmdi-search"></i>
+        </button>
+        <form action="#">
+          <div class="top-search-box">
+            <input type="text" placeholder="Search here your product..." />
+            <button type="submit">
+              <i class="zmdi zmdi-search"></i>
+            </button>
           </div>
-        </li>
-        <li>
-          <div class="total-cart-pro">
-            <!-- single-cart -->
-            <div class="single-cart clearfix">
-              <div class="cart-img f-left">
-                <a href="#">
-                  <img src="../../assets/img/cart/1.jpg" alt="Cart Product" />
-                </a>
-                <div class="del-icon">
+        </form>
+      </div>
+    </div>
+    <div class="total-cart f-left">
+      <div class="total-cart-in">
+        <div class="cart-toggler">
+          <a href="#">
+            <span class="cart-quantity">01</span><br />
+            <span class="cart-icon">
+              <i class="zmdi zmdi-shopping-cart-plus"></i>
+            </span>
+          </a>
+        </div>
+        <ul style="padding: 0px">
+          <li>
+            <div class="top-cart-inner your-cart">
+              <h5 class="text-capitalize">Your Cart</h5>
+            </div>
+          </li>
+          <li>
+            <div class="total-cart-pro">
+              <!-- single-cart -->
+              <div class="single-cart clearfix">
+                <div class="cart-img f-left">
                   <a href="#">
-                    <i class="zmdi zmdi-close"></i>
+                    <img src="../../assets/img/cart/1.jpg" alt="Cart Product" />
                   </a>
+                  <div class="del-icon">
+                    <a href="#">
+                      <i class="zmdi zmdi-close"></i>
+                    </a>
+                  </div>
+                </div>
+                <div class="cart-info f-left">
+                  <h6 class="text-capitalize">
+                    <a href="#">Dummy Product Name</a>
+                  </h6>
+                  <p>
+                    <span>Brand <strong>:</strong></span
+                    >Brand Name
+                  </p>
+                  <p>
+                    <span>Model <strong>:</strong></span
+                    >Grand s2
+                  </p>
+                  <p>
+                    <span>Color <strong>:</strong></span
+                    >Black, White
+                  </p>
                 </div>
               </div>
-              <div class="cart-info f-left">
-                <h6 class="text-capitalize">
-                  <a href="#">Dummy Product Name</a>
-                </h6>
-                <p>
-                  <span>Brand <strong>:</strong></span
-                  >Brand Name
-                </p>
-                <p>
-                  <span>Model <strong>:</strong></span
-                  >Grand s2
-                </p>
-                <p>
-                  <span>Color <strong>:</strong></span
-                  >Black, White
-                </p>
-              </div>
             </div>
-          </div>
-        </li>
-        <li>
-          <div class="top-cart-inner subtotal">
-            <h4 class="text-uppercase g-font-2">
-              Total =
-              <span>$ 500.00</span>
-            </h4>
-          </div>
-        </li>
-        <li>
-          <div class="top-cart-inner view-cart">
-            <h4 class="text-uppercase">
-              <router-link to="/cart">View cart</router-link>
-            </h4>
-          </div>
-        </li>
-        <li>
-          <div class="top-cart-inner check-out">
-            <h4 class="text-uppercase">
-              <router-link to="/cart">Checkout</router-link>
-            </h4>
-          </div>
-        </li>
-      </ul>
+          </li>
+          <li>
+            <div class="top-cart-inner subtotal">
+              <h4 class="text-uppercase g-font-2">
+                Total =
+                <span>$ 500.00</span>
+              </h4>
+            </div>
+          </li>
+          <li>
+            <div class="top-cart-inner view-cart">
+              <h4 class="text-uppercase">
+                <router-link to="/cart">View cart</router-link>
+              </h4>
+            </div>
+          </li>
+          <li>
+            <div class="top-cart-inner check-out">
+              <h4 class="text-uppercase">
+                <router-link to="/cart">Checkout</router-link>
+              </h4>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>

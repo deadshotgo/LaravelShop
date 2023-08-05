@@ -151,9 +151,9 @@
               </div>
             </div>
             <div class="col-md-6 col-sm-12 col-xs-12">
-              <div class="pro-tab-menu text-right">
+              <div class="pro-tab-menu">
                 <!-- Nav tabs -->
-                <ul class="">
+                <ul>
                   <li class="active">
                     <a href="#popular-product" data-toggle="tab"
                       >Popular Products
