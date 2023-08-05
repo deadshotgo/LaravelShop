@@ -1,15 +1,42 @@
 <script>
+import HeaderTopBar from "@/components/headers/HeaderTopBar.vue";
+import NavbarMenu from "@/components/headers/NavbarMenu.vue";
+import ModalCart from "@/components/cart/ModalCart.vue";
+import NavbarLogo from "@/components/headers/NavbarLogo.vue";
+import MobileMenu from "@/components/headers/MobileMenu.vue";
 export default {
   name: "MainLayout",
+  components: { HeaderTopBar, NavbarMenu, ModalCart, NavbarLogo, MobileMenu },
 };
 </script>
 
 <template>
   <div class="wrapper">
     <!-- START HEADER AREA -->
-    <header class="header-area header-wrapper"></header>
+    <header class="header-area header-wrapper">
+      <!-- header-top-bar -->
+      <HeaderTopBar />
+      <div class="header-middle-area plr-185">
+        <div class="container-fluid">
+          <div class="full-width-mega-dropdown">
+            <div class="row">
+              <!-- logo -->
+              <NavbarLogo />
+              <!-- primary-menu -->
+              <div class="col-md-8 hidden-sm hidden-xs">
+                <NavbarMenu type="desktop" />
+              </div>
+              <div class="col-md-2 col-sm-6 col-xs-12">
+                <ModalCart />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
     <!-- END HEADER AREA -->
-
+    <MobileMenu />
+    <!-- END HEADER AREA -->
     <router-view />
 
     <!-- START FOOTER AREA -->
