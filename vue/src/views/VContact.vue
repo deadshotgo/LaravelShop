@@ -46,7 +46,7 @@ export default {
       <!-- ADDRESS SECTION END -->
 
       <!-- MESSAGE BOX SECTION START -->
-      <div class="message-box-section mt--50 mb-80">
+      <div class="message-box-section mt-50 mb-80">
         <div class="container">
           <div class="row">
             <div class="col-md-12">
