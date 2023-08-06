@@ -1,21 +1,74 @@
+<script>
+import VBreadcrumbs from "@/components/VBreadcrumbs.vue";
+
+export default {
+  name: "BlogComponent",
+  components: { VBreadcrumbs },
+  data() {
+    return {
+      data: " ",
+      activeSmallList: null,
+      activeList: null,
+      baseData: [
+        {
+          img: "../assets/img/others/error.jpg",
+          blogTitle: "dummy Blog name name",
+          text:
+            "There are many variations of passages of in psum available,\n" +
+            "                    but the majority have sufe ered on in some form...",
+        },
+        {
+          img: "../assets/img/others/error.jpg",
+          blogTitle: "dummy Blog name name",
+          text:
+            "There are many variations of passages of in psum available,\n" +
+            "                    but the majority have sufe ered on in some form...",
+        },
+      ],
+      categories: [
+        { brandOne: "Brand one", product: { phone: "Phone", tv: "tv" } },
+        {
+          brandOne: "Brasdcs  nd one",
+          product: { phone: "Pwedwehone", tv: "tewdwev" },
+        },
+      ],
+      recentPost: [
+        {
+          img: "../assets/img/others/404Error.jpg",
+          text: "Some text",
+        },
+        {
+          img: "../assets/img/others/404Error.jpg",
+          text: "Some text2",
+        },
+      ],
+      tags: { ios: "Ios", phone: "phone", tv: "tv" },
+    };
+  },
+  methods: {
+    toggleList(listNumber) {
+      if (this.activeList === listNumber) {
+        this.activeList = null; // Если список уже активен, закрываем его
+      } else {
+        this.activeList = listNumber;
+      }
+    },
+    toggleSmallList(listNumber) {
+      if (this.activeSmallList === listNumber) {
+        this.activeSmallList = null; // Если список уже активен, закрываем его
+      } else {
+        this.activeSmallList = listNumber;
+      }
+    },
+  },
+};
+</script>
+
 <template>
-  <div class="breadcrumbs-section plr-200 mb-80">
-    <div class="breadcrumbs overlay-bg">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="breadcrumbs-inner">
-              <h1 class="breadcrumbs-title">Blog style 2</h1>
-              <ul class="breadcrumb-list">
-                <li><a href="index.html">Home</a></li>
-                <li>Blog Style - 2</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <VBreadcrumbs
+    title="Blog"
+    images="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABccA…xMC0xMlQwNTowODowNi0wNTowMJAbvWcAAAAASUVORK5CYII="
+  ></VBreadcrumbs>
   <div class="blog-section mb-50">
     <div class="container">
       <div class="row">
@@ -33,90 +86,34 @@
                 class="dropdown-width mt-30 dropdownn opened-menu menu-center"
                 :class="{ 'dropdownn-after': activeList === 1 }"
               >
-                <aside
-                  class="widget widget-categories box-shadow"
-                  style="
-                    border: 1px solid rgba(0, 0, 0, 0.15);
-                    margin-right: auto;
-                  "
-                >
+                <aside class="widget widget-categories box-shadow bord">
                   <h6 class="widget-title border-left mb-20">Categories</h6>
-                  <div id="cat-treeview" class="product-cat">
+                  <div
+                    id="cat-treeview"
+                    class="product-cat"
+                    v-for="category in this.categories"
+                    :key="category.brandOne"
+                  >
                     <ul>
                       <li class="closed expandable">
                         <div
                           class="hitarea closed-hitarea expandable-hitarea"
                         ></div>
-                        <a @click="toggleSmallList(1)">Brand One</a>
+                        <a @click="toggleSmallList(category.brandOne)">{{
+                          category.brandOne
+                        }}</a>
                         <ul
+                          v-for="(productValue, productKey) in category.product"
+                          :key="productKey"
                           class="dropdownn"
-                          :class="{ 'dropdownn-after': activeSmallList === 1 }"
+                          :class="{
+                            'dropdownn-after':
+                              activeSmallList === category.brandOne,
+                          }"
                         >
-                          <li><a href="#">Mobile</a></li>
-                          <li><a href="#">Tab</a></li>
-                          <li><a href="#">Watch</a></li>
-                          <li><a href="#">Head Phone</a></li>
-                          <li class="last"><a href="#">Memory</a></li>
-                        </ul>
-                      </li>
-                      <li class="open expandable">
-                        <div
-                          class="hitarea open-hitarea expandable-hitarea"
-                        ></div>
-                        <a @click="toggleSmallList(2)">Brand Two</a>
-                        <ul
-                          class="dropdownn"
-                          :class="{ 'dropdownn-after': activeSmallList === 2 }"
-                        >
-                          <li><a href="#">Mobile</a></li>
-                          <li><a href="#">Tab</a></li>
-                          <li><a href="#">Watch</a></li>
-                          <li><a href="#">Head Phone</a></li>
-                          <li class="last"><a href="#">Memory</a></li>
-                        </ul>
-                      </li>
-                      <li class="closed expandable">
-                        <div
-                          class="hitarea closed-hitarea expandable-hitarea"
-                        ></div>
-                        <a @click="toggleSmallList(3)">Accessories</a>
-                        <ul
-                          class="dropdownn"
-                          :class="{ 'dropdownn-after': activeSmallList === 3 }"
-                        >
-                          <li><a href="#">Footwear</a></li>
-                          <li><a href="#">Sunglasses</a></li>
-                          <li><a href="#">Watches</a></li>
-                          <li class="last"><a href="#">Utilities</a></li>
-                        </ul>
-                      </li>
-                      <li class="closed expandable">
-                        <div class="hitarea expandable-hitarea"></div>
-                        <a @click="toggleSmallList(4)">Top Brands</a>
-                        <ul
-                          class="dropdownn"
-                          :class="{ 'dropdownn-after': activeSmallList === 4 }"
-                        >
-                          <li><a href="#">Mobile</a></li>
-                          <li><a href="#">Tab</a></li>
-                          <li><a href="#">Watch</a></li>
-                          <li><a href="#">Head Phone</a></li>
-                          <li class="last"><a href="#">Memory</a></li>
-                        </ul>
-                      </li>
-                      <li class="closed expandable lastExpandable">
-                        <div
-                          class="hitarea closed-hitarea expandable-hitarea lastExpandable-hitarea"
-                        ></div>
-                        <a @click="toggleSmallList(5)">Jewelry</a>
-                        <ul
-                          class="dropdownn"
-                          :class="{ 'dropdownn-after': activeSmallList === 5 }"
-                        >
-                          <li><a href="#">Footwear</a></li>
-                          <li><a href="#">Sunglasses</a></li>
-                          <li><a href="#">Watches</a></li>
-                          <li class="last"><a href="#">Utilities</a></li>
+                          <li>
+                            <a href="#">{{ productValue }}</a>
+                          </li>
                         </ul>
                       </li>
                     </ul>
@@ -140,56 +137,22 @@
                     recent products
                   </h6>
                   <!-- product-item start -->
-                  <div class="product-item">
+                  <div
+                    class="product-item"
+                    v-for="(data, i) in this.recentPost"
+                    :key="i"
+                  >
                     <div class="product-img">
                       <a href="single-product.html">
-                        <img
-                          src="../../assets/img/others/404Error.jpg"
-                          alt=""
-                        />
+                        <img src="[`data.img`]" alt="" />
                       </a>
                     </div>
                     <div class="product-info">
                       <h6 class="product-title multi-line mt-10">
-                        <a href="single-product.html">Dummy Blog Name</a>
+                        <a href="single-product.html">{{ data.text }}</a>
                       </h6>
                     </div>
                   </div>
-                  <!-- product-item end -->
-                  <!-- product-item start -->
-                  <div class="product-item">
-                    <div class="product-img">
-                      <a href="single-product.html">
-                        <img
-                          src="../../assets/img/others/404Error.jpg"
-                          alt=""
-                        />
-                      </a>
-                    </div>
-                    <div class="product-info">
-                      <h6 class="product-title multi-line mt-10">
-                        <a href="single-product.html">Dummy Blog Name</a>
-                      </h6>
-                    </div>
-                  </div>
-                  <!-- product-item end -->
-                  <!-- product-item start -->
-                  <div class="product-item">
-                    <div class="product-img">
-                      <a href="single-product.html">
-                        <img
-                          src="../../assets/img/others/404Error.jpg"
-                          alt=""
-                        />
-                      </a>
-                    </div>
-                    <div class="product-info">
-                      <h6 class="product-title multi-line mt-10">
-                        <a href="single-product.html">Dummy Blog Name</a>
-                      </h6>
-                    </div>
-                  </div>
-                  <!-- product-item end -->
                 </aside>
               </div>
             </div>
@@ -206,14 +169,14 @@
               >
                 <aside class="widget widget-tags box-shadow bord menu-center">
                   <h6 class="widget-title border-left mb-20">Tags</h6>
-                  <ul class="widget-tags-list">
-                    <li><a href="#">Bleckgerry ios</a></li>
-                    <li><a href="#">Symban</a></li>
-                    <li><a href="#">IOS</a></li>
-                    <li><a href="#">Bleckgerry</a></li>
-                    <li><a href="#">Windows Phone</a></li>
-                    <li><a href="#">Windows Phone</a></li>
-                    <li><a href="#">Androids</a></li>
+                  <ul
+                    class="widget-tags-list"
+                    v-for="(tag, i) in this.tags"
+                    :key="i"
+                  >
+                    <li>
+                      <a href="#">{{ tag }}</a>
+                    </li>
                   </ul>
                 </aside>
               </div>
@@ -224,23 +187,26 @@
       </div>
       <div class="row">
         <!-- blog-item start -->
-        <div class="col-sm-6 col-xs-12">
+        <div
+          class="col-sm-6 col-xs-12"
+          v-for="(data, i) in this.baseData"
+          :key="i"
+        >
           <div class="blog-item-2">
             <div class="row">
               <div class="col-md-6 col-xs-12">
                 <div class="blog-image">
                   <a href="blog-details.html"
-                    ><img src="img/blog/4.jpg" alt=""
+                    ><img :src="`${data.img}`" alt=""
                   /></a>
                 </div>
               </div>
               <div class="col-md-6 col-xs-12">
                 <div class="blog-desc">
-                  <h5 class="blog-title-2"><a href="#">dummy Blog name</a></h5>
-                  <p>
-                    There are many variations of passages of in psum available,
-                    but the majority have sufe ered on in some form...
-                  </p>
+                  <h5 class="blog-title-2">
+                    <a href="#">{{ data.blogTitle }}</a>
+                  </h5>
+                  <p>{{ data.text }}</p>
                   <div class="read-more">
                     <a href="#">Read more</a>
                   </div>
@@ -249,174 +215,10 @@
             </div>
           </div>
         </div>
-        <!-- blog-item end -->
-        <!-- blog-item start -->
-        <div class="col-sm-6 col-xs-12">
-          <div class="blog-item-2">
-            <div class="row">
-              <div class="col-md-6 col-xs-12">
-                <div class="blog-image">
-                  <a href="blog-details.html"
-                    ><img src="img/blog/5.jpg" alt=""
-                  /></a>
-                </div>
-              </div>
-              <div class="col-md-6 col-xs-12">
-                <div class="blog-desc">
-                  <h5 class="blog-title-2"><a href="#">dummy Blog name</a></h5>
-                  <p>
-                    There are many variations of passages of in psum available,
-                    but the majority have sufe ered on in some form...
-                  </p>
-                  <div class="read-more">
-                    <a href="#">Read more</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- blog-item end -->
-        <!-- blog-item start -->
-        <div class="col-sm-6 col-xs-12">
-          <div class="blog-item-2">
-            <div class="row">
-              <div class="col-md-6 col-xs-12">
-                <div class="blog-image">
-                  <a href="blog-details.html"
-                    ><img src="img/blog/4.jpg" alt=""
-                  /></a>
-                </div>
-              </div>
-              <div class="col-md-6 col-xs-12">
-                <div class="blog-desc">
-                  <h5 class="blog-title-2"><a href="#">dummy Blog name</a></h5>
-                  <p>
-                    There are many variations of passages of in psum available,
-                    but the majority have sufe ered on in some form...
-                  </p>
-                  <div class="read-more">
-                    <a href="#">Read more</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- blog-item end -->
-        <!-- blog-item start -->
-        <div class="col-sm-6 col-xs-12">
-          <div class="blog-item-2">
-            <div class="row">
-              <div class="col-md-6 col-xs-12">
-                <div class="blog-image">
-                  <a href="blog-details.html"
-                    ><img src="img/blog/4.jpg" alt=""
-                  /></a>
-                </div>
-              </div>
-              <div class="col-md-6 col-xs-12">
-                <div class="blog-desc">
-                  <h5 class="blog-title-2"><a href="#">dummy Blog name</a></h5>
-                  <p>
-                    There are many variations of passages of in psum available,
-                    but the majority have sufe ered on in some form...
-                  </p>
-                  <div class="read-more">
-                    <a href="#">Read more</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- blog-item end -->
-        <!-- blog-item start -->
-        <div class="col-sm-6 col-xs-12">
-          <div class="blog-item-2">
-            <div class="row">
-              <div class="col-md-6 col-xs-12">
-                <div class="blog-image">
-                  <a href="blog-details.html"
-                    ><img src="img/blog/5.jpg" alt=""
-                  /></a>
-                </div>
-              </div>
-              <div class="col-md-6 col-xs-12">
-                <div class="blog-desc">
-                  <h5 class="blog-title-2"><a href="#">dummy Blog name</a></h5>
-                  <p>
-                    There are many variations of passages of in psum available,
-                    but the majority have sufe ered on in some form...
-                  </p>
-                  <div class="read-more">
-                    <a href="#">Read more</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- blog-item end -->
-        <!-- blog-item start -->
-        <div class="col-sm-6 col-xs-12">
-          <div class="blog-item-2">
-            <div class="row">
-              <div class="col-md-6 col-xs-12">
-                <div class="blog-image">
-                  <a href="blog-details.html"
-                    ><img src="img/blog/4.jpg" alt=""
-                  /></a>
-                </div>
-              </div>
-              <div class="col-md-6 col-xs-12">
-                <div class="blog-desc">
-                  <h5 class="blog-title-2"><a href="#">dummy Blog name</a></h5>
-                  <p>
-                    There are many variations of passages of in psum available,
-                    but the majority have sufe ered on in some form...
-                  </p>
-                  <div class="read-more">
-                    <a href="#">Read more</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- blog-item end -->
       </div>
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: "BlogComponent",
-  data() {
-    return {
-      activeSmallList: null,
-      activeList: null,
-    };
-  },
-  methods: {
-    toggleList(listNumber) {
-      if (this.activeList === listNumber) {
-        this.activeList = null; // Если список уже активен, закрываем его
-      } else {
-        this.activeList = listNumber;
-      }
-    },
-    toggleSmallList(listNumber) {
-      if (this.activeSmallList === listNumber) {
-        this.activeSmallList = null; // Если список уже активен, закрываем его
-      } else {
-        this.activeSmallList = listNumber;
-      }
-    },
-  },
-};
-</script>
 
 <style scoped>
 .dropdownn {

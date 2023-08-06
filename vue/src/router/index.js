@@ -30,7 +30,7 @@ const routes = [
     path: "/blog",
     name: "blog",
     meta: { layout: "main" },
-    component: () => import("../components/blogs/BlogComponent.vue"),
+    component: () => import("../views/BlogComponent.vue"),
   },
   {
     path: "/login",
