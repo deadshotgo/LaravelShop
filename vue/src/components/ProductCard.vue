@@ -7,13 +7,13 @@ export default {
 <template>
   <div class="product-item">
     <div class="product-img">
-      <a href="#">
+      <router-link :to="{ name: 'product' }">
         <img src="../assets/img/product/7.jpg" alt="" />
-      </a>
+      </router-link>
     </div>
     <div class="product-info">
       <h6 class="product-title">
-        <a href="#">Product Name</a>
+        <router-link :to="{ name: 'product' }">Product Name</router-link>
       </h6>
       <div class="pro-rating">
         <a href="#"><i class="zmdi zmdi-star"></i></a>

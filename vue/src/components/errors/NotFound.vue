@@ -1,39 +1,36 @@
 <template>
-  <div class="breadcrumbs-section plr-200 mb-80">
-    <div class="breadcrumbs overlay-bg">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="breadcrumbs-inner">
-              <h1 class="breadcrumbs-title"></h1>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="page-content" class="page-wrapper">
-    <!-- ERROR SECTION START -->
-    <div class="error-section mb-80">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="error-404 box-shadow">
-              <img src="" alt="" />
-              <div class="go-to-btn btn-hover-2">
-                <router-link to="/">go to home page</router-link>
+  <div>
+    <VBreadcrumbs
+      images="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABccA…xMC0xMlQwNTowODowNi0wNTowMJAbvWcAAAAASUVORK5CYII="
+      title="404"
+    />
+    <div id="page-content" class="page-wrapper">
+      <!-- ERROR SECTION START -->
+      <div class="error-section mb-80">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="error-404 box-shadow">
+                <img src="../../assets/img/others/error.jpg" alt="" />
+                <div class="go-to-btn btn-hover-2">
+                  <router-link :to="{ name: 'home' }"
+                    >go to home page</router-link
+                  >
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <!-- ERROR SECTION END -->
     </div>
-    <!-- ERROR SECTION END -->
   </div>
 </template>
 
 <script>
+import VBreadcrumbs from "@/components/VBreadcrumbs.vue";
 export default {
+  components: { VBreadcrumbs },
   name: "Error404Component",
 };
 </script>
