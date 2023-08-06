@@ -12,19 +12,31 @@ const routes = [
     path: "/contact",
     name: "contact",
     meta: { layout: "main" },
-    component: () => import("../views/VContact.vue"),
+    component: () => import("@/views/VContact.vue"),
   },
   {
     path: "/about-us",
     name: "aboutUs",
     meta: { layout: "main" },
-    component: () => import("../views/VAboutUs.vue"),
+    component: () => import("@/views/VAboutUs.vue"),
   },
   {
     path: "/cart",
     name: "cart",
     meta: { layout: "main" },
-    component: () => import("../views/VCart.vue"),
+    component: () => import("@/views/VCart.vue"),
+  },
+  {
+    path: "/products",
+    name: "products",
+    meta: { layout: "main" },
+    component: () => import("@/views/product/VProducts.vue"),
+  },
+  {
+    path: "/product",
+    name: "product",
+    meta: { layout: "main" },
+    component: () => import("@/views/product/VProduct.vue"),
   },
   {
     path: "/blog",
@@ -48,7 +60,7 @@ const routes = [
     path: "/:pathMatch(.*)*",
     name: "notFound",
     meta: { layout: "main" },
-    component: () => import("../components/errors/NotFound.vue"),
+    component: () => import("@/components/errors/NotFound.vue"),
   },
 ];
 

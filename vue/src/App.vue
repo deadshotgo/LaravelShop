@@ -24,6 +24,7 @@ export default {
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "assets/lib/css/nivo-slider.css";
 @import "assets/css/core.css";
+@import "assets/css/plugins/textanimate.css";
 @import "assets/css/shortcode/shortcodes.css";
 @import "assets/style.css";
 @import "assets/css/responsive.css";

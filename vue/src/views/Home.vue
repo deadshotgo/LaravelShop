@@ -91,47 +91,23 @@
         <div class="row">
           <div class="col-md-12">
             <div class="slider-desc-3 slider-desc-4 text-center">
-              <div
-                class="wow fadeInUp"
-                data-wow-duration="1s"
-                data-wow-delay="1s"
-                style="
-                  visibility: visible;
-                  animation-duration: 1s;
-                  animation-delay: 1s;
-                  animation-name: fadeInUp;
-                "
-              >
-                <h1 class="slider2-title-2">new smart phone</h1>
-              </div>
-              <div
-                class="wow fadeInUp"
-                data-wow-duration="1s"
-                data-wow-delay="1.5s"
-                style="
-                  visibility: visible;
-                  animation-duration: 1s;
-                  animation-delay: 1.5s;
-                  animation-name: fadeInUp;
-                "
-              >
-                <h2 class="slider2-title-3">Samsung grand 6</h2>
-              </div>
-              <div
-                class="slider-button wow fadeInUp"
-                data-wow-duration="1s"
-                data-wow-delay="2.5s"
-                style="
-                  visibility: visible;
-                  animation-duration: 1s;
-                  animation-delay: 2.5s;
-                  animation-name: fadeInUp;
-                "
-              >
-                <a href="#" class="button extra-small button-white">
-                  <span class="text-uppercase">Buy now</span>
-                </a>
-              </div>
+              <Transition>
+                <div class="wow fadeInUp">
+                  <h1 class="slider1-title-4 h1-t">new smart phone</h1>
+                </div>
+              </Transition>
+              <Transition>
+                <div class="wow fadeInUp">
+                  <h2 class="slider2-title-3 h1-p">Samsung grand 6</h2>
+                </div>
+              </Transition>
+              <Transition>
+                <div class="slider-button wow fadeInUp">
+                  <a href="#" class="button small button-white">
+                    <span class="text-uppercase">Buy now</span>
+                  </a>
+                </div>
+              </Transition>
             </div>
           </div>
         </div>
@@ -151,9 +127,9 @@
               </div>
             </div>
             <div class="col-md-6 col-sm-12 col-xs-12">
-              <div class="pro-tab-menu text-right">
+              <div class="pro-tab-menu">
                 <!-- Nav tabs -->
-                <ul class="">
+                <ul>
                   <li class="active">
                     <a href="#popular-product" data-toggle="tab"
                       >Popular Products
@@ -378,3 +354,20 @@ export default {
   components: { ProductBlog, ProductBrand, ProductCarousel, ProductCard },
 };
 </script>
+<style scoped lang="scss">
+.h1-t {
+  font-size: 40px;
+  color: #fff;
+}
+.h1-p {
+  font-size: 24px;
+}
+@media screen and (max-width: 500px) {
+  .h1-t {
+    font-size: 22px;
+  }
+  .h1-p {
+    font-size: 12px;
+  }
+}
+</style>
