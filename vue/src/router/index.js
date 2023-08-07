@@ -39,10 +39,16 @@ const routes = [
     component: () => import("@/views/product/VProduct.vue"),
   },
   {
-    path: "/blog",
+    path: "/blogs",
     name: "blog",
     meta: { layout: "main" },
-    component: () => import("../views/BlogComponent.vue"),
+    component: () => import("../views/Blog.vue"),
+  },
+  {
+    path: "/blog",
+    name: "oneBlog",
+    meta: { layout: "main" },
+    component: () => import("@/components/ProductBlog.vue"),
   },
   {
     path: "/login",

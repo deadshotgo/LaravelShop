@@ -10,6 +10,12 @@ export default {
       menuOpenProduct: false,
     };
   },
+  methods: {
+    closeMenuProduct() {
+      this.menuOpenProduct = false;
+      this.menuOpenProduct = false;
+    },
+  },
 };
 </script>
 
@@ -58,7 +64,7 @@ export default {
         ><div v-show="menuOpen == false">
           <span></span><span></span><span></span>
         </div>
-        <div v-show="menuOpen == true">X</div>
+        <div v-show="menuOpen === true" @click="closeMenuProduct">X</div>
       </a>
       <nav
         class="mean-nav dropdown mb-10"
@@ -75,8 +81,8 @@ export default {
             <ul
               v-for="(n, i) in 6"
               :key="i"
-              class="dropdown-product"
-              :class="{ 'dropdown-after-product': menuOpenProduct }"
+              class="dropdown"
+              :class="{ 'dropdown-after': menuOpenProduct }"
             >
               <li>
                 <router-link
@@ -91,7 +97,8 @@ export default {
               class="mean-expand"
               href="#"
               style="font-size: 18px"
-              >+</a
+              ><div v-if="menuOpenProduct">-</div>
+              <div v-else>+</div></a
             >
           </li>
           <li>
@@ -130,19 +137,10 @@ export default {
 }
 
 .dropdown {
-  height: 0px;
+  max-height: 0px;
   background-color: lightgreen;
-  transition: height 0.2s ease;
+  transition: max-height 0.2s ease;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.dropdown-product {
-  height: 0px;
-  transition: height 0.2s ease;
-  display: block;
   align-items: center;
   justify-content: center;
   overflow: hidden;
@@ -150,13 +148,8 @@ export default {
 
 .dropdown-after {
   display: block;
-  height: auto;
-  transition: height 0.5s ease;
-}
-
-.dropdown-after-product {
-  height: auto;
-  transition: height 0.5s ease;
+  max-height: 700px;
+  transition: max-height 0.7s ease;
 }
 
 .navlistitem a {
