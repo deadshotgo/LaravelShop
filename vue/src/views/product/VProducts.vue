@@ -71,6 +71,7 @@
               <WidgetCategories />
               <!-- shop-filter -->
               <ShopFilters />
+              <CheckboxFiltersComponent></CheckboxFiltersComponent>
               <!-- widget-product -->
               <RecentProducts />
             </div>
@@ -90,8 +91,10 @@ import WidgetSearch from "@/components/WidgetSearch.vue";
 import WidgetCategories from "@/components/WidgetCategories.vue";
 import ShopFilters from "@/components/product/ShopFilters.vue";
 import RecentProducts from "@/components/RecentProducts.vue";
+import CheckboxFiltersComponent from "@/components/CheckboxFiltersComponent.vue";
 export default {
   components: {
+    CheckboxFiltersComponent,
     VBreadcrumbs,
     ProductCard,
     VPagination,

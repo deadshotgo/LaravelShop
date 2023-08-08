@@ -45,10 +45,10 @@ const routes = [
     component: () => import("../views/Blog.vue"),
   },
   {
-    path: "/blog",
+    path: "/blog/blog-details",
     name: "oneBlog",
     meta: { layout: "main" },
-    component: () => import("@/components/ProductBlog.vue"),
+    component: () => import("@/components/BlogDetailComponent.vue"),
   },
   {
     path: "/login",
