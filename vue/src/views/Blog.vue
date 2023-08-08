@@ -9,19 +9,6 @@ export default {
   data() {
     return {
       activeList: null,
-      tags: { ios: "tag1", tag2: "tag3", tv: "tag4", laptop: "laptop" },
-      baseData: [
-        {
-          img: "",
-          blogTitle: "Some title",
-          text: "Some text",
-        },
-        {
-          img: "",
-          blogTitle: "Some title",
-          text: "Some text",
-        },
-      ],
     };
   },
   methods: {
@@ -91,8 +78,8 @@ export default {
                 >
                   <h6 class="widget-title border-left mb-20">Tags</h6>
                   <ul class="widget-tags-list">
-                    <li v-for="(tag, i) in this.tags" :key="i">
-                      <a href="#">{{ tag }}</a>
+                    <li v-for="(n, i) in 7" :key="i">
+                      <a href="#">Symban</a>
                     </li>
                   </ul>
                 </aside>
@@ -102,26 +89,25 @@ export default {
         </div>
       </div>
       <div class="row">
-        <div
-          class="col-sm-6 col-xs-12"
-          v-for="(data, i) in this.baseData"
-          :key="i"
-        >
+        <div class="col-sm-6 col-xs-12" v-for="(n, i) in 6" :key="i">
           <div class="blog-item-2">
             <div class="row">
               <div class="col-md-6 col-xs-12">
                 <div class="blog-image">
                   <a href="blog-details.html"
-                    ><img src="../assets/img/bg/ribbon.png" alt=""
+                    ><img src="../assets/img/blog/4.jpg" alt=""
                   /></a>
                 </div>
               </div>
               <div class="col-md-6 col-xs-12">
                 <div class="blog-desc">
                   <h5 class="blog-title-2">
-                    <a>{{ data.blogTitle }}</a>
+                    <a>Dummy Blog Name</a>
                   </h5>
-                  <p>{{ data.text }}</p>
+                  <p>
+                    There are many variations of passages of in psum available,
+                    but the majority have sufe ered on in some form...
+                  </p>
                   <div class="read-more">
                     <router-link :to="{ name: 'oneBlog' }"
                       ><a href="#">Read more</a></router-link
