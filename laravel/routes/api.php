@@ -20,3 +20,8 @@ Route::get('/test', function () {
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/blogs', [\App\Http\Controllers\AppBlogController::class, 'all_blogs']);
+Route::get('/blog/{id}', [\App\Http\Controllers\AppBlogController::class, 'one_blog']);
+Route::put('/blog/{id}', [\App\Http\Controllers\AppBlogController::class, 'update_blog']);
+Route::delete('/blog/{id}', [\App\Http\Controllers\AppBlogController::class, 'delete_blog']);
