@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\ColorProduct;
@@ -23,6 +24,7 @@ class DatabaseSeeder extends Seeder
       $category = Category::factory(7)->has(SubCategory::factory(5))->create();
       $color = Color::factory(10)->create();
       $tag = Tag::factory(8)->create();
+      $tag = Brand::factory(10)->create();
       $product = Product::factory(69)->has(ImageProduct::factory(5))->create();
       $tagProduct = TagProduct::factory(61)->create();
       $colorProduct = ColorProduct::factory(76)->create();

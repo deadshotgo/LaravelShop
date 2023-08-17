@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('title', 255);
-            $table->string('brand', 255)->nullable();
             $table->longText('description')->nullable();
             $table->longText('information')->nullable();
             $table->integer('qty');
@@ -33,5 +32,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('products');
+        Schema::dropIfExists('brands');
     }
 };
