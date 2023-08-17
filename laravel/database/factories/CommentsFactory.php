@@ -18,8 +18,8 @@ class CommentsFactory extends Factory
     {
         return [
             'text' => $this->faker->text(30),
-            'blog_id' => $this->faker->numberBetween(1, 5),
-            'user_id' => $this->faker->numberBetween(1, 5),
+            'blog_id' => $this->faker->numberBetween(2, 5),
+            'user_id' => $this->faker->numberBetween(2, 5),
         ];
     }
 }

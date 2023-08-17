@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Resources\SubCategory;
+namespace App\Http\Resources\Blog;
 
-use App\Http\Resources\Category\CategoryCollection;
-use App\Http\Resources\Category\CategoryResource;
+use App\Http\Resources\Comments\CommentsResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class   SubCategoryResource extends JsonResource
+class BlogResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,11 +17,15 @@ class   SubCategoryResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'isActive'=> $this->is_active,
+            'title' => $this->title,
+            'text' => $this->text,
+            'preview' => $this->preview,
+            'img' => $this->img,
+            'isActive' => $this->isActive,
             'createdAt' => $this->created_at->format('d.m.Y H:i'),
             'updatedAt' => $this->updated_at->format('d.m.Y H:i'),
-            'category'=>  new CategoryResource($this->whenLoaded('category')),
+            'comments' => CommentsResource::collection($this->comments)
+
         ];
     }
 }
