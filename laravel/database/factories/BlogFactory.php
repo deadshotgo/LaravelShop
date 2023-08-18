@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comments>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Blog>
  */
-class CommentsFactory extends Factory
+class BlogFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,8 +18,9 @@ class CommentsFactory extends Factory
     {
         return [
             'text' => $this->faker->text(30),
-            'blog_id' => $this->faker->numberBetween(2, 5),
-            'user_id' => $this->faker->numberBetween(2, 5),
+            'title' => $this->faker->words(rand(1,2), true),
+            'img' => $this->faker->imageUrl(270,300, null,true),
+            'preview' => $this->faker->imageUrl(270,300, null,true),
         ];
     }
 }

@@ -2,12 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Models\Blog;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Blogs>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comment>
  */
-class BlogsFactory extends Factory
+class CommentFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,9 +20,8 @@ class BlogsFactory extends Factory
     {
         return [
             'text' => $this->faker->text(30),
-            'title' => $this->faker->text(30),
-            'img' => $this->faker->text(30),
-            'preview' => $this->faker->text(30),
+            'blog_id' => Blog::query()->inRandomOrder()->value('id'),
+            'user_id' => User::query()->inRandomOrder()->value('id'),
         ];
     }
 }

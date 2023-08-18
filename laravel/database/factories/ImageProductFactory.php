@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SubCategory>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ImageProduct>
  */
-class SubCategoryFactory extends Factory
+class ImageProductFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,8 +17,8 @@ class SubCategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->words(2, true),
-            'is_active' => true,
+            'path' => $this->faker->imageUrl(270,300, null,true),
+            'main' => true,
         ];
     }
 }

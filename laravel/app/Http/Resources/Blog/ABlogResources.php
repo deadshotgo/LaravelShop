@@ -2,11 +2,10 @@
 
 namespace App\Http\Resources\Blog;
 
-use App\Http\Resources\Comments\CommentsResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BlogResource extends JsonResource
+class ABlogResources extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -24,8 +23,6 @@ class BlogResource extends JsonResource
             'is_active' => $this->is_active,
             'createdAt' => $this->created_at->format('d.m.Y H:i'),
             'updatedAt' => $this->updated_at->format('d.m.Y H:i'),
-            'comments' => CommentsResource::collection($this->comments)
-
         ];
     }
 }
