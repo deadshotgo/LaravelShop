@@ -1,86 +1,86 @@
 version: "2.0"
 services:
-  #PHP Service
-  backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: cloudsigma.com/php
-    container_name: backend
-    restart: unless-stopped
-    tty: true
-    environment:
-      SERVICE_NAME: backend
-      SERVICE_TAGS: dev
-    working_dir: /var/www/html/
-    volumes:
-      - ./:/var/www/html/
-      - ./php/laravel.ini:/usr/local/etc/php/conf.d/laravel.ini
-    networks:
-      - app-network
+    #PHP Service
+    backend:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: cloudsigma.com/php
+        container_name: backend
+        restart: unless-stopped
+        tty: true
+        environment:
+            SERVICE_NAME: backend
+            SERVICE_TAGS: dev
+        working_dir: /var/www/html/
+        volumes:
+            - ./:/var/www/html/
+            - ./php/laravel.ini:/usr/local/etc/php/conf.d/laravel.ini
+        networks:
+            - app-network
 
-  frontend:
-    stdin_open: true
-    container_name: frontend
-    build:
-      context: ../vue
-      dockerfile: Dockerfile
-    volumes:
-      - /app/node_modules
-      - ../vue:/var/www/html/
-    networks:
-      - app-network
+    frontend:
+        stdin_open: true
+        container_name: frontend
+        build:
+            context: ../vue
+            dockerfile: Dockerfile
+        volumes:
+            - /app/node_modules
+            - ../vue:/var/www/html/
+        networks:
+            - app-network
 
-  #Nginx Service
-  webserver:
-    depends_on:
-      - backend
-      - frontend
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
-    container_name: webserver
-    restart: unless-stopped
-    tty: true
-    ports:
-      - "83:80"
-    networks:
-      - app-network
+    #Nginx Service
+    webserver:
+        depends_on:
+            - backend
+            - frontend
+        build:
+            context: ./nginx
+            dockerfile: Dockerfile
+        container_name: webserver
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "83:80"
+        networks:
+            - app-network
 
-  #Mysql DB
-  mysql:
-      image: mysql:8.0
-      container_name: dbs
-      restart: unless-stopped
-      tty: true
-      ports:
-          - "33062:3306"
-      environment:
-          MYSQL_USER: www-data
-          MYSQL_PASSWORD: root
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: shopLaravel
-      volumes:
-          - ../mysql:/mysql
-      networks:
-          - app-network
+    #Mysql DB
+    mysql:
+        image: mysql:8.0
+        container_name: dbs
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "33062:3306"
+        environment:
+            MYSQL_USER: www-data
+            MYSQL_PASSWORD: root
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: shopLaravel
+        volumes:
+            - ../mysql:/mysql
+        networks:
+            - app-network
 
-      #phpMyAdmin DB
-  phpmyadmin:
-      image: phpmyadmin/phpmyadmin
-      container_name: phpAdmin
-      environment:
-          PMA_HOST: mysql
-          PMA_PORT: 3306
-      ports:
-          - 1111:80
-      networks:
-          - app-network
+        #phpMyAdmin DB
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpAdmin
+        environment:
+            PMA_HOST: mysql
+            PMA_PORT: 3306
+        ports:
+            - 1111:80
+        networks:
+            - app-network
 
 #Docker Networks
 networks:
-  app-network:
-    driver: bridge
+    app-network:
+        driver: bridge
 
 volumes:
     mysql:

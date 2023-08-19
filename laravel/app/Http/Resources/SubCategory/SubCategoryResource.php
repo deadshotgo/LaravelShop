@@ -7,7 +7,7 @@ use App\Http\Resources\Category\CategoryResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SubCategoryResource extends JsonResource
+class   SubCategoryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
