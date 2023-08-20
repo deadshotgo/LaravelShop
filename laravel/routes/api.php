@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\SubCategoryController;
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\Api\CategoryController;
-use \App\Http\Controllers\Api\SubCategoryController;
-
+use App\Http\Controllers\Api\BlogController;
+use \App\Http\Controllers\Api\CommentController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,15 +16,12 @@ use \App\Http\Controllers\Api\SubCategoryController;
 |
 */
 Route::get('/test', function () {
-    return '[privet][svelolool]';
+    return 'Welcome';
 });
 
 Route::resources([
     'category' => CategoryController::class,
     'sub-category' => SubCategoryController::class,
+    'blogs' => BlogController::class,
+    'comments' => CommentController::class,
 ]);
-
-Route::get('/blogs', [\App\Http\Controllers\AppBlogController::class, 'all_blogs']);
-Route::get('/blog/{id}', [\App\Http\Controllers\AppBlogController::class, 'one_blog']);
-Route::put('/blog/{id}', [\App\Http\Controllers\AppBlogController::class, 'update_blog']);
-Route::delete('/blog/{id}', [\App\Http\Controllers\AppBlogController::class, 'delete_blog']);
