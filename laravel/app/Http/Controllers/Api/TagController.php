@@ -15,7 +15,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        return new TagCollection(Tag::where('is_active', "!=", false)->paginate(15)->all());
+        return new TagCollection(Tag::where('is_active', "!=", false)->paginate(15));
 
     }
 

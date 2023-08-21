@@ -16,7 +16,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        return new BlogCollection(Blog::with('comments')->where('is_active', "!=", false)->paginate(15)->all());
+        return new BlogCollection(Blog::with('comments')->where('is_active', "!=", false)->paginate(15));
     }
 
     /**

@@ -24,8 +24,8 @@ Route::get('/test', function () {
 });
 
 Route::resources([
-    'category' => CategoryController::class,
-    'sub-category' => SubCategoryController::class,
+    'categories' => CategoryController::class,
+    'sub-categories' => SubCategoryController::class,
     'blogs' => BlogController::class,
     'comments' => CommentController::class,
     'colors' => ColorController::class,

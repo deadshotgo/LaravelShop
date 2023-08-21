@@ -16,7 +16,7 @@ class BrandController extends Controller
      */
     public function index()
     {
-        return new BrandCollection(Brand::where('is_active', "!=", false)->paginate(15)->all());
+        return new BrandCollection(Brand::where('is_active', "!=", false)->paginate(15));
 
     }
 

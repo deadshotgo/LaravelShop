@@ -16,7 +16,7 @@ class ColorController extends Controller
      */
     public function index()
     {
-        return new ColorCollection(Color::where('is_active', "!=", false)->paginate(15)->all());
+        return new ColorCollection(Color::where('is_active', "!=", false)->paginate(15));
 
     }
 
