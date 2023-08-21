@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Blog;
 
 use App\Http\Resources\Comments\CommentResource;
-use App\Http\Resources\Tags\TagsResource;
+use App\Http\Resources\Tags\TagResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -26,7 +26,7 @@ class BlogResource extends JsonResource
             'createdAt' => $this->created_at->format('d.m.Y H:i'),
             'updatedAt' => $this->updated_at->format('d.m.Y H:i'),
             'comments' => CommentResource::collection($this->whenLoaded('comments')),
-            'tags' =>  TagsResource::collection($this->tags),
+            'tags' =>  TagResource::collection($this->tags),
 
         ];
     }

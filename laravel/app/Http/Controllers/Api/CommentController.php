@@ -16,7 +16,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        return new CommentCollection(Comment::with('blog')->get());
+        return new CommentCollection(Comment::with('blog')->where('is_active', "!=", false)->paginate(15)->all());
     }
 
     /**
