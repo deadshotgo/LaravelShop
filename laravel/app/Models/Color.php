@@ -11,6 +11,7 @@ class Color extends Model
     protected $fillable = [
         'name',
         'color',
+        'is_active',
     ];
 
     public function products()

@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('colors', function (Blueprint $table) {
+        Schema::create('tag_blogs', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100);
-            $table->string('color', 50);
-            $table->boolean('is_active')->default(true);
+            $table->foreignId('tag_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('blog_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('colors');
+        Schema::dropIfExists('tag_blogs');
     }
 };

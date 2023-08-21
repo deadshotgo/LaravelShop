@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\comment\CommentRequest;
 use App\Http\Resources\Comments\CommentCollection;
-use App\Http\Resources\Comments\CommentsResource;
+use App\Http\Resources\Comments\CommentResource;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 
@@ -16,7 +16,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        return new CommentCollection(Comment::all());
+        return new CommentCollection(Comment::with('blog')->where('is_active', "!=", false)->paginate(15));
     }
 
     /**
@@ -26,7 +26,7 @@ class CommentController extends Controller
     {
         $comment_store = Comment::create($request->validated());
 
-        return new CommentsResource($comment_store);
+        return new CommentResource($comment_store);
     }
 
     /**
@@ -34,8 +34,8 @@ class CommentController extends Controller
      */
     public function show(string $id)
     {
-        return new CommentsResource(Comment::with('blog')->findOrFail($id)->first());
-
+        $comment = Comment::with('blog')->findOrFail($id);
+        return new CommentResource($comment);
     }
 
     /**
@@ -44,6 +44,6 @@ class CommentController extends Controller
     public function update(CommentRequest $request, Comment $comment)
     {
         $comment->update($request->validated());
-        return new CommentsResource($comment);
+        return new CommentResource($comment);
     }
 }

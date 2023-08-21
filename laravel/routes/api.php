@@ -1,10 +1,14 @@
 <?php
 
-use App\Http\Controllers\Api\CategoryController;
-use App\Http\Controllers\Api\SubCategoryController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\BlogController;
-use \App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\BrandController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ColorController;
+use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\SubCategoryController;
+use App\Http\Controllers\Api\TagController;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,8 +24,11 @@ Route::get('/test', function () {
 });
 
 Route::resources([
-    'category' => CategoryController::class,
-    'sub-category' => SubCategoryController::class,
+    'categories' => CategoryController::class,
+    'sub-categories' => SubCategoryController::class,
     'blogs' => BlogController::class,
     'comments' => CommentController::class,
+    'colors' => ColorController::class,
+    'brands' => BrandController::class,
+    'tags' => TagController::class,
 ]);

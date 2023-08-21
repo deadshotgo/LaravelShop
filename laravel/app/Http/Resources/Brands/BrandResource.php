@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Tags;
+namespace App\Http\Resources\Brands;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TagsResource extends JsonResource
+class BrandResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,6 +17,10 @@ class TagsResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'image' => $this->image,
+            'is_active' => $this->is_active,
+            'createdAt' => $this->created_at->format('d.m.Y H:i'),
+            'updatedAt' => $this->updated_at->format('d.m.Y H:i'),
         ];
     }
 }
