@@ -20,7 +20,8 @@ class Blog extends Model
     public function comments() {
         return $this->hasMany(Comment::class, 'blog_id'); // Связь к модели Comment через внешний ключ blog_id
     }
-    public function blog_tags() {
-        return $this->belongsToMany(BlogsTags::class);
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'tag_blogs');
     }
 }
