@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\BlogController;
 use \App\Http\Controllers\Api\CommentController;
 use \App\Http\Controllers\Api\ColorController;
+use \App\Http\Controllers\Api\BrandController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,4 +28,5 @@ Route::resources([
     'blogs' => BlogController::class,
     'comments' => CommentController::class,
     'colors' => ColorController::class,
+    'brands' => BrandController::class,
 ]);
