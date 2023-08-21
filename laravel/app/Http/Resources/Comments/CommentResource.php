@@ -8,7 +8,7 @@ use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CommentsResource extends JsonResource
+class CommentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -24,7 +24,7 @@ class CommentsResource extends JsonResource
             'created_at' => $this->created_at->format('d.m.Y H:i'),
             'updated_at' => $this->updated_at->format('d.m.Y H:i'),
             'user' => new UserResource($this->user),
-            'blog' => new ABlogResources($this->blog),
+            'blog' => new BlogResource($this->whenLoaded('blog')),
         ];
     }
 }

@@ -40,9 +40,9 @@ class DatabaseSeeder extends Seeder
 //             'name' => 'Test User',
 //             'email' => 'test@example.com',
 //         ]);
-//        Tags::factory(10)->create();
 //        Blog::factory(10)->create();
 //        Comment::factory(10)->create();
 //        BlogsTags::factory(3)->create();
+//        Tags::factory(10)->create();
     }
 }

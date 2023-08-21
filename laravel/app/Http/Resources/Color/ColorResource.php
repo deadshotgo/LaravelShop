@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Blog;
+namespace App\Http\Resources\Color;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ABlogResources extends JsonResource
+class ColorResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,13 +16,11 @@ class ABlogResources extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'text' => $this->text,
-            'preview' => $this->preview,
-            'img' => $this->img,
-            'is_active' => $this->is_active,
+            'name' => $this->name,
+            'color' => $this->color,
             'createdAt' => $this->created_at->format('d.m.Y H:i'),
             'updatedAt' => $this->updated_at->format('d.m.Y H:i'),
+            'is_active' => $this->is_active,
         ];
     }
 }

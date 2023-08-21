@@ -16,7 +16,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        return new BlogCollection(Blog::all());
+        return new BlogCollection(Blog::with('comments')->get());
     }
 
     /**
@@ -34,7 +34,8 @@ class BlogController extends Controller
      */
     public function show(string $id)
     {
-        return new BlogResource(Blog::with('comments')->findOrFail($id)->first());
+        $blog = Blog::with('comments')->findOrFail($id);
+        return new BlogResource($blog);
 
     }
 

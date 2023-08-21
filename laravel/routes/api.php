@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\BlogController;
 use \App\Http\Controllers\Api\CommentController;
+use \App\Http\Controllers\Api\ColorController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,4 +25,5 @@ Route::resources([
     'sub-category' => SubCategoryController::class,
     'blogs' => BlogController::class,
     'comments' => CommentController::class,
+    'colors' => ColorController::class,
 ]);
