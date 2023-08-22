@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Blog;
+namespace App\Http\Resources\Product;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class BlogCollection extends ResourceCollection
+class ProductCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.

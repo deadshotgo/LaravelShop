@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ColorController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\SubCategoryController;
 use App\Http\Controllers\Api\TagController;
+use App\Http\Controllers\Api\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,4 +32,5 @@ Route::resources([
     'colors' => ColorController::class,
     'brands' => BrandController::class,
     'tags' => TagController::class,
+    'products' => ProductController::class,
 ]);

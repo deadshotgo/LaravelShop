@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Blogs;
 use App\Models\Blog;
 use App\Models\BlogsTags;
@@ -28,22 +27,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-      $category = Category::factory(7)->has(SubCategory::factory(5))->create();
-      $color = Color::factory(10)->create();
-      $tag = Tag::factory(8)->create();
-      $tag = Brand::factory(10)->create();
-      $product = Product::factory(69)->has(ImageProduct::factory(5))->create();
-      $tagProduct = TagProduct::factory(61)->create();
-      $colorProduct = ColorProduct::factory(76)->create();
-         \App\Models\User::factory(10)->create();
-
-//         \App\Models\User::factory()->create([
-//             'name' => 'Test User',
-//             'email' => 'test@example.com',
-//         ]);
+        Category::factory(7)->has(SubCategory::factory(5))->create();
+        Color::factory(10)->create();
+        Tag::factory(8)->create();
+        Brand::factory(10)->create();
+        Product::factory(69)->has(ImageProduct::factory(5))->create();
+        TagProduct::factory(61)->create();
+        ColorProduct::factory(76)->create();
         Blog::factory(10)->create();
         Comment::factory(10)->create();
         TagBlog::factory(3)->create();
-
     }
 }
