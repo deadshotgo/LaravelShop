@@ -19,6 +19,7 @@ class Product extends Model
         'is_active',
         'category_id',
         'sub_category_id',
+        'brand_id',
     ];
 
     public function category()
@@ -38,12 +39,12 @@ class Product extends Model
 
     public function colors()
     {
-        return $this->belongsToMany(Color::class);
+        return $this->belongsToMany(Color::class, 'color_products', 'product_id', 'color_id');
     }
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->belongsToMany(Tag::class, 'tag_products', 'product_id', 'tag_id');
     }
 
     public function brand()
