@@ -20,9 +20,9 @@ class CommentResource extends JsonResource
         return [
             'id' => $this->id,
             'text' => $this->text,
-            'is_active'=> $this->is_active,
-            'created_at' => $this->created_at->format('d.m.Y H:i'),
-            'updated_at' => $this->updated_at->format('d.m.Y H:i'),
+            'isActive'=> $this->is_active,
+            'createdAt' => $this->created_at->format('d.m.Y H:i'),
+            'updatedAt' => $this->updated_at->format('d.m.Y H:i'),
             'user' => new UserResource($this->user),
             'blog' => new BlogResource($this->whenLoaded('blog')),
         ];

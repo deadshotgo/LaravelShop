@@ -1,6 +1,9 @@
 <script>
 export default {
   name: "ProductCard",
+  props: {
+    data: Object,
+  },
 };
 </script>
 
@@ -8,12 +11,12 @@ export default {
   <div class="product-item">
     <div class="product-img">
       <router-link :to="{ name: 'product' }">
-        <img src="../assets/img/product/7.jpg" alt="" />
+        <img :src="data?.imageProducts[0]?.path" alt="" />
       </router-link>
     </div>
     <div class="product-info">
       <h6 class="product-title">
-        <router-link :to="{ name: 'product' }">Product Name</router-link>
+        <router-link :to="{ name: 'product' }">{{ data?.title }}</router-link>
       </h6>
       <div class="pro-rating">
         <a href="#"><i class="zmdi zmdi-star"></i></a>
@@ -22,7 +25,7 @@ export default {
         <a href="#"><i class="zmdi zmdi-star-half"></i></a>
         <a href="#"><i class="zmdi zmdi-star-outline"></i></a>
       </div>
-      <h3 class="pro-price">$ 869.00</h3>
+      <h3 class="pro-price">$ {{ data?.price }}</h3>
       <ul class="action-button">
         <li>
           <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>

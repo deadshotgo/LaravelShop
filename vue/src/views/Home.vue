@@ -130,19 +130,14 @@
               <div class="pro-tab-menu">
                 <!-- Nav tabs -->
                 <ul>
-                  <li class="active">
-                    <a href="#popular-product" data-toggle="tab"
-                      >Popular Products
-                    </a>
+                  <li :class="{ active: popularProduct }">
+                    <a @click="tabs(1)" data-toggle="tab">Popular Products </a>
                   </li>
-                  <li>
-                    <a href="#new-arrival" data-toggle="tab">New Arrival</a>
+                  <li :class="{ active: arrivalProduct }">
+                    <a @click="tabs(2)" data-toggle="tab">New Arrival</a>
                   </li>
-                  <li>
-                    <a href="#best-seller" data-toggle="tab">Best Seller</a>
-                  </li>
-                  <li>
-                    <a href="#special-offer" data-toggle="tab">Special Offer</a>
+                  <li :class="{ active: recommendProduct }">
+                    <a @click="tabs(3)" data-toggle="tab">Recommendation</a>
                   </li>
                 </ul>
               </div>
@@ -154,8 +149,12 @@
               <!-- popular-product start -->
               <div class="tab-pane active" id="popular-product">
                 <div class="row">
-                  <div class="col-md-3 col-sm-4 col-xs-12">
-                    <ProductCard />
+                  <div
+                    v-for="product in PRODUCTS"
+                    :key="product.id"
+                    class="col-md-3 col-sm-4 col-xs-12"
+                  >
+                    <ProductCard type="product" :data="product" />
                   </div>
                 </div>
               </div>
@@ -184,8 +183,9 @@
               :bigSizeCount="4"
               :averageSizeCount="2.5"
               :smallSizeCount="1"
+              :data="FEATURE_PRODUCTS"
+              type="product"
             >
-              <ProductCard />
             </ProductCarousel>
           </div>
         </div>
@@ -299,9 +299,9 @@
                 :bigSizeCount="4"
                 :averageSizeCount="2.5"
                 :smallSizeCount="1"
-              >
-                <ProductBrand />
-              </ProductCarousel>
+                :data="BRANDS"
+                type="brand"
+              />
               <!-- single-brand-product end -->
             </div>
           </div>
@@ -329,8 +329,9 @@
                 :bigSizeCount="3"
                 :averageSizeCount="1.5"
                 :smallSizeCount="1"
+                :data="BLOGS"
+                type="blog"
               >
-                <ProductBlog />
               </ProductCarousel>
               <!-- blog-item end -->
             </div>
@@ -346,12 +347,81 @@
 <script>
 import ProductCard from "@/components/ProductCard.vue";
 import ProductCarousel from "@/components/ProductCarousel.vue";
-import ProductBrand from "@/components/ProductBrand.vue";
-import ProductBlog from "@/components/ProductBlog.vue";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "HomeView",
-  components: { ProductBlog, ProductBrand, ProductCarousel, ProductCard },
+  components: { ProductCarousel, ProductCard },
+  data() {
+    return {
+      popularProduct: true,
+      arrivalProduct: false,
+      recommendProduct: false,
+    };
+  },
+  computed: {
+    ...mapGetters(["BRANDS", "BLOGS", "PRODUCTS", "FEATURE_PRODUCTS"]),
+  },
+  methods: {
+    tabs(id) {
+      switch (id) {
+        case 1:
+          (this.popularProduct = true), (this.arrivalProduct = false);
+          this.recommendProduct = false;
+          this.GET_PRODUCTS({
+            limit: 12,
+            is_active: true,
+            sorted: {
+              like: true,
+            },
+          });
+          break;
+        case 2:
+          (this.popularProduct = false), (this.arrivalProduct = true);
+          this.recommendProduct = false;
+          this.GET_PRODUCTS({
+            limit: 12,
+            is_active: true,
+            sorted: {
+              created_at: true,
+            },
+          });
+          break;
+        case 3:
+          (this.popularProduct = false), (this.arrivalProduct = false);
+          this.recommendProduct = true;
+          this.GET_PRODUCTS({
+            limit: 12,
+            is_active: true,
+            feature: true,
+          });
+          break;
+      }
+    },
+    ...mapActions([
+      "GET_BRANDS",
+      "GET_BLOGS",
+      "GET_PRODUCTS",
+      "GET_FEATURE_PRODUCTS",
+    ]),
+  },
+
+  created() {
+    this.GET_BRANDS();
+    this.GET_BLOGS();
+    this.GET_FEATURE_PRODUCTS({
+      limit: 10,
+      is_active: true,
+      feature: true,
+    });
+    this.GET_PRODUCTS({
+      limit: 12,
+      is_active: true,
+      sorted: {
+        like: true,
+      },
+    });
+  },
 };
 </script>
 <style scoped lang="scss">
@@ -361,6 +431,9 @@ export default {
 }
 .h1-p {
   font-size: 24px;
+}
+.pro-tab-menu > ul > li > a {
+  cursor: pointer;
 }
 @media screen and (max-width: 500px) {
   .h1-t {

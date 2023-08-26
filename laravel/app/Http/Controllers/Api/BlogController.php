@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\blog\BlogRequest;
 use App\Http\Resources\Blog\BlogCollection;
