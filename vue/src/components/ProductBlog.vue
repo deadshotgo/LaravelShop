@@ -1,21 +1,20 @@
 <script>
 export default {
   name: "ProductBlog",
+  props: { data: Object },
 };
 </script>
 
 <template>
   <div class="col-xs-12">
     <div class="blog-item">
-      <img src="../assets/img/blog/1.jpg" alt="" />
+      <img :src="data?.preview" alt="" />
       <div class="blog-desc">
         <h5 class="blog-title">
-          <a href="#">dummy Blog name</a>
+          <a href="#">{{ data?.title }}</a>
         </h5>
         <p>
-          There are many variations of passages of psum available, but the
-          majority have suffered alterat on in some form, by injected humour,
-          randomis words which don't look even slightly.
+          {{ data?.previewText }}
         </p>
         <div class="read-more">
           <a href="#">Read more</a>
@@ -25,10 +24,10 @@ export default {
             <a href="#"><i class="zmdi zmdi-favorite"></i>89 Like</a>
           </li>
           <li>
-            <a href="#"><i class="zmdi zmdi-comments"></i>59 Comments</a>
-          </li>
-          <li>
-            <a href="#"><i class="zmdi zmdi-share"></i>29 Share</a>
+            <a href="#"
+              ><i class="zmdi zmdi-comments"></i
+              >{{ `${data?.comments?.length} Comments` }}</a
+            >
           </li>
         </ul>
       </div>

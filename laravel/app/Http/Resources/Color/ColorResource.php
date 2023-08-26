@@ -20,7 +20,7 @@ class ColorResource extends JsonResource
             'color' => $this->color,
             'createdAt' => $this->created_at->format('d.m.Y H:i'),
             'updatedAt' => $this->updated_at->format('d.m.Y H:i'),
-            'is_active' => $this->is_active,
+            'isActive' => $this->is_active,
         ];
     }
 }

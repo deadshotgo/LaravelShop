@@ -25,6 +25,7 @@ class ProductFactory extends Factory
             'title' => $this->faker->words(rand(1,2), true),
             'description' => $this->faker->realText(),
             'information' => $this->faker->realText(),
+            'feature' => $this->faker->boolean(10),
             'qty' => rand(0, 1000),
             'price' => rand(0, 1000),
             'article' => rand(1000,879383),

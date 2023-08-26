@@ -129,6 +129,8 @@
       <path value="$PROJECT_DIR$/laravel/vendor/phpspec/prophecy" />
       <path value="$PROJECT_DIR$/laravel/vendor/symfony/polyfill-php81" />
       <path value="$PROJECT_DIR$/laravel/vendor/doctrine/instantiator" />
+      <path value="$PROJECT_DIR$/laravel/vendor/spatie/laravel-package-tools" />
+      <path value="$PROJECT_DIR$/laravel/vendor/spatie/laravel-query-builder" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />

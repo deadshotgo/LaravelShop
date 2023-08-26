@@ -8,15 +8,29 @@ use App\Http\Resources\Product\ProductCollection;
 use App\Http\Resources\Product\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $req)
     {
-        return new ProductCollection(Product::with('category',  'subCategory', 'brand', 'imageProducts', 'colors', 'tags')->where('is_active', "!=", false)->paginate(20));
+
+        $products =  QueryBuilder::for(Product::class)
+            ->defaultSort('-id')
+            ->allowedSorts('title','like', 'created_at')
+            ->allowedFilters([
+                AllowedFilter::exact('feature'),
+                AllowedFilter::exact('is_active'),
+                'title'])
+            ->allowedIncludes(['brand','category','subCategory','colors','tags'])
+            ->with('imageProducts')
+            ->paginate($req->limit ?? 15)
+            ->appends(request()->query());
+       return new ProductCollection($products);
     }
 
     /**
