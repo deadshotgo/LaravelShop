@@ -6,6 +6,7 @@ import WidgetSearch from "@/components/WidgetSearch.vue";
 import WidgetCategories from "@/components/WidgetCategories.vue";
 import RecentProducts from "@/components/RecentProducts.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
+import { useRoute } from "vue-router";
 
 // Import Swiper styles
 import "swiper/css";
@@ -16,6 +17,7 @@ import { Thumbs } from "swiper/modules";
 import { ref } from "vue";
 import { EffectFade } from "swiper/modules";
 import "swiper/css/effect-fade";
+import { mapActions, mapGetters } from "vuex";
 export default {
   components: {
     Swiper,
@@ -36,8 +38,12 @@ export default {
       reviewsTab: false,
     };
   },
+  computed: {
+    ...mapGetters(["PRODUCT", "FEATURE_PRODUCTS"]),
+  },
   methods: {
     increment() {
+      if (this.quantity >= this.PRODUCT.qty) return;
       this.quantity++;
     },
     decrement() {
@@ -68,6 +74,16 @@ export default {
           break;
       }
     },
+    ...mapActions(["GET_PRODUCT", "GET_FEATURE_PRODUCTS"]),
+  },
+  async created() {
+    const route = useRoute();
+    await this.GET_PRODUCT({ id: route.params.id });
+    await this.GET_FEATURE_PRODUCTS({
+      limit: 10,
+      is_active: true,
+      feature: true,
+    });
   },
   setup() {
     const thumbsSwiper = ref(null);
@@ -113,35 +129,9 @@ export default {
                         class="mySwiper2"
                       >
                         <swiper-slide
-                          ><img
-                            src="https://swiperjs.com/demos/images/nature-1.jpg" /></swiper-slide
-                        ><swiper-slide
-                          ><img
-                            src="https://swiperjs.com/demos/images/nature-2.jpg" /></swiper-slide
-                        ><swiper-slide
-                          ><img
-                            src="https://swiperjs.com/demos/images/nature-3.jpg" /></swiper-slide
-                        ><swiper-slide
-                          ><img
-                            src="https://swiperjs.com/demos/images/nature-4.jpg" /></swiper-slide
-                        ><swiper-slide
-                          ><img
-                            src="https://swiperjs.com/demos/images/nature-5.jpg" /></swiper-slide
-                        ><swiper-slide
-                          ><img
-                            src="https://swiperjs.com/demos/images/nature-6.jpg" /></swiper-slide
-                        ><swiper-slide
-                          ><img
-                            src="https://swiperjs.com/demos/images/nature-7.jpg" /></swiper-slide
-                        ><swiper-slide
-                          ><img
-                            src="https://swiperjs.com/demos/images/nature-8.jpg" /></swiper-slide
-                        ><swiper-slide
-                          ><img
-                            src="https://swiperjs.com/demos/images/nature-9.jpg" /></swiper-slide
-                        ><swiper-slide
-                          ><img
-                            src="https://swiperjs.com/demos/images/nature-10.jpg"
+                          v-for="(img, i) in PRODUCT?.imageProducts"
+                          :key="i"
+                          ><img :src="img?.path"
                         /></swiper-slide>
                       </swiper>
                       <swiper
@@ -155,35 +145,9 @@ export default {
                         class="mySwiper"
                       >
                         <swiper-slide
-                          ><img
-                            src="https://swiperjs.com/demos/images/nature-1.jpg" /></swiper-slide
-                        ><swiper-slide
-                          ><img
-                            src="https://swiperjs.com/demos/images/nature-2.jpg" /></swiper-slide
-                        ><swiper-slide
-                          ><img
-                            src="https://swiperjs.com/demos/images/nature-3.jpg" /></swiper-slide
-                        ><swiper-slide
-                          ><img
-                            src="https://swiperjs.com/demos/images/nature-4.jpg" /></swiper-slide
-                        ><swiper-slide
-                          ><img
-                            src="https://swiperjs.com/demos/images/nature-5.jpg" /></swiper-slide
-                        ><swiper-slide
-                          ><img
-                            src="https://swiperjs.com/demos/images/nature-6.jpg" /></swiper-slide
-                        ><swiper-slide
-                          ><img
-                            src="https://swiperjs.com/demos/images/nature-7.jpg" /></swiper-slide
-                        ><swiper-slide
-                          ><img
-                            src="https://swiperjs.com/demos/images/nature-8.jpg" /></swiper-slide
-                        ><swiper-slide
-                          ><img
-                            src="https://swiperjs.com/demos/images/nature-9.jpg" /></swiper-slide
-                        ><swiper-slide
-                          ><img
-                            src="https://swiperjs.com/demos/images/nature-10.jpg"
+                          v-for="(img, i) in PRODUCT?.imageProducts"
+                          :key="i"
+                          ><img :src="img?.path"
                         /></swiper-slide>
                       </swiper>
                     </div>
@@ -192,8 +156,8 @@ export default {
                   <!-- single-product-info start -->
                   <div class="col-md-7 col-sm-7 col-xs-12">
                     <div class="single-product-info">
-                      <h3 class="text-black-1">Dummy Product Name</h3>
-                      <h6 class="brand-name-2">brand name</h6>
+                      <h3 class="text-black-1">{{ PRODUCT.title }}</h3>
+                      <h6 class="brand-name-2">{{ PRODUCT?.brand?.name }}</h6>
                       <!-- hr -->
                       <hr />
                       <!-- single-product-tab -->
@@ -222,15 +186,7 @@ export default {
                             :class="{ active: descriptionTab }"
                             id="description"
                           >
-                            <p>
-                              There are many variations of passages of Lorem
-                              Ipsum available, but the majo Rity have be
-                              suffered alteration in some form, by injected
-                              humou or randomis Rity have be suffered alteration
-                              in some form, by injected humou or randomis words
-                              which donot look even slightly believable. If you
-                              are going to use a passage Lorem Ipsum.
-                            </p>
+                            <p>{{ PRODUCT.description }}</p>
                           </div>
                           <div
                             role="tabpanel"
@@ -238,17 +194,7 @@ export default {
                             :class="{ active: informationTab }"
                             id="information"
                           >
-                            <p>
-                              Lorem ipsum dolor sit amet, consectetur
-                              adipisicing elit. Autem, neque fugit inventore quo
-                              dignissimos est iure natus quis nam illo officiis,
-                              deleniti consectetur non ,aspernatur.
-                            </p>
-                            <p>
-                              rerum blanditiis dolore dignissimos expedita
-                              consequatur deleniti consectetur non
-                              exercitationem.
-                            </p>
+                            <p>{{ PRODUCT.information }}</p>
                           </div>
                           <div
                             role="tabpanel"
@@ -338,10 +284,13 @@ export default {
                           <p class="color-title f-left">Color</p>
                           <div class="widget-color f-left">
                             <ul>
-                              <li class="color-1"><a href="#"></a></li>
-                              <li class="color-2"><a href="#"></a></li>
-                              <li class="color-3"><a href="#"></a></li>
-                              <li class="color-4"><a href="#"></a></li>
+                              <li
+                                v-for="(color, i) in PRODUCT?.colors?.data"
+                                :key="i"
+                                class="color-1"
+                              >
+                                <a href="#"></a>
+                              </li>
                             </ul>
                           </div>
                         </div>
@@ -432,6 +381,8 @@ export default {
                         :bigSizeCount="3"
                         :averageSizeCount="2.5"
                         :smallSizeCount="1"
+                        :data="this.FEATURE_PRODUCTS.data"
+                        type="product"
                       >
                         <ProductCard />
                       </ProductCarousel>

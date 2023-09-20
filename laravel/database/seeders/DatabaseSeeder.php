@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
         Tag::factory(8)->create();
         Brand::factory(10)->create();
         Product::factory(69)->has(ImageProduct::factory(5))->create();
-        TagProduct::factory(61)->create();
+        TagProduct::factory(6)->create();
         ColorProduct::factory(76)->create();
         Blog::factory(10)->create();
         Comment::factory(10)->create();

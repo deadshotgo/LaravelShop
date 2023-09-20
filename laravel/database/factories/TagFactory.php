@@ -18,7 +18,7 @@ class TagFactory extends Factory
     {
         return [
             'name' => $this->faker->words(1, true),
-            'is_active' => $this->faker->boolean()
+            'is_active' => true
         ];
     }
 }

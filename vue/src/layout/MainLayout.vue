@@ -11,7 +11,7 @@ export default {
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="wrapper modal-open">
     <!-- START HEADER AREA -->
     <header class="header-area header-wrapper">
       <!-- header-top-bar -->
