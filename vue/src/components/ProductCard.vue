@@ -1,22 +1,15 @@
-<script>
-export default {
-  name: "ProductCard",
-  props: {
-    data: Object,
-  },
-};
-</script>
-
 <template>
   <div class="product-item">
     <div class="product-img">
-      <router-link :to="{ name: 'product' }">
+      <router-link :to="{ name: 'product', params: { id: data.id } }">
         <img :src="data?.imageProducts[0]?.path" alt="" />
       </router-link>
     </div>
     <div class="product-info">
       <h6 class="product-title">
-        <router-link :to="{ name: 'product' }">{{ data?.title }}</router-link>
+        <router-link :to="{ name: 'product', params: { id: data.id } }">{{
+          data?.title
+        }}</router-link>
       </h6>
       <div class="pro-rating">
         <a href="#"><i class="zmdi zmdi-star"></i></a>
@@ -32,7 +25,7 @@ export default {
         </li>
         <li>
           <a
-            href="#"
+            @click="openModal = true"
             data-toggle="modal"
             data-target="#productModal"
             title="Quickview"
@@ -49,7 +42,32 @@ export default {
         </li>
       </ul>
     </div>
+    <ModalProduct
+      @closeModal="this.openModal = false"
+      :data="data"
+      :openModal="openModal"
+    />
   </div>
 </template>
+<script>
+import ModalProduct from "@/components/product/ModalProduct.vue";
 
-<style scoped lang="scss"></style>
+export default {
+  name: "ProductCard",
+  components: { ModalProduct },
+  props: {
+    data: Object,
+  },
+  data: () => {
+    return {
+      openModal: false,
+    };
+  },
+};
+</script>
+
+<style scoped lang="scss">
+.action-button > li > a {
+  cursor: pointer;
+}
+</style>

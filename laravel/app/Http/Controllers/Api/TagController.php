@@ -7,6 +7,8 @@ use App\Http\Requests\Tag\TagRequest;
 use App\Http\Resources\Tags\TagCollection;
 use App\Http\Resources\Tags\TagResource;
 use App\Models\Tag;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TagController extends Controller
 {
@@ -15,8 +17,14 @@ class TagController extends Controller
      */
     public function index()
     {
-        return new TagCollection(Tag::where('is_active', "!=", false)->paginate(15));
-
+        $tags =  QueryBuilder::for(Tag::class)
+            ->defaultSort('-id')
+            ->allowedSorts('name')
+            ->allowedFilters([
+                AllowedFilter::exact('is_active'),
+                'name'])
+            ->get();
+        return new TagCollection($tags);
     }
 
     /**

@@ -21,12 +21,16 @@ class ProductController extends Controller
 
         $products =  QueryBuilder::for(Product::class)
             ->defaultSort('-id')
-            ->allowedSorts('title','like', 'created_at')
+            ->allowedSorts('title','like','price', 'created_at')
+            ->allowedIncludes(['brand','category','subCategory','colors','tags'])
             ->allowedFilters([
+                AllowedFilter::exact('id'),
                 AllowedFilter::exact('feature'),
                 AllowedFilter::exact('is_active'),
+                AllowedFilter::exact('sub_category_id'),
+                AllowedFilter::scope('price_between'),
+                AllowedFilter::exact('tagsId','tags.id'),
                 'title'])
-            ->allowedIncludes(['brand','category','subCategory','colors','tags'])
             ->with('imageProducts')
             ->paginate($req->limit ?? 15)
             ->appends(request()->query());

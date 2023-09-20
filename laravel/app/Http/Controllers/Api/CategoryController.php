@@ -7,18 +7,27 @@ use App\Http\Requests\Category\CategoryRequest;
 use App\Http\Resources\Category\CategoryCollection;
 use App\Http\Resources\Category\CategoryResource;
 use App\Models\Category;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $req)
     {
-        return new CategoryCollection(Cache::remember('categories',60*60*24,function () {
-            return Category::with('subCategories')->where('is_active', "!=", false)->paginate(15);
-        }));
+        $categories =  QueryBuilder::for(Category::class)
+            ->defaultSort('-id')
+            ->allowedSorts('name')
+            ->allowedIncludes(['products'])
+            ->allowedFilters([
+                AllowedFilter::exact('is_active'),
+                AllowedFilter::exact('id'),
+                'name'])
+            ->with('subCategories')->limit($req->limit ?? '')->get();
+        return new CategoryCollection($categories);
     }
 
     /**

@@ -150,11 +150,15 @@
               <div class="tab-pane active" id="popular-product">
                 <div class="row">
                   <div
-                    v-for="product in PRODUCTS"
-                    :key="product.id"
+                    v-for="(product, i) in PRODUCTS.data"
+                    :key="i"
                     class="col-md-3 col-sm-4 col-xs-12"
                   >
-                    <ProductCard type="product" :data="product" />
+                    <ProductCard
+                      @openModal="handleModal"
+                      type="product"
+                      :data="product"
+                    />
                   </div>
                 </div>
               </div>
@@ -183,7 +187,7 @@
               :bigSizeCount="4"
               :averageSizeCount="2.5"
               :smallSizeCount="1"
-              :data="FEATURE_PRODUCTS"
+              :data="FEATURE_PRODUCTS.data"
               type="product"
             >
             </ProductCarousel>
@@ -354,6 +358,7 @@ export default {
   components: { ProductCarousel, ProductCard },
   data() {
     return {
+      productData: {},
       popularProduct: true,
       arrivalProduct: false,
       recommendProduct: false,
@@ -363,6 +368,10 @@ export default {
     ...mapGetters(["BRANDS", "BLOGS", "PRODUCTS", "FEATURE_PRODUCTS"]),
   },
   methods: {
+    handleModal(data) {
+      this.openModal = true;
+      this.productData = data;
+    },
     tabs(id) {
       switch (id) {
         case 1:
