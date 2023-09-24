@@ -45,7 +45,7 @@ const routes = [
     component: () => import("../views/Blog.vue"),
   },
   {
-    path: "/blog/blog-details",
+    path: "/blog/blog-details/:id",
     name: "oneBlog",
     meta: { layout: "main" },
     component: () => import("@/components/BlogDetailComponent.vue"),

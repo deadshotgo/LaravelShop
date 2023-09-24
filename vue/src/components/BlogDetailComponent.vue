@@ -6,7 +6,7 @@
           <div class="blog-details-area">
             <!-- blog-details-photo -->
             <div class="blog-details-photo bg-img-1 p-20 mb-30">
-              <img src="../assets/img/blog/10.jpg" alt="" />
+              <img :src="BLOG?.img" alt="" width="830" height="390" />
               <div class="today-date bg-img-1">
                 <span class="meta-date">30</span>
                 <span class="meta-month">June</span>
@@ -25,54 +25,10 @@
               </li>
             </ul>
             <!-- blog-details-title -->
-            <h3 class="blog-details-title mb-30">Dumm`y single blog name</h3>
+            <h3 class="blog-details-title mb-30">{{ BLOG?.title }}</h3>
             <!-- blog-description -->
             <div class="blog-description mb-60">
-              <p>
-                On the other hand, we denounce with righteous indignation and
-                dislike men who are so beguiled and demoralized by the charms of
-                plea sure of the moment, so blinded by desire, that they cannot
-                foresee the pain and trouble that are bound to ensue; and equal
-                blame belon gs to those who fail in their duty through weakness
-                of will, which is the same as saying through shrink ing from
-                toil and pain. These cases are perfectly simple and easy to
-                distinguish. In a free hour.
-              </p>
-
-              <div class="quote-author pl-30">
-                <p class="quote-border pl-30">
-                  On the other hand, we denounce with righteous indignation and
-                  dislike men who are so beguiled and demoralized by the charm
-                  of pleas ure of the moment, so blinded by desire, that they
-                  cannot foresee the pain and trouble that are bound to ensue;
-                  and equal blame belongs to those who fail in their duty
-                  through weakness of will
-                </p>
-              </div>
-
-              <p>
-                Which is the same as saying through shrink ing from toil and
-                pain. These cases are perfectly simple and easy to distinguish.
-                In a free hour. One the other hand, we denounce with righteous
-                indignation and dislike men who are so beguiled and demoralized
-                by the charms of plea sure of the moment, so blinded by desire,
-                that they cannot foresee the pain and trouble that are bound to
-                ensue; and equal blame belong to those who fail in their duty
-                through weakness of will, which is the same as saying through
-                shrink ing from toil and pain. These cases are perfectly simple
-                and easy to distinguish.
-              </p>
-
-              <p>
-                On the other hand, we denounce with righteous indignation and
-                dislike men who are so beguiled and demoralized by the charms of
-                plea sure of the moment, so blinded by desire, that they cannot
-                foresee the pain and trouble that are bound to ensue; and equal
-                blame belon gs to those who fail in their duty through weakness
-                of will, which is the same as saying through shrink ing from
-                toil and pain. These cases are perfectly simple and easy to
-                distinguish. In a free hour.
-              </p>
+              <p>{{ BLOG?.text }}</p>
             </div>
             <!-- blog-share-tags -->
             <div class="blog-share-tags box-shadow clearfix mb-60">
@@ -103,39 +59,19 @@
               </div>
               <div class="blog-tags f-right">
                 <p class="share-tags-title f-left">Tags</p>
-                <ul class="blog-tags-list f-left">
-                  <li><a href="#">Mobile</a></li>
-                  <li><a href="#">IOS</a></li>
-                  <li><a href="#">Windows</a></li>
-                  <li><a href="#">Tab</a></li>
+                <ul
+                  class="blog-tags-list f-left"
+                  v-for="(tag, i) in BLOG.tags"
+                  :key="i"
+                >
+                  <li>
+                    <a>{{ tag.name }}</a>
+                  </li>
                 </ul>
               </div>
             </div>
-            <!-- author-post -->
-            <div class="media author-post box-shadow mb-60">
-              <div class="media-left pr-20">
-                <a href="#">
-                  <img
-                    class="media-object"
-                    src="../assets/img/author/1.jpg"
-                    alt="#"
-                  />
-                </a>
-              </div>
-              <div class="media-body">
-                <h6 class="media-heading">
-                  <a href="#">Subash Chandra Das</a>
-                </h6>
-                <p class="mb-0">
-                  No one rejects, dislikes, or avoids pleasure itself, because
-                  it is pleasure, but because those who do not know how to pursu
-                  pleasure rationally encounter conseques ences that are
-                  extremely painful.
-                </p>
-              </div>
-            </div>
-            <!-- comments on t this post -->
-            <CommentsComponent></CommentsComponent>
+            <!-- comments blog -->
+            <CommentsComponent :comments="BLOG.comments"></CommentsComponent>
             <!--  -->
           </div>
         </div>
@@ -160,6 +96,8 @@ import RecentProducts from "@/components/RecentProducts.vue";
 import CheckboxFiltersComponent from "@/components/CheckboxFiltersComponent.vue";
 import WidgetSearch from "@/components/WidgetSearch.vue";
 import CommentsComponent from "@/components/CommentsComponent.vue";
+import { useRoute } from "vue-router";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "BlogDetailComponent",
@@ -169,6 +107,16 @@ export default {
     CheckboxFiltersComponent,
     RecentProducts,
     WidgetCategories,
+  },
+  computed: {
+    ...mapGetters(["BLOG"]),
+  },
+  methods: {
+    ...mapActions(["GET_BLOG"]),
+  },
+  async created() {
+    const route = useRoute();
+    await this.GET_BLOG({ id: route.params.id });
   },
 };
 </script>

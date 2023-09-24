@@ -15,6 +15,7 @@ use App\Models\SubCategory;
 use App\Models\Tag;
 use App\Models\TagBlog;
 use App\Models\TagProduct;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use App\Models\Tags;
 use App\Models\Comment;
@@ -27,6 +28,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        User::factory(1)->create();
         Category::factory(7)->has(SubCategory::factory(5))->create();
         Color::factory(10)->create();
         Tag::factory(8)->create();
