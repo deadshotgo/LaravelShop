@@ -25,8 +25,8 @@ class BlogResource extends JsonResource
             'img' => $this->img,
             'like' => $this->like,
             'isActive' => $this->is_active,
-            'createdAt' => $this->created_at->format('d.m.Y H:i'),
-            'updatedAt' => $this->updated_at->format('d.m.Y H:i'),
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at,
             'comments' => CommentResource::collection($this->whenLoaded('comments')),
             'tags' =>  TagResource::collection($this->tags),
 

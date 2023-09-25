@@ -18,6 +18,7 @@ class Blog extends Model
         'like',
         'preview',
         'is_active',
+        'created_at',
     ];
 
     public function comments() {

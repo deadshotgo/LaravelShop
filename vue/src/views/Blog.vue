@@ -3,15 +3,20 @@ import VBreadcrumbs from "@/components/VBreadcrumbs.vue";
 import RecentProducts from "@/components/RecentProducts.vue";
 import { mapActions, mapGetters } from "vuex";
 import VPagination from "@/components/VPagination.vue";
+import CheckboxFiltersComponent from "@/components/CheckboxFiltersComponent.vue";
 
 export default {
   name: "BlogComponent",
-  components: { VPagination, RecentProducts, VBreadcrumbs },
+  components: {
+    CheckboxFiltersComponent,
+    VPagination,
+    RecentProducts,
+    VBreadcrumbs,
+  },
   data() {
     return {
       activeList: null,
-      selectedTags: [],
-      selectedSort: null,
+      selectedSort: "",
       filters: {
         limit: 8,
         is_active: true,
@@ -37,12 +42,9 @@ export default {
         paginate: filter,
       });
     },
-    getFilteredData() {
-      this.GET_BLOGS({
-        limit: 8,
-        is_active: true,
-        tagsId: this.selectedTags,
-      });
+    sortTags(filter) {
+      this.filters.tagsId = filter.join(",");
+      this.GET_BLOGS(this.filters);
     },
     orderBySort(id) {
       delete this.filters.sorted?.created_at;
@@ -61,7 +63,7 @@ export default {
   created() {
     this.GET_TAGS();
     this.GET_BLOGS({
-      limit: 4,
+      limit: 8,
       is_active: true,
     });
   },
@@ -104,25 +106,9 @@ export default {
                 class="dropdown-width mt-30 dropdownn opened-menu"
                 :class="{ 'dropdownn-after': activeList === 3 }"
               >
-                <aside
-                  class="widget widget-tags box-shadow bord menu-center tags-width"
-                >
-                  <h6 class="widget-title border-left mb-20">Tags</h6>
-                  <ul class="widget-tags-list" style="text-align: center">
-                    <li v-for="(tag, i) in TAGS" :key="i">
-                      <label
-                        ><input
-                          style="margin-right: 2px"
-                          @change="getFilteredData"
-                          type="checkbox"
-                          :value="tag.id"
-                          v-model="selectedTags"
-                          name="tags"
-                        />{{ tag?.name }}</label
-                      >
-                    </li>
-                  </ul>
-                </aside>
+                <CheckboxFiltersComponent
+                  @clickTags="sortTags"
+                ></CheckboxFiltersComponent>
               </div>
             </div>
             <div>

@@ -6,10 +6,16 @@
           <div class="blog-details-area">
             <!-- blog-details-photo -->
             <div class="blog-details-photo bg-img-1 p-20 mb-30">
-              <img :src="BLOG?.img" alt="" width="830" height="390" />
+              <img
+                :src="BLOG?.img"
+                alt=""
+                width="830"
+                height="390"
+                @click="f"
+              />
               <div class="today-date bg-img-1">
-                <span class="meta-date">30</span>
-                <span class="meta-month">June</span>
+                <span class="meta-date">{{ this.BLOG.day }}</span>
+                <span class="meta-month">{{ this.BLOG.month }}</span>
               </div>
             </div>
             <!-- blog-like-share -->
@@ -108,11 +114,21 @@ export default {
     RecentProducts,
     WidgetCategories,
   },
+  data() {
+    return {
+      day: null,
+      month: null,
+    };
+  },
   computed: {
     ...mapGetters(["BLOG"]),
   },
   methods: {
     ...mapActions(["GET_BLOG"]),
+
+    f() {
+      return new Date(this.BLOG.createdAt);
+    },
   },
   async created() {
     const route = useRoute();

@@ -20,11 +20,10 @@ class BlogController extends Controller
         $blogs =  QueryBuilder::for(Blog::class)
             ->defaultSort('-id')
             ->allowedSorts('like', 'created_at')
-            ->allowedIncludes(['category','subCategory','tags'])
+            ->allowedIncludes(['tags'])
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('is_active'),
-                AllowedFilter::exact('sub_category_id'),
                 AllowedFilter::exact('tagsId','tags.id'),
                 ])
             ->with('tags')

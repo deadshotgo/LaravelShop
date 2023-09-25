@@ -1,5 +1,6 @@
 import api from "@/api/api";
 import { createFilterObject } from "@/utils/createFilterObject";
+import moment from "moment";
 
 const state = {
   blogs: [],
@@ -16,6 +17,8 @@ const getters = {
 const mutations = {
   SET_BLOG: (state, payload) => {
     state.blog = payload;
+    state.blog.day = moment(new Date(payload.createdAt)).format("Do");
+    state.blog.month = moment(new Date(payload.createdAt)).format("MMM");
   },
   SET_BLOGS: (state, payload) => {
     state.blogs = payload;
