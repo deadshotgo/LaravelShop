@@ -6,6 +6,7 @@ const state = {
   product: [],
   featuresProducts: [],
   recentProducts: [],
+  cartProducts: [],
 };
 const getters = {
   PRODUCT: (state) => {
@@ -20,6 +21,9 @@ const getters = {
   RECENT_PRODUCTS: (state) => {
     return state.recentProducts;
   },
+  CART_PRODUCTS: (state) => {
+    return state.cartProducts;
+  },
 };
 const mutations = {
   SET_PRODUCT: (state, payload) => {
@@ -33,6 +37,9 @@ const mutations = {
   },
   SET_RECENT_PRODUCT: (state, payload) => {
     state.recentProducts = payload;
+  },
+  GET_CART_PRODUCTS: (state, payload) => {
+    state.cartProducts = payload;
   },
 };
 const actions = {
@@ -55,6 +62,15 @@ const actions = {
     const filters = createFilterObject(payload);
     const data = await api.get(`/products?${filters}`);
     await context.commit("SET_RECENT_PRODUCT", data.data);
+  },
+  GET_CART_PRODUCTS: async (context, payload) => {
+    if (payload?.id) {
+      const filters = createFilterObject(payload);
+      const data = await api.get(`/products?${filters}`);
+      await context.commit("GET_CART_PRODUCTS", data.data.data);
+    } else {
+      await context.commit("GET_CART_PRODUCTS", []);
+    }
   },
 };
 

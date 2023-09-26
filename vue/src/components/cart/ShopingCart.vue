@@ -1,6 +1,56 @@
 <script>
+import { mapActions, mapGetters, mapMutations } from "vuex";
+
 export default {
   name: "ShopingCart",
+  data() {
+    return {
+      quantity: 1,
+    };
+  },
+  computed: {
+    ...mapGetters(["CART_PRODUCTS", "CART_GET"]),
+  },
+
+  methods: {
+    cartCount(id, type) {
+      this.CART_GET.filter((i) => i.id === id).map((e) => {
+        if (type === "increment") {
+          e.qty++;
+        } else if (type === "decrement") {
+          if (e.qty <= 1) return;
+          e.qty--;
+        } else {
+          return;
+        }
+        localStorage.setItem("cart", JSON.stringify(this.CART_GET));
+      });
+    },
+    sumProduct(id, price) {
+      const cart = this.CART_GET.filter((a) => a.id === id);
+      if (!cart.length) return;
+      return price * cart?.[0]?.qty;
+    },
+    getAllSumPrice() {
+      let allPrice = 0;
+      this.CART_PRODUCTS.forEach((e) => {
+        const cart = this.CART_GET.filter((a) => a.id === e.id);
+        console.log(cart);
+        allPrice += e.price * cart?.[0]?.qty;
+      });
+      return allPrice;
+    },
+    cartItemDelete(id) {
+      const refCart = this.CART_GET.filter((e) => e.id !== id);
+      localStorage.setItem("cart", JSON.stringify(refCart));
+      this.SET_CART_DATA(refCart || []);
+      if (refCart) {
+        this.GET_CART_PRODUCTS({ id: refCart.map((i) => i.id).join(",") });
+      }
+    },
+    ...mapMutations(["SET_CART_DATA"]),
+    ...mapActions(["GET_CART_PRODUCTS"]),
+  },
 };
 </script>
 
@@ -21,34 +71,51 @@ export default {
             </thead>
             <tbody>
               <!-- tr -->
-              <tr>
+              <tr v-for="(product, i) in CART_PRODUCTS" :key="i">
                 <td class="product-thumbnail">
                   <div class="pro-thumbnail-img">
-                    <img src="../../assets/img/cart/3.jpg" alt="" />
+                    <img
+                      style="max-width: 120px"
+                      :src="product?.imageProducts?.[0]?.path"
+                      alt="Cart Product"
+                    />
                   </div>
                   <div class="pro-thumbnail-info text-left">
                     <h6 class="product-title-2">
-                      <a href="#">dummy product name</a>
+                      <a href="#">{{ product.title }}</a>
                     </h6>
                     <p>Brand: Brand Name</p>
                     <p>Model: Grand s2</p>
                     <p>Color: Black, White</p>
                   </div>
                 </td>
-                <td class="product-price">$560.00</td>
+                <td class="product-price">$ {{ product.price }}</td>
                 <td class="product-quantity">
                   <div class="cart-plus-minus f-left">
+                    <button @click.prevent="cartCount(product.id, 'decrement')">
+                      &mdash;
+                    </button>
                     <input
                       type="text"
-                      value="02"
-                      name="qtybutton"
                       class="cart-plus-minus-box"
+                      :value="
+                        this.CART_GET.filter((e) => e.id === product.id)?.[0]
+                          ?.qty
+                      "
+                      readonly
                     />
+                    <button @click.prevent="cartCount(product.id, 'increment')">
+                      &#xff0b;
+                    </button>
                   </div>
                 </td>
-                <td class="product-subtotal">$1020.00</td>
+                <td class="product-subtotal">
+                  $ {{ sumProduct(product.id, product.price) }}
+                </td>
                 <td class="product-remove">
-                  <a href="#"><i class="zmdi zmdi-close"></i></a>
+                  <a @click.prevent="cartItemDelete(product.id)"
+                    ><i class="zmdi zmdi-close"></i
+                  ></a>
                 </td>
               </tr>
             </tbody>
@@ -61,19 +128,11 @@ export default {
               <table>
                 <tr>
                   <td class="td-title-1">Cart Subtotal</td>
-                  <td class="td-title-2">$155.00</td>
-                </tr>
-                <tr>
-                  <td class="td-title-1">Shipping and Handing</td>
-                  <td class="td-title-2">$15.00</td>
-                </tr>
-                <tr>
-                  <td class="td-title-1">Vat</td>
-                  <td class="td-title-2">$00.00</td>
+                  <td class="td-title-2">$ {{ getAllSumPrice() }}</td>
                 </tr>
                 <tr>
                   <td class="order-total">Order Total</td>
-                  <td class="order-total-price">$170.00</td>
+                  <td class="order-total-price">$ {{ getAllSumPrice() }}</td>
                 </tr>
               </table>
             </div>

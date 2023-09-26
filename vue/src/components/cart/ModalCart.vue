@@ -1,6 +1,39 @@
 <script>
+import { mapActions, mapGetters, mapMutations } from "vuex";
+
 export default {
   name: "ModalCart",
+  computed: {
+    ...mapGetters(["COUNT_CART", "CART_PRODUCTS", "CART_GET"]),
+  },
+  methods: {
+    totalSum(cartProduct) {
+      let total = 0;
+      cartProduct.map((product) => {
+        const cart = this.CART_GET.filter((a) => a.id === product.id);
+        if (cart.length) {
+          product.allPrice = product.price * cart[0].qty;
+          total += product.allPrice;
+        }
+      });
+      return total;
+    },
+    cartItemDelete(id) {
+      const refCart = this.CART_GET.filter((e) => e.id !== id);
+      localStorage.setItem("cart", JSON.stringify(refCart));
+      this.SET_CART_DATA(refCart || []);
+      if (refCart) {
+        this.GET_CART_PRODUCTS({ id: refCart.map((i) => i.id).join(",") });
+      }
+    },
+    ...mapMutations(["SET_CART_DATA"]),
+    ...mapActions(["GET_CART_PRODUCTS"]),
+  },
+  created() {
+    this.CART_GET
+      ? this.GET_CART_PRODUCTS({ id: this.CART_GET.map((i) => i.id).join(",") })
+      : "";
+  },
 };
 </script>
 
@@ -25,7 +58,8 @@ export default {
       <div class="total-cart-in">
         <div class="cart-toggler">
           <a href="#">
-            <span class="cart-quantity">01</span><br />
+            <span class="cart-quantity">{{ COUNT_CART }}</span
+            ><br />
             <span class="cart-icon">
               <i class="zmdi zmdi-shopping-cart-plus"></i>
             </span>
@@ -40,20 +74,28 @@ export default {
           <li>
             <div class="total-cart-pro">
               <!-- single-cart -->
-              <div class="single-cart clearfix">
+              <div
+                v-for="(product, i) in CART_PRODUCTS"
+                :key="i"
+                class="single-cart clearfix"
+              >
                 <div class="cart-img f-left">
                   <a href="#">
-                    <img src="../../assets/img/cart/1.jpg" alt="Cart Product" />
+                    <img
+                      style="max-width: 120px"
+                      :src="product?.imageProducts?.[0]?.path"
+                      alt="Cart Product"
+                    />
                   </a>
                   <div class="del-icon">
-                    <a href="#">
+                    <a @click.prevent="cartItemDelete(product?.id)">
                       <i class="zmdi zmdi-close"></i>
                     </a>
                   </div>
                 </div>
                 <div class="cart-info f-left">
                   <h6 class="text-capitalize">
-                    <a href="#">Dummy Product Name</a>
+                    <a href="#">{{ product?.title }}</a>
                   </h6>
                   <p>
                     <span>Brand <strong>:</strong></span
@@ -75,7 +117,7 @@ export default {
             <div class="top-cart-inner subtotal">
               <h4 class="text-uppercase g-font-2">
                 Total =
-                <span>$ 500.00</span>
+                <span>$ {{ totalSum(CART_PRODUCTS) }}</span>
               </h4>
             </div>
           </li>
