@@ -8,7 +8,7 @@
     <div class="product-info">
       <h6 class="product-title">
         <router-link :to="{ name: 'product', params: { id: data.id } }">{{
-          data?.title
+          data.title
         }}</router-link>
       </h6>
       <div class="pro-rating">
@@ -18,7 +18,7 @@
         <a href="#"><i class="zmdi zmdi-star-half"></i></a>
         <a href="#"><i class="zmdi zmdi-star-outline"></i></a>
       </div>
-      <h3 class="pro-price">$ {{ data?.price }}</h3>
+      <h3 class="pro-price">$ {{ data.price }}</h3>
       <ul class="action-button">
         <li>
           <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
@@ -36,7 +36,9 @@
           <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
         </li>
         <li>
-          <a href="#" title="Add to cart"
+          <a
+            @click.prevent="store.commit('SET_CART', { id: data.id, qty: 1 })"
+            title="Add to cart"
             ><i class="zmdi zmdi-shopping-cart-plus"></i
           ></a>
         </li>
@@ -51,9 +53,15 @@
 </template>
 <script>
 import ModalProduct from "@/components/product/ModalProduct.vue";
+import store, { commit } from "@/store";
 
 export default {
   name: "ProductCard",
+  computed: {
+    store() {
+      return store;
+    },
+  },
   components: { ModalProduct },
   props: {
     data: Object,
@@ -62,6 +70,11 @@ export default {
     return {
       openModal: false,
     };
+  },
+  methods: {
+    commit() {
+      return commit;
+    },
   },
 };
 </script>

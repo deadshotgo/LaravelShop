@@ -3,6 +3,7 @@ import VBreadcrumbs from "@/components/VBreadcrumbs.vue";
 import ShopingCart from "@/components/cart/ShopingCart.vue";
 import CheckoutCart from "@/components/cart/CheckoutCart.vue";
 import OrderCart from "@/components/cart/OrderCart.vue";
+import { mapGetters } from "vuex";
 export default {
   components: { VBreadcrumbs, ShopingCart, CheckoutCart, OrderCart },
   name: "vCart",
@@ -11,6 +12,9 @@ export default {
     checkout: false,
     order: false,
   }),
+  computed: {
+    ...mapGetters(["CART_PRODUCTS", "CART_GET"]),
+  },
   methods: {
     switchModal(action) {
       switch (action) {

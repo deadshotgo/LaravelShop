@@ -333,16 +333,6 @@ export default {
                               ></a>
                             </li>
                             <li>
-                              <a
-                                href="#"
-                                data-toggle="modal"
-                                data-target="#productModal"
-                                title="Quickview"
-                                tabindex="0"
-                                ><i class="zmdi zmdi-zoom-in"></i
-                              ></a>
-                            </li>
-                            <li>
                               <a href="#" title="Compare" tabindex="0"
                                 ><i class="zmdi zmdi-refresh"></i
                               ></a>

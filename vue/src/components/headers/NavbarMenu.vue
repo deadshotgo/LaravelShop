@@ -27,14 +27,6 @@ export default {
           <router-link :to="{ name: 'home' }">Home</router-link>
         </li>
         <li>
-          <a>Categories</a>
-          <ul class="dropdwn">
-            <li>
-              <router-link :to="{ name: 'products' }">Category 1</router-link>
-            </li>
-          </ul>
-        </li>
-        <li>
           <router-link :to="{ name: 'products' }">Products</router-link>
         </li>
         <li>
@@ -74,31 +66,6 @@ export default {
           <li>
             <router-link :to="{ name: 'home' }" @click="menuOpen = !menuOpen"
               >Home</router-link
-            >
-          </li>
-          <li>
-            <a @click="menuOpenProduct = !menuOpenProduct">Categories</a>
-            <ul
-              v-for="(n, i) in 6"
-              :key="i"
-              class="dropdown"
-              :class="{ 'dropdown-after': menuOpenProduct }"
-            >
-              <li>
-                <router-link
-                  :to="{ name: 'products' }"
-                  @click="menuOpen = !menuOpen"
-                  >Category 1</router-link
-                >
-              </li>
-            </ul>
-            <a
-              @click="menuOpenProduct = !menuOpenProduct"
-              class="mean-expand"
-              href="#"
-              style="font-size: 18px"
-              ><div v-if="menuOpenProduct">-</div>
-              <div v-else>+</div></a
             >
           </li>
           <li>
