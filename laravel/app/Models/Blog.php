@@ -10,13 +10,15 @@ class Blog extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'title',
         'text',
         'preview_text',
         'img',
-        'preview',
         'like',
+        'preview',
         'is_active',
+        'created_at',
     ];
 
     public function comments() {

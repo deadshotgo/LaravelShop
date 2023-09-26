@@ -1,15 +1,33 @@
 <script>
 import VBreadcrumbs from "@/components/VBreadcrumbs.vue";
-import WidgetCategories from "@/components/WidgetCategories.vue";
 import RecentProducts from "@/components/RecentProducts.vue";
+import { mapActions, mapGetters } from "vuex";
+import VPagination from "@/components/VPagination.vue";
+import CheckboxFiltersComponent from "@/components/CheckboxFiltersComponent.vue";
 
 export default {
   name: "BlogComponent",
-  components: { RecentProducts, WidgetCategories, VBreadcrumbs },
+  components: {
+    CheckboxFiltersComponent,
+    VPagination,
+    RecentProducts,
+    VBreadcrumbs,
+  },
   data() {
     return {
       activeList: null,
+      selectedSort: "",
+      filters: {
+        limit: 8,
+        is_active: true,
+        sorted: {
+          created_at: true,
+        },
+      },
     };
+  },
+  computed: {
+    ...mapGetters(["BLOGS", "TAGS"]),
   },
   methods: {
     toggleList(listNumber) {
@@ -19,6 +37,35 @@ export default {
         this.activeList = listNumber;
       }
     },
+    paginate(filter) {
+      this.GET_BLOGS({
+        paginate: filter,
+      });
+    },
+    sortTags(filter) {
+      this.filters.tagsId = filter.join(",");
+      this.GET_BLOGS(this.filters);
+    },
+    orderBySort(id) {
+      delete this.filters.sorted?.created_at;
+      switch (id) {
+        case "1":
+          this.filters.sorted.created_at = true;
+          break;
+        case "2":
+          this.filters.sorted.created_at = false;
+          break;
+      }
+      this.GET_BLOGS(this.filters);
+    },
+    ...mapActions(["GET_BLOGS", "GET_TAGS"]),
+  },
+  created() {
+    this.GET_TAGS();
+    this.GET_BLOGS({
+      limit: 8,
+      is_active: true,
+    });
   },
 };
 </script>
@@ -34,20 +81,6 @@ export default {
         <!-- blog-option start -->
         <div class="col-md-12">
           <div class="blog-option box-shadow mb-30 clearfix">
-            <!-- categories -->
-            <div class="dropdown f-left">
-              <button class="option-btn" @click="toggleList(1)">
-                Categories
-                <i v-if="activeList === 1" class="zmdi zmdi-chevron-up"></i>
-                <i v-else class="zmdi zmdi-chevron-down"></i>
-              </button>
-              <div
-                class="dropdown-width mt-30 dropdownn opened-menu menu-center m-l-3"
-                :class="{ 'dropdownn-after': activeList === 1 }"
-              >
-                <WidgetCategories></WidgetCategories>
-              </div>
-            </div>
             <!-- recent-product -->
             <div class="dropdown f-left">
               <button class="option-btn" @click="toggleList(2)">
@@ -73,44 +106,53 @@ export default {
                 class="dropdown-width mt-30 dropdownn opened-menu"
                 :class="{ 'dropdownn-after': activeList === 3 }"
               >
-                <aside
-                  class="widget widget-tags box-shadow bord menu-center tags-width"
+                <CheckboxFiltersComponent
+                  @clickTags="sortTags"
+                ></CheckboxFiltersComponent>
+              </div>
+            </div>
+            <div>
+              <div class="short-by f-left text-center">
+                <span>Sort by :</span>
+                <select
+                  v-model="selectedSort"
+                  @change="this.orderBySort(selectedSort)"
                 >
-                  <h6 class="widget-title border-left mb-20">Tags</h6>
-                  <ul class="widget-tags-list">
-                    <li v-for="(n, i) in 7" :key="i">
-                      <a href="#">Symban</a>
-                    </li>
-                  </ul>
-                </aside>
+                  <option value="1">Created: old -> new</option>
+                  <option value="2">Created: new -> old</option>
+                </select>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-6 col-xs-12" v-for="(n, i) in 6" :key="i">
+        <div
+          class="col-sm-6 col-xs-12"
+          v-for="(blog, i) in BLOGS.data"
+          :key="i"
+        >
           <div class="blog-item-2">
             <div class="row">
               <div class="col-md-6 col-xs-12">
                 <div class="blog-image">
                   <a href="blog-details.html"
-                    ><img src="../assets/img/blog/4.jpg" alt=""
+                    ><img :src="blog?.preview" alt="" width="370" height="300"
                   /></a>
                 </div>
               </div>
               <div class="col-md-6 col-xs-12">
                 <div class="blog-desc">
                   <h5 class="blog-title-2">
-                    <a>Dummy Blog Name</a>
+                    <a>{{ blog?.title }}</a>
                   </h5>
                   <p>
-                    There are many variations of passages of in psum available,
-                    but the majority have sufe ered on in some form...
+                    {{ blog?.previewText }}
                   </p>
                   <div class="read-more">
-                    <router-link :to="{ name: 'oneBlog' }"
-                      ><a href="#">Read more</a></router-link
+                    <router-link
+                      :to="{ name: 'oneBlog', params: { id: blog.id } }"
+                      ><a>Read more</a></router-link
                     >
                   </div>
                 </div>
@@ -119,6 +161,7 @@ export default {
           </div>
         </div>
       </div>
+      <VPagination @clickPaginate="paginate" :paginate="BLOGS.meta" />
     </div>
   </div>
 </template>

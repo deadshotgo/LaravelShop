@@ -4,19 +4,19 @@
       comments on this product
     </h4>
     <!-- single-comments -->
-    <div class="media mt-30">
+    <div class="media mt-30" v-for="(comment, i) in this.comments" :key="i">
       <div class="media-left pr-30">
         <a href="#"
-          ><img class="media-object" src="../assets/img/author/2.jpg" alt="#"
+          ><img class="media-object" :src="comment?.user?.img" alt="#"
         /></a>
       </div>
       <div class="media-body">
         <div class="clearfix">
           <div class="name-commenter f-left">
             <h6 class="media-heading">
-              <a href="#">Gerald Barnes</a>
+              <a>{{ comment?.user?.name }}</a>
             </h6>
-            <p class="mb-10">27 Jun, 2016 at 2:30pm</p>
+            <p class="mb-10">{{ comment?.createdAt }}</p>
           </div>
           <ul class="reply-delate f-right">
             <li><a href="#">Reply</a></li>
@@ -25,39 +25,7 @@
           </ul>
         </div>
         <p class="mb-0">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-          accumsan egestas elese ifend. Phasellus a felis atestese bibendum
-          feugiat ut eget eni Praesent messages in con sectetur posuere dolor
-          non.
-        </p>
-      </div>
-    </div>
-    <!-- single-comments -->
-    <div class="media mt-30">
-      <div class="media-left pr-30">
-        <a href="#"
-          ><img class="media-object" src="../assets/img/author/3.jpg" alt="#"
-        /></a>
-      </div>
-      <div class="media-body">
-        <div class="clearfix">
-          <div class="name-commenter f-left">
-            <h6 class="media-heading">
-              <a href="#">Gerald Barnes</a>
-            </h6>
-            <p class="mb-10">27 Jun, 2016 at 2:30pm</p>
-          </div>
-          <ul class="reply-delate f-right">
-            <li><a href="#">Reply</a></li>
-            <li>/</li>
-            <li><a href="#">Delate</a></li>
-          </ul>
-        </div>
-        <p class="mb-0">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-          accumsan egestas elese ifend. Phasellus a felis atestese bibendum
-          feugiat ut eget eni Praesent messages in con sectetur posuere dolor
-          non.
+          {{ comment?.text }}
         </p>
       </div>
     </div>
@@ -91,6 +59,9 @@
 <script>
 export default {
   name: "CommentsComponent",
+  props: {
+    comments: Object,
+  },
 };
 </script>
 
