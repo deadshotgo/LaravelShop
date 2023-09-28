@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\SubCategoryController;
 use App\Http\Controllers\Api\TagController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,7 +24,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/test', function () {
     return 'Welcome';
 });
-
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+Route::post('token', [AuthController::class, 'token']);
+Route::middleware(['auth:sanctum'])->get('/name', function () {
+    return 1;
+})->middleware(['auth:sanctum', 'ability:admin']);
 Route::resources([
     'categories' => CategoryController::class,
     'sub-categories' => SubCategoryController::class,
