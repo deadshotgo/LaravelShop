@@ -31,11 +31,24 @@ services:
         networks:
             - app-network
 
+    admin-panel:
+        stdin_open: true
+        container_name: admin-panel
+        build:
+            context: ../admin-panel
+            dockerfile: Dockerfile
+        volumes:
+            - /admin/node_modules
+            - ../admin-panel:/var/www/html/
+        networks:
+            - app-network
+
     #Nginx Service
     webserver:
         depends_on:
             - backend
             - frontend
+            - admin-panel
         build:
             context: ./nginx
             dockerfile: Dockerfile
