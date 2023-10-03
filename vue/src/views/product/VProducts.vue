@@ -118,7 +118,7 @@ export default {
   name: "VProduct",
   data() {
     return {
-      selectedSort: "",
+      selectedSort: "4",
       filters: {
         limit: 12,
         is_active: true,

@@ -333,7 +333,7 @@
                 :bigSizeCount="3"
                 :averageSizeCount="1.5"
                 :smallSizeCount="1"
-                :data="BLOGS"
+                :data="BLOGS.data"
                 type="blog"
               >
               </ProductCarousel>
