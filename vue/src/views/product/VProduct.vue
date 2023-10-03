@@ -287,9 +287,11 @@ export default {
                               <li
                                 v-for="(color, i) in PRODUCT?.colors?.data"
                                 :key="i"
-                                class="color-1"
+                                :style="{
+                                  '--background-color': color.color,
+                                }"
                               >
-                                <a href="#"></a>
+                                <a></a>
                               </li>
                             </ul>
                           </div>
@@ -496,5 +498,8 @@ $border: 2px solid #ddd;
 .reviews-tab {
   display: flex;
   padding-left: 0px;
+}
+.widget-color ul li::before {
+  background: var(--background-color) none repeat scroll 0 0; /* Динамический цвет псевдоэлемента */
 }
 </style>

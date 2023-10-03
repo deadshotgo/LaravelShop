@@ -16,7 +16,7 @@ export default {
   data() {
     return {
       activeList: null,
-      selectedSort: "",
+      selectedSort: "2",
       filters: {
         limit: 8,
         is_active: true,

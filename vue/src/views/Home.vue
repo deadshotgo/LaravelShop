@@ -333,7 +333,7 @@
                 :bigSizeCount="3"
                 :averageSizeCount="1.5"
                 :smallSizeCount="1"
-                :data="BLOGS"
+                :data="BLOGS.data"
                 type="blog"
               >
               </ProductCarousel>
@@ -434,6 +434,26 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.modal-backdrop {
+  /* position: fixed; */
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background-color: #000;
+}
+.modal {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+  display: none;
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+  outline: 0;
+}
 .h1-t {
   font-size: 40px;
   color: #fff;

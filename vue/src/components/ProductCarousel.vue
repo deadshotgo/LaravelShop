@@ -53,6 +53,7 @@ export default {
       <ProductBlog v-if="type === 'blog'" :data="slide" />
       <ProductCard v-if="type === 'product'" :data="slide" />
     </slide>
+
     <template #addons>
       <Navigation />
     </template>
