@@ -26,7 +26,7 @@ export default {
             <a href="#"><i class="zmdi zmdi-favorite"></i>89 Like</a>
           </li>
           <li>
-            <a href="#"
+            <a
               ><i class="zmdi zmdi-comments"></i
               >{{ `${data?.comments?.length} Comments` }}</a
             >

@@ -27,6 +27,7 @@ class BlogController extends Controller
                 AllowedFilter::exact('tagsId','tags.id'),
                 ])
             ->with('tags')
+            ->with('comments')
             ->paginate($req->limit ?? 15)
             ->appends(request()->query());
         return new BlogCollection($blogs);    }
