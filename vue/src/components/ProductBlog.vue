@@ -8,23 +8,25 @@ export default {
 <template>
   <div class="col-xs-12">
     <div class="blog-item">
-      <img :src="data?.preview" alt="" />
+      <img :src="data?.preview" alt="" height="400" />
       <div class="blog-desc">
         <h5 class="blog-title">
-          <a href="#">{{ data?.title }}</a>
+          <a>{{ data.title }}</a>
         </h5>
         <p>
           {{ data?.previewText }}
         </p>
         <div class="read-more">
-          <a href="#">Read more</a>
+          <router-link :to="{ name: 'oneBlog', params: { id: data.id } }"
+            ><a>Read more</a></router-link
+          >
         </div>
         <ul class="blog-meta">
           <li>
             <a href="#"><i class="zmdi zmdi-favorite"></i>89 Like</a>
           </li>
           <li>
-            <a href="#"
+            <a
               ><i class="zmdi zmdi-comments"></i
               >{{ `${data?.comments?.length} Comments` }}</a
             >
