@@ -37,6 +37,7 @@ export default {
     <!-- END HEADER AREA -->
     <MobileMenu />
     <!-- END HEADER AREA -->
+    <div id="modal"><!-- HERE OPEN MODAL --></div>
     <router-view />
 
     <!-- START FOOTER AREA -->
