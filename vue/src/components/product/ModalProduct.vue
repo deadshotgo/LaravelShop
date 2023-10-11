@@ -51,7 +51,6 @@
                           @click="console.log(qty_selected)"
                           type="number"
                           id="french-hens"
-                          value="1"
                           v-model="qty_selected"
                           min="1"
                         />
