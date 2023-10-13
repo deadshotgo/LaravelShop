@@ -74,7 +74,7 @@ services:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: shopLaravel
         volumes:
-            - ../mysql:/mysql
+            - mysql:/var/lib/mysql
         networks:
             - app-network
 

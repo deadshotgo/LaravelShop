@@ -23,7 +23,6 @@ class CategoryResource extends JsonResource
             'createdAt' => $this->created_at->format('d.m.Y H:i'),
             'updatedAt' => $this->updated_at->format('d.m.Y H:i'),
             'subCategories'=> new SubCategoryCollection($this->subCategories),
-            'products'=> new ProductCollection($this->products),
         ];
     }
 }

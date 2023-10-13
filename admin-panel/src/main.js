@@ -1,8 +1,21 @@
-import { createApp } from "vue";
-import Antd from "ant-design-vue";
-import "ant-design-vue/dist/reset.css";
-import App from "./App.vue";
-import router from "./router";
-import store from "./store";
+/**
+ * main.js
+ *
+ * Bootstraps Vuetify and other plugins then mounts the App`
+ */
 
-createApp(App).use(Antd).use(store).use(router).mount("#app");
+// Components
+import App from './App.vue'
+
+// Composables
+import { createApp } from 'vue'
+
+// Plugins
+import { registerPlugins } from '@/plugins'
+import store from "@/store";
+
+const app = createApp(App)
+
+registerPlugins(app)
+
+app.use(store).mount('#app')
