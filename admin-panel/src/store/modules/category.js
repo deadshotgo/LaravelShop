@@ -11,9 +11,6 @@ const getters = {
 };
 const mutations = {
   SET_CATEGORY: (state, payload) => {
-    payload.forEach((e) => {
-      e.subCategories = e.subCategories.data.length
-    })
     state.categories = payload
   },
 };
@@ -24,10 +21,10 @@ const actions = {
     await context.commit("SET_CATEGORY", data.data.data);
   },
   CREATE_CATEGORY: async (context, payload) => {
-   await api.post(`/categories`, {name: payload.name, is_active: payload.isActive});
+   await api.post(`/categories`, payload);
   },
   UPDATE_CATEGORY: async (context, payload) => {
-   await api.put(`/categories/${payload.id}`, {name: payload.name, is_active: payload.isActive});
+   await api.put(`/categories/${payload.id}`, payload);
   },
 };
 

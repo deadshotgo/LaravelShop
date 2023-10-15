@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="CATEGORIES"
+    :items="SUB_CATEGORIES"
     :search="search"
     class="elevation-2"
     :loading="loading"
@@ -25,7 +25,7 @@
       <v-toolbar
         flat
       >
-        <v-toolbar-title>Categories</v-toolbar-title>
+        <v-toolbar-title>Sub categories</v-toolbar-title>
 
         <v-divider
           class="mx-4"
@@ -58,13 +58,26 @@
                 <v-row>
                   <v-col
                     cols="12"
-                    sm="6"
-                    md="4"
+                    sm="12"
+                    md="12"
                   >
                     <v-text-field
                       v-model="editedItem.name"
                       label="Dessert name"
                     ></v-text-field>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="12"
+                    md="12"
+                  >
+                  <v-autocomplete
+                    v-model="editedItem.category_id"
+                    :items="CATEGORIES"
+                    item-title="name"
+                    item-value="id"
+                    label="Category"
+                  ></v-autocomplete>
                   </v-col>
                   <v-col
                     cols="12"
@@ -105,7 +118,7 @@
       <tr>
         <td>{{ item.id }}</td>
         <td>{{ item.name }}</td>
-        <td>{{ `${item.subCategories.data.length} count`  }}</td>
+        <td>{{ item.category.name }}</td>
         <td>{{ item.is_active ? 'Active' : 'Disable' }}</td>
         <td>{{ item.createdAt }}</td>
         <td>{{ item.updatedAt }}</td>
@@ -133,12 +146,13 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: 'Category',
+  name: 'SubCategory',
   data: () => ({
     search: '',
     isActive: true,
     dialog: false,
     loading: false,
+    categoryValue: '',
     headers: [
       {
         title: '#Id',
@@ -147,20 +161,21 @@ export default {
         key: 'id',
       },
       { title: 'Name', key: 'name' },
-      { title: 'SubCategories', key: 'subCategories'},
-      { title: 'IsActive', key: 'is_active' },
+      { title: 'Category', key: 'category'},
+      { title: 'IsActive', key: 'isActive' },
       { title: 'CreatedAt', key: 'createdAt' },
       { title: 'UpdatedAt', key: 'updatedAt', sortable: false },
       { title: 'Actions', key: 'actions', sortable: false },
     ],
-    desserts: [],
     editedIndex: -1,
     editedItem: {
       name: '',
+      category_id: '',
       is_active: true,
     },
     defaultItem: {
       name: '',
+      category_id: '',
       is_active: true,
     }
   }),
@@ -168,20 +183,25 @@ export default {
     formTitle () {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
     },
-    ...mapGetters(["CATEGORIES"]),
+    ...mapGetters(["SUB_CATEGORIES", "CATEGORIES"]),
   },
 
   watch: {
-    dialog (val) {
+   async dialog (val) {
+      if(val){
+      await this.GET_CATEGORIES({
+         is_active: true,
+       })
+      }
       val || this.close()
     },
   },
 
   methods: {
-    ...mapActions(["GET_CATEGORIES", "CREATE_CATEGORY", "UPDATE_CATEGORY"]),
+    ...mapActions(["GET_SUB_CATEGORIES", "CREATE_SUB_CATEGORY", "UPDATE_SUB_CATEGORY", "GET_CATEGORIES"]),
     editItem (item) {
       this.editedIndex = item.id
-      this.editedItem = { name: item.name, is_active: Boolean(item.is_active) };
+      this.editedItem = { name: item.name, category_id: {name: item.category.name, id: item.category.id},  is_active: Boolean(item.is_active) };
       this.dialog = true
     },
 
@@ -195,11 +215,11 @@ export default {
    async filterIsActive() {
      this.loading = true
      if(this.isActive) {
-         this.GET_CATEGORIES({ is_active: true }).then(() => {
+         this.GET_SUB_CATEGORIES({ is_active: true }).then(() => {
            this.loading = false
          });
      } else {
-       this.GET_CATEGORIES().then(() => {
+       this.GET_SUB_CATEGORIES().then(() => {
          this.loading = false
        });
      }
@@ -207,19 +227,18 @@ export default {
    async save () {
       if (this.editedIndex > -1) {
        this.editedItem.id = this.editedIndex;
-       await this.UPDATE_CATEGORY(this.editedItem)
+       await this.UPDATE_SUB_CATEGORY({...this.editedItem, category_id: this.editedItem.category_id.id})
       } else {
-      await  this.CREATE_CATEGORY(this.editedItem)
-        this.desserts.push(this.editedItem)
+        await this.CREATE_SUB_CATEGORY(this.editedItem)
       }
-      await this.GET_CATEGORIES({
+      await this.GET_SUB_CATEGORIES({
         is_active: true,
       });
       this.close()
     }
   },
   async created() {
-   await this.GET_CATEGORIES({
+   await this.GET_SUB_CATEGORIES({
       is_active: true,
     });
   },

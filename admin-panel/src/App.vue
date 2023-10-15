@@ -22,9 +22,8 @@
 
         <v-divider></v-divider>
 
-        <v-list density="compact">
-          <router-link :to="{ name: 'Home' }"><v-list-item prepend-icon="mdi-home-city" title="Home" value="home"></v-list-item></router-link>
-          <router-link :to="{ name: 'Category' }"><v-list-item prepend-icon="mdi-account" title="Category" value="account"></v-list-item></router-link>
+        <v-list v-for="(item, i) in items" :key="i" density="compact">
+            <v-list-item :to="item.route" :prepend-icon="item.icon" :title="item.title" :value="item.title"></v-list-item>
         </v-list>
       </v-navigation-drawer>
       <v-main style="height: 100vh">
@@ -41,6 +40,12 @@ export default {
     return {
       drawer: true,
       rail: true,
+      items: [
+        {icon: 'mdi-home-city', title:'Home', route:'/'},
+        {icon: 'mdi-account', title:'Category', route:'/categories'},
+        {icon: 'mdi-account', title:'Sub category', route:'/sub-categories'},
+        {icon: 'mdi-account', title:'Brands', route:'/brands'},
+      ],
     }
   },
 }

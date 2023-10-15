@@ -8,6 +8,8 @@ use App\Http\Resources\SubCategory\SubCategoryCollection;
 use App\Http\Resources\SubCategory\SubCategoryResource;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class SubCategoryController extends Controller
 {
@@ -16,7 +18,15 @@ class SubCategoryController extends Controller
      */
     public function index()
     {
-        return new SubCategoryCollection(SubCategory::with('category')->where('is_active', "!=", false)->paginate(15));
+        $sub_categories =  QueryBuilder::for(SubCategory::class)
+            ->defaultSort('-id')
+            ->allowedSorts('name')
+            ->allowedFilters([
+                AllowedFilter::exact('is_active'),
+                AllowedFilter::exact('id'),
+                'name'])
+            ->with('category')->limit($req->limit ?? '')->get();
+        return new SubCategoryCollection($sub_categories);
     }
 
     /**
@@ -25,7 +35,6 @@ class SubCategoryController extends Controller
     public function store(SubCategoryRequest $request)
     {
         $sub_category_store = SubCategory::create($request->validated());
-
         return new $sub_category_store;
     }
 

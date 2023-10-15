@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="CATEGORIES"
+    :items="BRANDS"
     :search="search"
     class="elevation-2"
     :loading="loading"
@@ -58,8 +58,8 @@
                 <v-row>
                   <v-col
                     cols="12"
-                    sm="6"
-                    md="4"
+                    sm="12"
+                    md="12"
                   >
                     <v-text-field
                       v-model="editedItem.name"
@@ -68,14 +68,36 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    sm="6"
-                    md="4"
+                    sm="12"
+                    md="12"
+                  >
+                  <v-file-input
+                    accept="image/png, image/jpeg, image/bmp"
+                    placeholder="Pick an avatar"
+                    prepend-inner-icon="mdi-camera"
+                    prepend-icon=""
+                    @change="(e) => {this.editedItem.image = e.target.files}"
+                    label="Image"
+                  ></v-file-input>
+                  </v-col>
+                    <v-col v-if="editedItem.image"
+                            cols="12"
+                            sm="12"
+                            md="12"
+                    >
+                    <v-img width="500" :src="url" />
+                    </v-col>
+                  <v-col
+                    cols="12"
+                    sm="12"
+                    md="12"
                   >
                     <v-checkbox
                       v-model="editedItem.is_active"
                       label="isActive"
                     ></v-checkbox>
                   </v-col>
+
                 </v-row>
               </v-container>
             </v-card-text>
@@ -105,7 +127,12 @@
       <tr>
         <td>{{ item.id }}</td>
         <td>{{ item.name }}</td>
-        <td>{{ `${item.subCategories.data.length} count`  }}</td>
+        <td><v-btn
+          color="primary"
+          @click="() => {imageModal = true; imageActive = item.image}"
+        >
+          Link
+        </v-btn></td>
         <td>{{ item.is_active ? 'Active' : 'Disable' }}</td>
         <td>{{ item.createdAt }}</td>
         <td>{{ item.updatedAt }}</td>
@@ -126,6 +153,23 @@
       </v-btn>
     </template>
   </v-data-table>
+  <v-dialog
+    v-model="imageModal"
+    width="auto"
+  >
+    <v-card>
+      <v-card-text>
+        <v-img
+          width="500"
+          :aspect-ratio="1"
+          :src="imageActive"
+        ></v-img>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn color="primary" block @click="imageModal = false">Close Dialog</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -133,12 +177,19 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: 'Category',
+  name: 'Brand',
   data: () => ({
     search: '',
+    imageActive: '',
     isActive: true,
     dialog: false,
     loading: false,
+    imageModal: false,
+    rules: [
+      value => {
+        return !value || !value.length
+      },
+    ],
     headers: [
       {
         title: '#Id',
@@ -147,28 +198,37 @@ export default {
         key: 'id',
       },
       { title: 'Name', key: 'name' },
-      { title: 'SubCategories', key: 'subCategories'},
+      { title: 'Image', key: 'image'},
       { title: 'IsActive', key: 'is_active' },
       { title: 'CreatedAt', key: 'createdAt' },
-      { title: 'UpdatedAt', key: 'updatedAt', sortable: false },
+      { title: 'UpdatedAt', key: 'updatedAt' },
       { title: 'Actions', key: 'actions', sortable: false },
     ],
-    desserts: [],
     editedIndex: -1,
     editedItem: {
       name: '',
+      image: '',
       is_active: true,
     },
     defaultItem: {
       name: '',
+      image: '',
       is_active: true,
     }
   }),
   computed: {
+    url() {
+        if(typeof this.editedItem.image === "string") {
+            console.log(this.editedItem.image);
+            return this.editedItem.image
+        } else {
+            return URL.createObjectURL(this.editedItem.image[0]);
+        }
+    },
     formTitle () {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
     },
-    ...mapGetters(["CATEGORIES"]),
+    ...mapGetters(["BRANDS"]),
   },
 
   watch: {
@@ -178,10 +238,10 @@ export default {
   },
 
   methods: {
-    ...mapActions(["GET_CATEGORIES", "CREATE_CATEGORY", "UPDATE_CATEGORY"]),
+    ...mapActions(["GET_BRANDS", "UPDATE_BRAND", "CREATE_BRAND"]),
     editItem (item) {
       this.editedIndex = item.id
-      this.editedItem = { name: item.name, is_active: Boolean(item.is_active) };
+      this.editedItem = { name: item.name, image: item.image, is_active: Boolean(item.is_active) };
       this.dialog = true
     },
 
@@ -195,11 +255,11 @@ export default {
    async filterIsActive() {
      this.loading = true
      if(this.isActive) {
-         this.GET_CATEGORIES({ is_active: true }).then(() => {
+         this.GET_BRANDS({ is_active: true }).then(() => {
            this.loading = false
          });
      } else {
-       this.GET_CATEGORIES().then(() => {
+       this.GET_BRANDS().then(() => {
          this.loading = false
        });
      }
@@ -207,19 +267,21 @@ export default {
    async save () {
       if (this.editedIndex > -1) {
        this.editedItem.id = this.editedIndex;
-       await this.UPDATE_CATEGORY(this.editedItem)
+       if(typeof this.editedItem.image === "string") {
+           this.editedItem.image = null
+       }
+       await this.UPDATE_BRAND(this.editedItem)
       } else {
-      await  this.CREATE_CATEGORY(this.editedItem)
-        this.desserts.push(this.editedItem)
+       await this.CREATE_BRAND(this.editedItem)
       }
-      await this.GET_CATEGORIES({
+      await this.GET_BRANDS({
         is_active: true,
       });
       this.close()
     }
   },
   async created() {
-   await this.GET_CATEGORIES({
+   await this.GET_BRANDS({
       is_active: true,
     });
   },
