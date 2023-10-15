@@ -131,6 +131,10 @@
       <path value="$PROJECT_DIR$/laravel/vendor/doctrine/instantiator" />
       <path value="$PROJECT_DIR$/laravel/vendor/spatie/laravel-package-tools" />
       <path value="$PROJECT_DIR$/laravel/vendor/spatie/laravel-query-builder" />
+      <path value="$PROJECT_DIR$/laravel/vendor/aws/aws-sdk-php" />
+      <path value="$PROJECT_DIR$/laravel/vendor/aws/aws-crt-php" />
+      <path value="$PROJECT_DIR$/laravel/vendor/mtdowling/jmespath.php" />
+      <path value="$PROJECT_DIR$/laravel/vendor/league/flysystem-aws-s3-v3" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />

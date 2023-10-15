@@ -12,9 +12,19 @@ const routes = [
         component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
       },
       {
-        path: '/category',
+        path: '/categories',
         name: 'Category',
         component: () => import(/* webpackChunkName: "home" */ '@/views/Category.vue'),
+      },
+      {
+        path: '/sub-categories',
+        name: 'SubCategory',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/SubCategory.vue'),
+      },
+      {
+        path: '/brands',
+        name: 'Brands',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/Brand.vue'),
       },
     ],
   },

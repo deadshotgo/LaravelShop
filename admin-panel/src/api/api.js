@@ -5,7 +5,12 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    config.headers["Content-Type"] = "application/json";
+      console.log(config.url);
+    if (['/brands'].includes(config.url) || config.url.match('/brands/[0-9]')) {
+      config.headers['Content-Type'] = 'multipart/form-data';
+    } else {
+      config.headers['Content-Type'] = 'application/json';
+    }
     config.headers["Accept"] = "application/json";
     return config;
   },
