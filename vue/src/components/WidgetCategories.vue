@@ -12,7 +12,7 @@
                 :key="y"
               >
                 <a
-                  @click="clickSubCategory(subCategory.id)"
+                  @click="changeCategory(subCategory.id)"
                   class="pointer"
                   :class="{
                     'active-subcategory': active_color === subCategory.id,
@@ -47,7 +47,15 @@ export default {
     clickSubCategory(id) {
       (this.active_color = id), this.$emit("clickSubCategory", id);
     },
-    ...mapActions(["GET_CATEGORIES"]),
+    changeCategory(id) {
+      if (this.active_color == id) {
+        this.active_color = null;
+        this.GET_PRODUCTS({ is_active: true });
+      } else {
+        (this.active_color = id), this.$emit("clickSubCategory", id);
+      }
+    },
+    ...mapActions(["GET_CATEGORIES", "GET_PRODUCTS"]),
   },
 
   created() {
