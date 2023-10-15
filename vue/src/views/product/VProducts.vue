@@ -30,10 +30,10 @@
                       v-model="selectedSort"
                       @change="this.orderBySort(selectedSort)"
                     >
-                      <option value="1">Price: low -> hight</option>
-                      <option value="2">Price: hight -> low</option>
-                      <option value="3">Created: old -> new</option>
-                      <option value="4">Created: new -> old</option>
+                      <option value="1">Ascending price</option>
+                      <option value="2">Descending price</option>
+                      <option value="3">Ascending date</option>
+                      <option value="4">Descending date</option>
                     </select>
                   </div>
                   <!-- showing -->
@@ -75,7 +75,7 @@
             </div>
             <div class="col-md-3 col-md-pull-9 col-sm-12">
               <!-- widget-search -->
-              <WidgetSearch />
+              <WidgetSearch :fun="GET_PRODUCTS" />
               <!-- widget-search -->
               <!-- widget-categories -->
               <WidgetCategories @clickSubCategory="sortSubCategory" />

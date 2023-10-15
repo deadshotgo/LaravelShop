@@ -4,6 +4,7 @@ import RecentProducts from "@/components/RecentProducts.vue";
 import { mapActions, mapGetters } from "vuex";
 import VPagination from "@/components/VPagination.vue";
 import CheckboxFiltersComponent from "@/components/CheckboxFiltersComponent.vue";
+import WidgetSearch from "@/components/WidgetSearch.vue";
 
 export default {
   name: "BlogComponent",
@@ -12,6 +13,7 @@ export default {
     VPagination,
     RecentProducts,
     VBreadcrumbs,
+    WidgetSearch,
   },
   data() {
     return {
@@ -79,48 +81,53 @@ export default {
     <div class="container">
       <div class="row">
         <!-- blog-option start -->
-        <div class="col-md-12">
-          <div class="blog-option box-shadow mb-30 clearfix">
-            <!-- recent-product -->
-            <div class="dropdown f-left">
-              <button class="option-btn" @click="toggleList(2)">
-                Recent Post
-                <i v-if="activeList === 2" class="zmdi zmdi-chevron-up"></i>
-                <i v-else class="zmdi zmdi-chevron-down"></i>
-              </button>
-              <div
-                class="dropdown-width mt-30 dropdownn opened-menu"
-                :class="{ 'dropdownn-after': activeList === 2 }"
-              >
-                <recent-products></recent-products>
-              </div>
-            </div>
-            <!-- Tags -->
-            <div class="dropdown f-left">
-              <button class="option-btn" @click="toggleList(3)">
-                Tags
-                <i v-if="activeList === 3" class="zmdi zmdi-chevron-up"></i>
-                <i v-else class="zmdi zmdi-chevron-down"></i>
-              </button>
-              <div
-                class="dropdown-width mt-30 dropdownn opened-menu"
-                :class="{ 'dropdownn-after': activeList === 3 }"
-              >
-                <CheckboxFiltersComponent
-                  @clickTags="sortTags"
-                ></CheckboxFiltersComponent>
-              </div>
-            </div>
-            <div>
-              <div class="short-by f-left text-center">
-                <span>Sort by :</span>
-                <select
-                  v-model="selectedSort"
-                  @change="this.orderBySort(selectedSort)"
+        <div style="display: flex">
+          <div class="col-md-3">
+            <WidgetSearch :fun="GET_BLOGS"></WidgetSearch>
+          </div>
+          <div class="col-md-12">
+            <div class="blog-option box-shadow mb-30 clearfix">
+              <!-- recent-product -->
+              <div class="dropdown f-left">
+                <button class="option-btn" @click="toggleList(2)">
+                  Recent Post
+                  <i v-if="activeList === 2" class="zmdi zmdi-chevron-up"></i>
+                  <i v-else class="zmdi zmdi-chevron-down"></i>
+                </button>
+                <div
+                  class="dropdown-width mt-30 dropdownn opened-menu"
+                  :class="{ 'dropdownn-after': activeList === 2 }"
                 >
-                  <option value="1">Created: old -> new</option>
-                  <option value="2">Created: new -> old</option>
-                </select>
+                  <recent-products></recent-products>
+                </div>
+              </div>
+              <!-- Tags -->
+              <div class="dropdown f-left">
+                <button class="option-btn" @click="toggleList(3)">
+                  Tags
+                  <i v-if="activeList === 3" class="zmdi zmdi-chevron-up"></i>
+                  <i v-else class="zmdi zmdi-chevron-down"></i>
+                </button>
+                <div
+                  class="dropdown-width mt-30 dropdownn opened-menu"
+                  :class="{ 'dropdownn-after': activeList === 3 }"
+                >
+                  <CheckboxFiltersComponent
+                    @clickTags="sortTags"
+                  ></CheckboxFiltersComponent>
+                </div>
+              </div>
+              <div>
+                <div class="short-by f-left text-center">
+                  <span>Sort by :</span>
+                  <select
+                    v-model="selectedSort"
+                    @change="this.orderBySort(selectedSort)"
+                  >
+                    <option value="1">Ascending date</option>
+                    <option value="2">Descending date</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>

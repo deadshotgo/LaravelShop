@@ -1,6 +1,6 @@
 <template>
   <!-- Modal -->
-  <teleport to="body">
+  <teleport to="#modal">
     <div v-if="openModal" id="quickview-wrapper" style="position: absolute">
       <!-- Modal -->
       <div

@@ -27,6 +27,7 @@ class ProductController extends Controller
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('feature'),
                 AllowedFilter::exact('is_active'),
+                AllowedFilter::partial('title'),
                 AllowedFilter::exact('sub_category_id'),
                 AllowedFilter::scope('price_between'),
                 AllowedFilter::exact('tagsId','tags.id'),

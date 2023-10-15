@@ -24,6 +24,7 @@ class BlogController extends Controller
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('is_active'),
+                AllowedFilter::partial('title'),
                 AllowedFilter::exact('tagsId','tags.id'),
                 ])
             ->with('tags')

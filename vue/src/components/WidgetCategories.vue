@@ -11,9 +11,14 @@
                 v-for="(subCategory, y) in category.subCategories.data"
                 :key="y"
               >
-                <a @click="clickSubCategory(subCategory.id)" class="pointer">{{
-                  subCategory.name
-                }}</a>
+                <a
+                  @click="changeCategory(subCategory.id)"
+                  class="pointer"
+                  :class="{
+                    'active-subcategory': active_color === subCategory.id,
+                  }"
+                  >{{ subCategory.name }}</a
+                >
               </li>
             </ul>
           </li>
@@ -32,6 +37,7 @@ export default {
     return {
       active: "active",
       currentQ: 0,
+      active_color: null,
     };
   },
   computed: {
@@ -39,9 +45,17 @@ export default {
   },
   methods: {
     clickSubCategory(id) {
-      this.$emit("clickSubCategory", id);
+      (this.active_color = id), this.$emit("clickSubCategory", id);
     },
-    ...mapActions(["GET_CATEGORIES"]),
+    changeCategory(id) {
+      if (this.active_color == id) {
+        this.active_color = null;
+        this.GET_PRODUCTS({ is_active: true });
+      } else {
+        (this.active_color = id), this.$emit("clickSubCategory", id);
+      }
+    },
+    ...mapActions(["GET_CATEGORIES", "GET_PRODUCTS"]),
   },
 
   created() {
@@ -61,5 +75,8 @@ export default {
 }
 .pointer {
   cursor: pointer;
+}
+.active-subcategory {
+  color: #ff7f00;
 }
 </style>
