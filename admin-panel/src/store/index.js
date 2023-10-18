@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 import category from "@/store/modules/category";
 import subCategory from "@/store/modules/subCategory";
 import brand from "@/store/modules/brand";
+import login from "@/store/modules/login";
 export default createStore({
   state: {},
   getters: {},
@@ -10,6 +11,7 @@ export default createStore({
   modules: {
     category,
     subCategory,
-    brand
+    brand,
+    login,
   },
 });
