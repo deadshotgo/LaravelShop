@@ -27,16 +27,62 @@ Route::get('/test', function () {
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('token', [AuthController::class, 'token']);
-Route::middleware(['auth:sanctum'])->get('/name', function () {
-    return 1;
-})->middleware(['auth:sanctum', 'ability:admin']);
-Route::resources([
-    'categories' => CategoryController::class,
-    'sub-categories' => SubCategoryController::class,
-    'blogs' => BlogController::class,
-    'comments' => CommentController::class,
-    'colors' => ColorController::class,
-    'brands' => BrandController::class,
-    'tags' => TagController::class,
-    'products' => ProductController::class,
+Route::resource('categories', CategoryController::class)->only([
+    'index', 'show'
 ]);
+Route::resource('sub-categories', SubCategoryController::class)->only([
+    'index', 'show'
+]);
+
+Route::resource('blogs', BlogController::class)->only([
+    'index', 'show'
+]);
+
+Route::resource('comments', CommentController::class)->only([
+    'index', 'show'
+]);
+
+Route::resource('colors', ColorController::class)->only([
+    'index', 'show'
+]);
+
+Route::resource('brands', BrandController::class)->only([
+    'index', 'show'
+]);
+
+Route::resource('tags', TagController::class)->only([
+    'index', 'show'
+]);
+
+Route::resource('products', ProductController::class)->only([
+    'index', 'show'
+]);
+
+Route::resource('products', ProductController::class)->only([
+    'create', 'store', 'update', 'destroy'
+])->middleware(['auth:sanctum', 'ability:admin']);
+
+Route::resource('tags', TagController::class)->only([
+    'create', 'store', 'update', 'destroy'
+])->middleware(['auth:sanctum', 'ability:admin']);
+
+Route::resource('brands', BrandController::class)->only([
+    'create', 'store', 'update', 'destroy'
+])->middleware(['auth:sanctum', 'ability:admin']);
+
+Route::resource('colors', ColorController::class)->only([
+    'create', 'store', 'update', 'destroy'
+])->middleware(['auth:sanctum', 'ability:admin']);
+
+Route::resource('comments', CommentController::class)->only([
+    'create', 'store', 'update', 'destroy'
+])->middleware(['auth:sanctum', 'ability:admin']);
+
+Route::resource('blogs', BlogController::class)->only([
+    'create', 'store', 'update', 'destroy'
+])->middleware(['auth:sanctum', 'ability:admin']);
+
+Route::resource('categories', CategoryController::class)->only([
+    'create', 'store', 'update', 'destroy'
+])->middleware(['auth:sanctum', 'ability:admin']);
+
