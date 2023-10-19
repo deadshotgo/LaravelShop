@@ -21,68 +21,65 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::get('/test', function () {
-    return 'Welcome';
-});
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('token', [AuthController::class, 'token']);
-Route::resource('categories', CategoryController::class)->only([
+Route::apiResource('categories', CategoryController::class)->only([
     'index', 'show'
 ]);
-Route::resource('sub-categories', SubCategoryController::class)->only([
-    'index', 'show'
-]);
-
-Route::resource('blogs', BlogController::class)->only([
+Route::apiResource('sub-categories', SubCategoryController::class)->only([
     'index', 'show'
 ]);
 
-Route::resource('comments', CommentController::class)->only([
+Route::apiResource('blogs', BlogController::class)->only([
     'index', 'show'
 ]);
 
-Route::resource('colors', ColorController::class)->only([
+Route::apiResource('comments', CommentController::class)->only([
     'index', 'show'
 ]);
 
-Route::resource('brands', BrandController::class)->only([
+Route::apiResource('colors', ColorController::class)->only([
     'index', 'show'
 ]);
 
-Route::resource('tags', TagController::class)->only([
+Route::apiResource('brands', BrandController::class)->only([
     'index', 'show'
 ]);
 
-Route::resource('products', ProductController::class)->only([
+Route::apiResource('tags', TagController::class)->only([
     'index', 'show'
 ]);
 
-Route::resource('products', ProductController::class)->only([
-    'create', 'store', 'update', 'destroy'
-])->middleware(['auth:sanctum', 'ability:admin']);
+Route::apiResource('products', ProductController::class)->only([
+    'index', 'show'
+]);
 
-Route::resource('tags', TagController::class)->only([
-    'create', 'store', 'update', 'destroy'
-])->middleware(['auth:sanctum', 'ability:admin']);
+Route::middleware(['auth:sanctum', 'ability:admin'])->group(function () {
+    Route::apiResource('products', ProductController::class)->only([
+        'create', 'store', 'update', 'destroy'
+    ]);
+    Route::apiResource('tags', TagController::class)->only([
+        'create', 'store', 'update', 'destroy'
+    ]);
+    Route::apiResource('brands', BrandController::class)->only([
+        'create', 'store', 'update', 'destroy'
+    ]);
+    Route::apiResource('colors', ColorController::class)->only([
+        'create', 'store', 'update', 'destroy'
+    ]);
+    Route::apiResource('comments', CommentController::class)->only([
+        'create', 'store', 'update', 'destroy'
+    ]);
+    Route::apiResource('blogs', BlogController::class)->only([
+        'create', 'store', 'update', 'destroy'
+    ]);
+    Route::apiResource('sub-categories', SubCategoryController::class)->only([
+        'create', 'store', 'update', 'destroy'
+    ]);
+    Route::apiResource('categories', CategoryController::class)->only([
+        'create', 'store', 'update', 'destroy'
+    ]);
+});
 
-Route::resource('brands', BrandController::class)->only([
-    'create', 'store', 'update', 'destroy'
-])->middleware(['auth:sanctum', 'ability:admin']);
-
-Route::resource('colors', ColorController::class)->only([
-    'create', 'store', 'update', 'destroy'
-])->middleware(['auth:sanctum', 'ability:admin']);
-
-Route::resource('comments', CommentController::class)->only([
-    'create', 'store', 'update', 'destroy'
-])->middleware(['auth:sanctum', 'ability:admin']);
-
-Route::resource('blogs', BlogController::class)->only([
-    'create', 'store', 'update', 'destroy'
-])->middleware(['auth:sanctum', 'ability:admin']);
-
-Route::resource('categories', CategoryController::class)->only([
-    'create', 'store', 'update', 'destroy'
-])->middleware(['auth:sanctum', 'ability:admin']);
 
