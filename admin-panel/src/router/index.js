@@ -26,6 +26,16 @@ const routes = [
         name: 'Brands',
         component: () => import(/* webpackChunkName: "home" */ '@/views/Brand.vue'),
       },
+      {
+        path: '/tags',
+        name: 'Tags',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/Tag.vue'),
+      },
+      {
+        path: '/colors',
+        name: 'Colors',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/Color.vue'),
+      },
     ],
   },
 ]

@@ -7,7 +7,8 @@ use App\Http\Requests\Color\ColorRequest;
 use App\Http\Resources\Color\ColorCollection;
 use App\Http\Resources\Color\ColorResource;
 use App\Models\Color;
-use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ColorController extends Controller
 {
@@ -16,7 +17,13 @@ class ColorController extends Controller
      */
     public function index()
     {
-        return new ColorCollection(Color::where('is_active', "!=", false)->paginate(15));
+        $colors =  QueryBuilder::for(Color::class)
+            ->allowedFilters([
+                AllowedFilter::exact('is_active'),
+            ])
+            ->paginate($req->limit ?? 15)
+            ->appends(request()->query());
+       return new ColorCollection($colors);
 
     }
 
