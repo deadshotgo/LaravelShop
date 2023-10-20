@@ -19,7 +19,7 @@ class TagResource extends JsonResource
             'name' => $this->name,
             'createdAt' => $this->created_at->format('d.m.Y H:i'),
             'updatedAt' => $this->updated_at->format('d.m.Y H:i'),
-            'isActive' => $this->is_active,
+            'is_active' => $this->is_active,
         ];
     }
 }

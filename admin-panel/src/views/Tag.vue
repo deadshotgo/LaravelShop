@@ -105,7 +105,7 @@
       <tr>
         <td>{{ item.id }}</td>
         <td>{{ item.name }}</td>
-        <td>{{ item.isActive ? 'Active' : 'Disable' }}</td>
+        <td>{{ item.is_active ? 'Active' : 'Disable' }}</td>
         <td>{{ item.createdAt }}</td>
         <td>{{ item.updatedAt }}</td>
         <td><v-icon

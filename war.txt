@@ -1,1 +1,0 @@
-change var isActive to is_active in colors

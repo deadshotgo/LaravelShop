@@ -62,6 +62,7 @@
                       md="4"
                   >
                     <v-text-field
+                        disabled
                         v-model="editedItem.name"
                         label="Color name"
                     ></v-text-field>
@@ -72,6 +73,7 @@
                       md="4"
                   >
                     <v-text-field
+                        disabled
                         v-model="editedItem.color"
                         label="Color"
                     ></v-text-field>
@@ -86,7 +88,17 @@
                         label="isActive"
                     ></v-checkbox>
                   </v-col>
-                  <v-color-picker @click="changeColorFormat(editedItem.color)" hide-inputs v-model="editedItem.color" style=" display: block; margin-left: auto; margin-right: auto"></v-color-picker>
+                  <div class="d-flex justify-space-around"
+                       style="display: block; margin-left: auto; margin-right: auto">
+                    <v-color-picker
+                      @click="changeColorFormat(editedItem.color)"
+                      class="ma-2"
+                      show-swatches
+                      :swatches="swatches"
+                      swatches-max-height="400px"
+                      hide-inputs v-model="editedItem.color"
+                    ></v-color-picker>
+                  </div>
                 </v-row>
               </v-container>
             </v-card-text>
@@ -116,7 +128,7 @@
       <tr>
         <td>{{ item.id }}</td>
         <td>{{ item.name }}</td>
-        <td>{{ item.color }}</td>
+        <td :style="{ background: item.color }">{{ item.color }}</td>
         <td>{{ item.is_active ? 'Active' : 'Disable' }}</td>
         <td>{{ item.createdAt }}</td>
         <td>{{ item.updatedAt }}</td>
@@ -152,6 +164,13 @@ export default {
     isActive: true,
     dialog: false,
     loading: false,
+    swatches: [
+      ['#FF0000', '#AA0000', '#550000'],
+      ['#FFFF00', '#AAAA00', '#555500'],
+      ['#00FF00', '#00AA00', '#005500'],
+      ['#00FFFF', '#00AAAA', '#005555'],
+      ['#0000FF', '#0000AA', '#000055'],
+    ],
     headers: [
       {
         title: '#Id',
