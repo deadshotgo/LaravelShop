@@ -259,7 +259,6 @@ export default {
     await this.GET_COLORS({
       is_active: true,
     });
-    console.log(this.COLORS)
   },
 
 }

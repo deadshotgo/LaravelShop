@@ -4,6 +4,7 @@ import subCategory from "@/store/modules/subCategory";
 import brand from "@/store/modules/brand";
 import tag from "@/store/modules/tag";
 import color from "@/store/modules/color";
+import login from "@/store/modules/login";
 export default createStore({
   state: {},
   getters: {},
@@ -12,8 +13,9 @@ export default createStore({
   modules: {
     category,
     subCategory,
-    color,
     brand,
+    login,
+    color,
     tag,
 
   },
