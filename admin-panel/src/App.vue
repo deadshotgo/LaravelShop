@@ -17,6 +17,20 @@ export default {
   },
   components: {
     MainLayout,
-  }
+  },
+  data () {
+    return {
+      drawer: true,
+      rail: true,
+      items: [
+        {icon: 'mdi-home-city', title:'Home', route:'/'},
+        {icon: 'mdi-account', title:'Category', route:'/categories'},
+        {icon: 'mdi-account', title:'Sub category', route:'/sub-categories'},
+        {icon: 'mdi-account', title:'Brands', route:'/brands'},
+        {icon: 'mdi-account', title:'Tags', route:'/tags'},
+        {icon: 'mdi-account', title:'Colors', route:'/colors'},
+      ],
+    }
+  },
 }
 </script>

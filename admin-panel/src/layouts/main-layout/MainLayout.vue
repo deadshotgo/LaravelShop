@@ -44,6 +44,8 @@ export default {
         {icon: 'mdi-account', title:'Category', route:'/categories'},
         {icon: 'mdi-account', title:'Sub category', route:'/sub-categories'},
         {icon: 'mdi-account', title:'Brands', route:'/brands'},
+        {icon: 'mdi-account', title:'Tags', route:'/tags'},
+        {icon: 'mdi-account', title:'Colors', route:'/colors'},
       ],
     }
   },
