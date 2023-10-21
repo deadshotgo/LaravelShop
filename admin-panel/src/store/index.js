@@ -5,6 +5,7 @@ import brand from "@/store/modules/brand";
 import tag from "@/store/modules/tag";
 import color from "@/store/modules/color";
 import login from "@/store/modules/login";
+import product from "@/store/modules/product";
 export default createStore({
   state: {},
   getters: {},
@@ -17,6 +18,6 @@ export default createStore({
     login,
     color,
     tag,
-
+    product,
   },
 });

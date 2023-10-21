@@ -25,7 +25,7 @@
           <v-list-item :to="item.route" :prepend-icon="item.icon" :title="item.title" :value="item.title"></v-list-item>
         </v-list>
       </v-navigation-drawer>
-      <v-main style="height: 100vh">
+      <v-main>
         <router-view/>
       </v-main>
     </v-layout>
@@ -46,6 +46,7 @@ export default {
         {icon: 'mdi-account', title:'Brands', route:'/brands'},
         {icon: 'mdi-account', title:'Tags', route:'/tags'},
         {icon: 'mdi-account', title:'Colors', route:'/colors'},
+        {icon: 'mdi-account', title:'Products', route:'/products'},
       ],
     }
   },

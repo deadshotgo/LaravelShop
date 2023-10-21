@@ -31,7 +31,7 @@ class ProductResource extends JsonResource
             'price' => $this->price,
             'article' => $this->article,
             'like' => $this->like,
-            'isActive' => $this->is_active,
+            'is_active' => $this->is_active,
             'createdAt' => $this->created_at->format('d.m.Y H:i'),
             'updatedAt' => $this->updated_at->format('d.m.Y H:i'),
             'imageProducts'=>   $this->imageProducts,

@@ -10,10 +10,13 @@ export const createFilterObject = (payload) => {
             ? `sort=${sortKey}&`
             : `sort=-${sortKey}&`;
         }
-      } else if (payloadKey !== "limit") {
+      } else if(payloadKey === 'includes') {
+        filters += `include=${payload[payloadKey].join(',')}`;
+      } else if (payloadKey !== "limit" && payloadKey !== "page") {
         filters += `filter[${payloadKey}]=${payload[payloadKey]}&`;
       } else {
-        filters += `${payloadKey}=${payload[payloadKey]}&`;
+        payload[payloadKey] !== -1 ?
+        filters += `${payloadKey}=${payload[payloadKey]}&` : '';
       }
     }
   }

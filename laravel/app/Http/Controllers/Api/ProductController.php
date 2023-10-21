@@ -21,10 +21,11 @@ class ProductController extends Controller
 
         $products =  QueryBuilder::for(Product::class)
             ->defaultSort('-id')
-            ->allowedSorts('title','like','price', 'created_at')
+            ->allowedSorts('id','title', 'feature', 'like','qty','article','is_active', 'price', 'created_at')
             ->allowedIncludes(['brand','category','subCategory','colors','tags'])
             ->allowedFilters([
                 AllowedFilter::exact('id'),
+                AllowedFilter::exact('article'),
                 AllowedFilter::exact('feature'),
                 AllowedFilter::exact('is_active'),
                 AllowedFilter::partial('title'),
