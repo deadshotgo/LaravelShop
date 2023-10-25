@@ -7,6 +7,7 @@ const state = {
   featuresProducts: [],
   recentProducts: [],
   cartProducts: [],
+  isLoad: false,
 };
 const getters = {
   PRODUCT: (state) => {
@@ -23,6 +24,9 @@ const getters = {
   },
   CART_PRODUCTS: (state) => {
     return state.cartProducts;
+  },
+  IS_LOAD: (state) => {
+    return state.isLoad;
   },
 };
 const mutations = {
@@ -41,12 +45,16 @@ const mutations = {
   GET_CART_PRODUCTS: (state, payload) => {
     state.cartProducts = payload;
   },
+  SET_LOAD_STATUS: (state, payload) => {
+    state.isLoad = payload;
+  },
 };
 const actions = {
   GET_PRODUCTS: async (context, payload) => {
     const filters = createFilterObject(payload);
     const data = await api.get(`/products?${filters}`);
     await context.commit("SET_PRODUCTS", data.data);
+    context.commit("SET_LOAD_STATUS", true);
   },
   GET_PRODUCT: async (context, payload) => {
     const data = await api.get(`/products/${payload.id}`);
