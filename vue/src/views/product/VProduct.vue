@@ -13,10 +13,12 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
+import "swiper/css/effect-fade";
 import { Thumbs } from "swiper/modules";
 import { ref } from "vue";
 import { EffectFade } from "swiper/modules";
-import "swiper/css/effect-fade";
+import PulseLoader from "vue-spinner/src/PulseLoader.vue";
+
 import { mapActions, mapGetters } from "vuex";
 export default {
   components: {
@@ -28,6 +30,7 @@ export default {
     WidgetSearch,
     WidgetCategories,
     RecentProducts,
+    PulseLoader,
   },
   name: "VProduct",
   data() {
@@ -39,7 +42,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["PRODUCT", "FEATURE_PRODUCTS"]),
+    ...mapGetters(["PRODUCT", "FEATURE_PRODUCTS", "IS_LOAD"]),
   },
   methods: {
     increment() {
@@ -115,7 +118,12 @@ export default {
           <div class="row">
             <div class="col-md-9 col-xs-12">
               <!-- single-product-area start -->
-              <div class="single-product-area mb-80">
+              <!-- spinner -->
+              <div v-show="!this.IS_LOAD" style="text-align: center">
+                <pulse-loader color="#ff7f00"></pulse-loader>
+              </div>
+              <!-- spinner -->
+              <div v-show="this.IS_LOAD" class="single-product-area mb-80">
                 <div class="row">
                   <!-- imgs-zoom-area start -->
                   <div class="col-md-5 col-sm-5 col-xs-12">

@@ -48,9 +48,11 @@
                 </div>
                 <!-- shop-option end -->
                 <!-- Tab Content start -->
+                <!-- spinner -->
                 <div v-show="!this.IS_LOAD" style="text-align: center">
                   <pulse-loader color="#ff7f00"></pulse-loader>
                 </div>
+                <!-- spinner -->
                 <div>
                   <div v-show="this.IS_LOAD" class="tab-content">
                     <!-- grid-view -->

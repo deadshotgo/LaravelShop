@@ -5,6 +5,7 @@ import products from "@/store/modules/products";
 import category from "@/store/modules/category";
 import tags from "@/store/modules/tags";
 import cart from "@/store/modules/cart";
+import spinner from "@/store/modules/spinner";
 
 export default createStore({
   state: {},
@@ -16,6 +17,7 @@ export default createStore({
     homeBlogs,
     products,
     category,
+    spinner,
     tags,
     cart,
   },
