@@ -43,6 +43,11 @@ const routes = [
         name: 'Products',
         component: () => import(/* webpackChunkName: "home" */ '@/views/products/Product.vue'),
       },
+      {
+        path: '/products/create',
+        name: 'ProductsCreate',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/products/ProductCreate.vue'),
+      },
     ],
   },
   {
