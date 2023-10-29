@@ -5,6 +5,7 @@ import { mapActions, mapGetters } from "vuex";
 import VPagination from "@/components/VPagination.vue";
 import CheckboxFiltersComponent from "@/components/CheckboxFiltersComponent.vue";
 import WidgetSearch from "@/components/WidgetSearch.vue";
+import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 
 export default {
   name: "BlogComponent",
@@ -14,6 +15,7 @@ export default {
     RecentProducts,
     VBreadcrumbs,
     WidgetSearch,
+    PulseLoader,
   },
   data() {
     return {
@@ -29,7 +31,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["BLOGS", "TAGS"]),
+    ...mapGetters(["BLOGS", "TAGS", "IS_LOAD"]),
   },
   methods: {
     toggleList(listNumber) {
@@ -133,7 +135,12 @@ export default {
           </div>
         </div>
       </div>
-      <div class="row">
+      <!-- spinner -->
+      <div v-show="!this.IS_LOAD" style="text-align: center">
+        <pulse-loader color="#ff7f00"></pulse-loader>
+      </div>
+      <!-- spinner -->
+      <div v-show="this.IS_LOAD" class="row">
         <div
           class="col-sm-6 col-xs-12"
           v-for="(blog, i) in BLOGS.data"

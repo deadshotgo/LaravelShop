@@ -38,7 +38,7 @@
                   </div>
                   <!-- showing -->
                   <div class="showing f-right text-right">
-                    <span
+                    <span v-show="this.IS_LOAD"
                       >Showing :
                       {{
                         `${PRODUCTS?.meta?.from} - ${PRODUCTS?.meta?.to} of ${PRODUCTS?.meta?.total}`
@@ -48,25 +48,33 @@
                 </div>
                 <!-- shop-option end -->
                 <!-- Tab Content start -->
-                <div class="tab-content">
-                  <!-- grid-view -->
-                  <div role="tabpanel" class="tab-pane active" id="grid-view">
-                    <div class="row">
-                      <!-- product-item start -->
-                      <div
-                        v-for="(n, i) in PRODUCTS.data"
-                        :key="i"
-                        class="col-md-4 col-sm-4 col-xs-12"
-                      >
-                        <ProductCard :data="n" />
+                <!-- spinner -->
+                <div v-show="!this.IS_LOAD" style="text-align: center">
+                  <pulse-loader color="#ff7f00"></pulse-loader>
+                </div>
+                <!-- spinner -->
+                <div>
+                  <div v-show="this.IS_LOAD" class="tab-content">
+                    <!-- grid-view -->
+                    <div role="tabpanel" class="tab-pane active" id="grid-view">
+                      <div class="row">
+                        <!-- product-item start -->
+                        <div
+                          v-for="(n, i) in PRODUCTS.data"
+                          :key="i"
+                          class="col-md-4 col-sm-4 col-xs-12"
+                        >
+                          <ProductCard :data="n" />
+                        </div>
+                        <!-- product-item end -->
                       </div>
-                      <!-- product-item end -->
                     </div>
                   </div>
                 </div>
                 <!-- Tab Content end -->
                 <!-- shop-pagination start -->
                 <VPagination
+                  v-show="this.IS_LOAD"
                   @clickPaginate="paginate"
                   :paginate="PRODUCTS.meta"
                 />
@@ -103,22 +111,24 @@ import WidgetCategories from "@/components/WidgetCategories.vue";
 import ShopFilters from "@/components/product/ShopFilters.vue";
 import RecentProducts from "@/components/RecentProducts.vue";
 import CheckboxFiltersComponent from "@/components/CheckboxFiltersComponent.vue";
+import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 import { mapActions, mapGetters } from "vuex";
 export default {
   components: {
     CheckboxFiltersComponent,
-    VBreadcrumbs,
     ProductCard,
-    VPagination,
-    WidgetSearch,
-    WidgetCategories,
-    ShopFilters,
     RecentProducts,
+    ShopFilters,
+    VBreadcrumbs,
+    VPagination,
+    WidgetCategories,
+    WidgetSearch,
+    PulseLoader,
   },
   name: "VProduct",
   data() {
     return {
-      selectedSort: "4",
+      selectedSort: "3",
       filters: {
         limit: 12,
         is_active: true,
@@ -129,7 +139,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["PRODUCTS"]),
+    ...mapGetters(["PRODUCTS", "IS_LOAD"]),
   },
   methods: {
     orderBySort(id) {

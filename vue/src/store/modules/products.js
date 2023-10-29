@@ -47,11 +47,12 @@ const actions = {
     const filters = createFilterObject(payload);
     const data = await api.get(`/products?${filters}`);
     await context.commit("SET_PRODUCTS", data.data);
+    context.commit("SET_LOAD_STATUS", true);
   },
   GET_PRODUCT: async (context, payload) => {
     const data = await api.get(`/products/${payload.id}`);
-    console.log(data.data.data);
     await context.commit("SET_PRODUCT", data.data.data);
+    context.commit("SET_LOAD_STATUS", true);
   },
   GET_FEATURE_PRODUCTS: async (context, payload) => {
     const filters = createFilterObject(payload);
