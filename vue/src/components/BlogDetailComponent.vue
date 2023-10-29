@@ -1,7 +1,12 @@
 <template>
   <div class="blog-section mb-50">
     <div class="container">
-      <div class="row">
+      <!-- spinner -->
+      <div v-show="!this.IS_LOAD" style="text-align: center">
+        <pulse-loader color="#ff7f00"></pulse-loader>
+      </div>
+      <!-- spinner -->
+      <div v-show="this.IS_LOAD" class="row">
         <div class="col-md-9 col-xs-12">
           <div class="blog-details-area">
             <!-- blog-details-photo -->
@@ -102,6 +107,7 @@ import RecentProducts from "@/components/RecentProducts.vue";
 import CheckboxFiltersComponent from "@/components/CheckboxFiltersComponent.vue";
 import WidgetSearch from "@/components/WidgetSearch.vue";
 import CommentsComponent from "@/components/CommentsComponent.vue";
+import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 import { useRoute } from "vue-router";
 import { mapActions, mapGetters } from "vuex";
 
@@ -113,6 +119,7 @@ export default {
     CheckboxFiltersComponent,
     RecentProducts,
     WidgetCategories,
+    PulseLoader,
   },
   data() {
     return {
@@ -121,7 +128,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["BLOG"]),
+    ...mapGetters(["BLOG", "IS_LOAD"]),
   },
   methods: {
     ...mapActions(["GET_BLOG"]),
