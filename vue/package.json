@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@zakerxa/vue-multiple-image-upload": "^1.0.8",
     "axios": "^1.4.0",
     "bootstrap": "^3.4.1",
     "core-js": "^3.8.3",
