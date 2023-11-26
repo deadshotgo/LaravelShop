@@ -6,7 +6,6 @@ import VPagination from "@/components/VPagination.vue";
 import CheckboxFiltersComponent from "@/components/CheckboxFiltersComponent.vue";
 import WidgetSearch from "@/components/WidgetSearch.vue";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
-
 export default {
   name: "BlogComponent",
   components: {
@@ -62,6 +61,12 @@ export default {
       }
       this.GET_BLOGS(this.filters);
     },
+    images(e) {
+      e.map((res) => console.log(res));
+    },
+    clear() {
+      this.component.clear = true;
+    },
     ...mapActions(["GET_BLOGS", "GET_TAGS"]),
   },
   created() {
@@ -80,6 +85,7 @@ export default {
     images="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABccA…xMC0xMlQwNTowODowNi0wNTowMJAbvWcAAAAASUVORK5CYII="
   ></VBreadcrumbs>
   <div class="blog-section mb-50">
+    <vue-multi-image-upload @data-image="images" :max="4" :data-reset="clear" />
     <div class="container">
       <div class="row">
         <!-- blog-option start -->

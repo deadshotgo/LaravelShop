@@ -25,15 +25,16 @@ class ProductRequest extends FormRequest
             "title" => ['required', 'string', 'max:255'],
             "description" => ['required', 'string'],
             "information" => ['required', 'string'],
-            "feature" => ['required', 'string'],
+            "feature" => ['required'],
             "qty" => ['integer', 'required'],
             "price" => ['integer', 'required'],
             "article" => ['string', 'required'],
             "like" => ['integer'],
-            "is_active" => ['boolean', 'required'],
+            "is_active" => ['required'],
             "category_id" =>  ['integer', 'required'],
             "sub_category_id" => ['integer', 'required'],
-            "brand_id" => ['integer', 'required']
+            "brand_id" => ['integer', 'required'],
+            'images' => 'required',
         ];
     }
 }

@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\ProductRequest;
 use App\Http\Resources\Product\ProductCollection;
 use App\Http\Resources\Product\ProductResource;
+use App\Models\ImageProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -44,8 +46,22 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $product = Product::create($request->validated());
+        $validatedData = $request->validated(); // all date
 
+        $validatedData['is_active'] =  boolval($validatedData['is_active']);
+        $validatedData['feature'] =  boolval($validatedData['feature']);
+        $product = Product::create($validatedData);
+        $images = $request->file('images'); // all images
+        foreach ($images as $image) {
+            $objectImage = Storage::disk('s3')->put('image', $image);
+            $url = Storage::disk('s3')->url($objectImage);
+            $saveImage = [
+              'path' => $url,
+              'main' => 1,
+              'product_id' => $product['id']
+            ];
+            ImageProduct::create($saveImage);
+        }
         return new ProductResource($product);
     }
 

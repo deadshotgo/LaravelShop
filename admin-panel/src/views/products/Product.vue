@@ -53,7 +53,7 @@
           </td>
         </div>
         <div>
-          <v-btn color="primary" dark class="ma-4">
+          <v-btn :to="{name: 'ProductsCreate'}" color="primary" dark class="ma-4">
             New Item
           </v-btn>
         </div>

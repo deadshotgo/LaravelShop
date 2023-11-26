@@ -1,6 +1,7 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
 import store from "@/store";
+import ProductCreate from "@/views/products/ProductCreate.vue";
 
 const routes = [
   {
@@ -46,7 +47,7 @@ const routes = [
       {
         path: '/products/create',
         name: 'ProductsCreate',
-        component: () => import(/* webpackChunkName: "home" */ '@/views/products/ProductCreate.vue'),
+        component: ProductCreate
       },
     ],
   },
