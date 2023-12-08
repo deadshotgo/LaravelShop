@@ -1,7 +1,7 @@
 <template>
   <v-data-table-virtual
     :headers="headers"
-    :items="CONTACTS"
+    :items="[this.editedItem]"
     :search="search"
     class="elevation-2"
     :loading="loading"
@@ -106,7 +106,7 @@
 
         <!--    ADDRESS TABLE    -->
         <td>
-          <v-data-table-virtual :items="JSON.parse(item.address)" :headers="address_headers" class="brdr">
+          <v-data-table-virtual :items="item.address" :headers="address_headers" class="brdr">
             <template v-slot:item="{ item: item_ad }">
               <tr>
                 <td>{{ item_ad?.address }}</td>
@@ -126,7 +126,7 @@
 
         <!--    GMAIL TABLE    -->
         <td>
-          <v-data-table-virtual :items="JSON.parse(item.gmail)" :headers="gmails_headers" class="brdr">
+          <v-data-table-virtual :items="item.gmail" :headers="gmails_headers" class="brdr">
             <template v-slot:item="{ item: item_gm }">
               <tr>
                 <td>{{ item_gm?.gmail }}</td>
@@ -146,7 +146,7 @@
 
         <!--    PHONE NUMBER TABLE    -->
         <td>
-          <v-data-table-virtual :items="JSON.parse(item.phone_number)" :headers="p_h_headers" class="brdr">
+          <v-data-table-virtual :items="item.phone_number" :headers="p_h_headers" class="brdr">
             <template v-slot:item="{ item: item_ph }">
               <tr>
                 <td>{{ item_ph?.phone_number }}</td>
@@ -251,7 +251,7 @@ export default {
             [],
         address:
             [],
-        phone_numbers:
+        phone_number:
             [],
       footer_text: 'asx',
       is_active: true,
@@ -262,7 +262,7 @@ export default {
           [],
         address:
           [],
-        phone_numbers:
+        phone_number:
           [],
       footer_text: 'asx',
       is_active: true,
@@ -280,18 +280,11 @@ export default {
       val || this.close()
     },
   },
-  //       this.editedIndex = item.id
 
   methods: {
     ...mapActions(["GET_CONTACTS", "CREATE_CONTACTS", "UPDATE_CONTACTS"]),
     editItem () {
-      this.editedItem = {
-        path: this.CONTACTS[0].path,
-        gmail: JSON.parse(this.CONTACTS[0].gmail),
-        address: JSON.parse(this.CONTACTS[0].address),
-        phone_number: JSON.parse(this.CONTACTS[0].phone_number),
-        footer_text: this.CONTACTS[0].footer_text,
-        is_active: Boolean(this.CONTACTS[0].is_active) };
+      this.updateCopy()
       this.dialog = true
     },
 
@@ -299,15 +292,15 @@ export default {
       this.dialog = false
       this.type = 0
       this.value = ''
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      })
     },
     async filterIsActive() {
       this.loading = true
       if(this.isActive) {
         this.GET_CONTACTS({ is_active: true }).then(() => {
+          // filtering sub tables
+          this.editedItem.address = this.editedItem.address.filter(item => item.active === true);
+          this.editedItem.gmail = this.editedItem.gmail.filter(item => item.active === true);
+          this.editedItem.phone_number = this.editedItem.phone_number.filter(item => item.active === true);
           this.loading = false
         });
       } else {
@@ -315,9 +308,9 @@ export default {
           this.loading = false
         });
       }
+      this.updateCopy()
     },
     async edit(new_value, new_active) {
-      console.log(this.type)
       this.editItem()
       this.editedItem.id = 1
       switch (this.type) {
@@ -381,13 +374,25 @@ export default {
       });
       this.close()
     },
+    updateCopy() {
+      this.editedItem = {
+        path: this.CONTACTS[0].path,
+        gmail: JSON.parse(this.CONTACTS[0].gmail),
+        address: JSON.parse(this.CONTACTS[0].address),
+        phone_number: JSON.parse(this.CONTACTS[0].phone_number),
+        footer_text: this.CONTACTS[0].footer_text,
+        is_active: Boolean(this.CONTACTS[0].is_active) };
+    }
   },
   async mounted() {
+    this.loading = true
     await this.GET_CONTACTS({
       is_active: true,
     });
-  },
-
+    this.updateCopy()
+    this.filterIsActive()
+    this.loading = false
+    },
 }
 </script>
 
