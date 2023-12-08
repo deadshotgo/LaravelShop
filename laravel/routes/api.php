@@ -84,6 +84,9 @@ Route::middleware(['auth:sanctum', 'ability:admin'])->group(function () {
     Route::apiResource('categories', CategoryController::class)->only([
         'create', 'store', 'update', 'destroy'
     ]);
+    Route::apiResource('contacts', ContactController::class)->only([
+        'create', 'store', 'update', 'destroy'
+    ]);
 });
 
 

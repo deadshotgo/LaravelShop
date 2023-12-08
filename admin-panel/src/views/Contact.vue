@@ -1,7 +1,7 @@
 <template>
-  <v-data-table
+  <v-data-table-virtual
     :headers="headers"
-    :items="BRANDS"
+    :items="CONTACTS"
     :search="search"
     class="elevation-2"
     :loading="loading"
@@ -21,9 +21,9 @@
           v-model="isActive"
           @change="filterIsActive"
         ></v-checkbox>
-      </div>
+      </div>edit
       <v-toolbar
-        flat
+        flatfalse
       >
         <v-toolbar-title>Contacts</v-toolbar-title>
 
@@ -33,20 +33,12 @@
           vertical
         ></v-divider>
         <v-spacer></v-spacer>
+
         <v-dialog
           v-model="dialog"
           max-width="500px"
         >
-          <template v-slot:activator="{ props }">
-            <v-btn
-              color="primary"
-              dark
-              class="mb-2"
-              v-bind="props"
-            >
-              New Item
-            </v-btn>
-          </template>
+
 
           <v-card>
             <v-card-title>
@@ -58,46 +50,24 @@
                 <v-row>
                   <v-col
                     cols="12"
-                    sm="12"
-                    md="12"
+                    sm="6"
+                    md="4"
                   >
                     <v-text-field
-                      v-model="editedItem.name"
+                      v-model="this.value"
                       label="Dessert name"
                     ></v-text-field>
                   </v-col>
                   <v-col
                     cols="12"
-                    sm="12"
-                    md="12"
-                  >
-                    <v-file-input
-                      accept="image/png, image/jpeg, image/bmp"
-                      placeholder="Pick an avatar"
-                      prepend-inner-icon="mdi-camera"
-                      prepend-icon=""
-                      @change="(e) => {this.editedItem.image = e.target.files}"
-                      label="Image"
-                    ></v-file-input>
-                  </v-col>
-                  <v-col v-if="editedItem.image"
-                         cols="12"
-                         sm="12"
-                         md="12"
-                  >
-                    <v-img width="500" :src="url" />
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="12"
-                    md="12"
+                    sm="6"
+                    md="4"
                   >
                     <v-checkbox
-                      v-model="editedItem.is_active"
+                      v-model="this.isActiveValue"
                       label="isActive"
                     ></v-checkbox>
                   </v-col>
-
                 </v-row>
               </v-container>
             </v-card-text>
@@ -114,37 +84,111 @@
               <v-btn
                 color="blue-darken-1"
                 variant="text"
-                @click="save"
+                @click="(this.type < 0) ? edit(this.value, this.isActiveValue) : add(this.value, this.isActiveValue)"
               >
                 Save
               </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
+
+
       </v-toolbar>
     </template>
+
     <template v-slot:item="{ item }">
       <tr>
-        <td>{{ item.id }}</td>
-        <td>{{ item.name }}</td>
-        <td><v-btn
-          color="primary"
-          @click="() => {imageModal = true; imageActive = item.image}"
-        >
-          Link
-        </v-btn></td>
-        <td>{{ item.is_active ? 'Active' : 'Disable' }}</td>
-        <td>{{ item.createdAt }}</td>
-        <td>{{ item.updatedAt }}</td>
-        <td><v-icon
-          size="small"
-          class="me-2"
-          @click="editItem(item)"
-        >
-          mdi-pencil
-        </v-icon></td>
+        <td @click="this.dialog = !this.dialog; this.type = 1">New<v-icon icon="mdi-plus" size="large"></v-icon></td>
+        <td @click="this.dialog = !this.dialog; this.type = 2">New<v-icon icon="mdi-plus" size="large"></v-icon></td>
+        <td @click="this.dialog = !this.dialog; this.type = 3">New<v-icon icon="mdi-plus" size="large"></v-icon></td>
+      </tr>
+      <tr>
+
+        <!--    ADDRESS TABLE    -->
+        <td>
+          <v-data-table-virtual :items="JSON.parse(item.address)" :headers="address_headers" class="brdr">
+            <template v-slot:item="{ item: item_ad }">
+              <tr>
+                <td>{{ item_ad?.address }}</td>
+                <td>{{ item_ad?.active }}</td>
+                <td><v-icon
+                  size="small"
+                  class="me-2"
+                  @click="this.old_value = item_ad.address; this.value = item_ad.address;  this.type=-1; this.isActiveValue = item_ad.active; this.oldIsActiveValue = item_ad.active; this.dialog = true;"
+                >
+                  mdi-pencil
+                </v-icon></td>
+              </tr>
+            </template>
+          </v-data-table-virtual>
+        </td>
+        <!--    ADDRESS TABLE  END  -->
+
+        <!--    GMAIL TABLE    -->
+        <td>
+          <v-data-table-virtual :items="JSON.parse(item.gmail)" :headers="gmails_headers" class="brdr">
+            <template v-slot:item="{ item: item_gm }">
+              <tr>
+                <td>{{ item_gm?.gmail }}</td>
+                <td>{{ item_gm?.active }}</td>
+                <td><v-icon
+                  size="small"
+                  class="me-2"
+                  @click="this.old_value = item_gm.gmail; this.value = item_gm.gmail;  this.type=-2; this.isActiveValue = item_gm.active; this.oldIsActiveValue = item_gm.active; this.dialog = true;"
+                >
+                  mdi-pencil
+                </v-icon></td>
+              </tr>
+            </template>
+          </v-data-table-virtual>
+        </td>
+        <!--    GMAIL TABLE  END  -->
+
+        <!--    PHONE NUMBER TABLE    -->
+        <td>
+          <v-data-table-virtual :items="JSON.parse(item.phone_number)" :headers="p_h_headers" class="brdr">
+            <template v-slot:item="{ item: item_ph }">
+              <tr>
+                <td>{{ item_ph?.phone_number }}</td>
+                <td>{{ item_ph?.active }}</td>
+                <td><v-icon
+                  size="small"
+                  class="me-2"
+                  @click="this.old_value = item_ph.phone_number; this.value = item_ph.phone_number;  this.type=-3; this.isActiveValue = item_ph.active; this.oldIsActiveValue = item_ph.active; this.dialog = true;"
+                >
+                  mdi-pencil
+                </v-icon></td>
+              </tr>
+            </template>
+          </v-data-table-virtual>
+        </td>
+        <!--    PHONE NUMBER  END  -->
+
+        <!--    FOOTER TEXT TABLE    -->
+        <td>
+            <v-data-table-virtual :items="CONTACTS" :headers="foo_text_headers" class="brdr">
+              <template v-slot:item="{ item: item_ft }">
+              <tr>
+                <td>{{ item_ft?.footer_text }}</td>
+                <td><v-icon
+                  size="small"
+                  class="me-2"
+                  @click="this.old_value = item_ft.footer_text; this.value = item_ft.footer_text;  this.type=-4; this.dialog = true;"
+                >
+                  mdi-pencil
+                </v-icon></td>
+              </tr>
+              </template>
+          </v-data-table-virtual>
+        </td>
+        <!--    FOOTER TEXT  END  -->
+
+        <td>image</td>
+
+
       </tr>
     </template>
+
     <template v-slot:no-data>
       <v-btn
         color="primary"
@@ -152,24 +196,7 @@
         Reset
       </v-btn>
     </template>
-  </v-data-table>
-  <v-dialog
-    v-model="imageModal"
-    width="auto"
-  >
-    <v-card>
-      <v-card-text>
-        <v-img
-          width="500"
-          :aspect-ratio="1"
-          :src="imageActive"
-        ></v-img>
-      </v-card-text>
-      <v-card-actions>
-        <v-btn color="primary" block @click="imageModal = false">Close Dialog</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+  </v-data-table-virtual>
 </template>
 
 <script>
@@ -177,58 +204,75 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: 'Brand',
+  name: 'Contact',
   data: () => ({
+    dt: '',
     search: '',
-    imageActive: '',
+    value: '',
+    old_value: '',
+    deleteItem: '',
+    type: null,
+    isActiveValue: false,
+    oldIsActiveValue: false,
     isActive: true,
     dialog: false,
     loading: false,
-    imageModal: false,
-    rules: [
-      value => {
-        return !value || !value.length
-      },
-    ],
     headers: [
-      {
-        title: '#Id',
-        align: 'start',
-        sortable: true,
-        key: 'id',
-      },
-      { title: 'Name', key: 'name' },
-      { title: 'Image', key: 'image'},
-      { title: 'IsActive', key: 'is_active' },
-      { title: 'CreatedAt', key: 'createdAt' },
-      { title: 'UpdatedAt', key: 'updatedAt' },
-      { title: 'Actions', key: 'actions', sortable: false },
+      { title: 'Addresses', key: 'adresses', align: 'center' },
+      { title: 'Gmails', key: 'gmails' , align: 'center'},
+      { title: 'Phone numbers', key: 'phone_numbers', align: 'center'},
+      { title: 'Image', key: 'image', align: 'center'},
+      { title: 'Text', key: 'footer_text' },
     ],
+    address_headers: [
+      { title: 'Address', key: 'address', align: 'left'},
+      { title: 'isActive', key: 'isActive', align: 'left'},
+      { title: 'Actions', key: 'actions', align: 'left'},
+    ],
+    gmails_headers: [
+      { title: 'Gmail', key: 'gmail', align: 'left' },
+      { title: 'isActive', key: 'isActive', align: 'left'},
+      { title: 'Actions', key: 'actions', align: 'left'},
+    ],
+    p_h_headers: [
+      { title: 'Number', key: 'phone_number', align: 'left' },
+      { title: 'isActive', key: 'isActive', align: 'left'},
+      { title: 'Actions', key: 'actions', align: 'left'},
+    ],
+    foo_text_headers: [
+      { title: 'Footer text', key: 'footer_text', align: 'left' },
+      { title: 'Actions', key: 'actions', align: 'left'},
+    ],
+    desserts: [],
     editedIndex: -1,
     editedItem: {
-      name: '',
-      image: '',
+      path: 'path',
+        gmail:
+            [],
+        address:
+            [],
+        phone_numbers:
+            [],
+      footer_text: 'asx',
       is_active: true,
     },
     defaultItem: {
-      name: '',
-      image: '',
+      path: 'path',
+        gmail:
+          [],
+        address:
+          [],
+        phone_numbers:
+          [],
+      footer_text: 'asx',
       is_active: true,
     }
   }),
   computed: {
-    url() {
-      if(typeof this.editedItem.image === "string") {
-        console.log(this.editedItem.image);
-        return this.editedItem.image
-      } else {
-        return URL.createObjectURL(this.editedItem.image[0]);
-      }
-    },
     formTitle () {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
     },
-    ...mapGetters(["BRANDS"]),
+    ...mapGetters(["CONTACTS"]),
   },
 
   watch: {
@@ -236,17 +280,25 @@ export default {
       val || this.close()
     },
   },
+  //       this.editedIndex = item.id
 
   methods: {
-    ...mapActions(["GET_BRANDS", "UPDATE_BRAND", "CREATE_BRAND"]),
-    editItem (item) {
-      this.editedIndex = item.id
-      this.editedItem = { name: item.name, image: item.image, is_active: Boolean(item.is_active) };
+    ...mapActions(["GET_CONTACTS", "CREATE_CONTACTS", "UPDATE_CONTACTS"]),
+    editItem () {
+      this.editedItem = {
+        path: this.CONTACTS[0].path,
+        gmail: JSON.parse(this.CONTACTS[0].gmail),
+        address: JSON.parse(this.CONTACTS[0].address),
+        phone_number: JSON.parse(this.CONTACTS[0].phone_number),
+        footer_text: this.CONTACTS[0].footer_text,
+        is_active: Boolean(this.CONTACTS[0].is_active) };
       this.dialog = true
     },
 
     close () {
       this.dialog = false
+      this.type = 0
+      this.value = ''
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedIndex = -1
@@ -255,33 +307,83 @@ export default {
     async filterIsActive() {
       this.loading = true
       if(this.isActive) {
-        this.GET_BRANDS({ is_active: true }).then(() => {
+        this.GET_CONTACTS({ is_active: true }).then(() => {
           this.loading = false
         });
       } else {
-        this.GET_BRANDS().then(() => {
+        this.GET_CONTACTS().then(() => {
           this.loading = false
         });
       }
     },
-    async save () {
-      if (this.editedIndex > -1) {
-        this.editedItem.id = this.editedIndex;
-        if(typeof this.editedItem.image === "string") {
-          this.editedItem.image = null
-        }
-        await this.UPDATE_BRAND(this.editedItem)
-      } else {
-        await this.CREATE_BRAND(this.editedItem)
+    async edit(new_value, new_active) {
+      console.log(this.type)
+      this.editItem()
+      this.editedItem.id = 1
+      switch (this.type) {
+        case -1:
+          for (var i = 0; i <= this.editedItem.address.length; i++) {
+            if (this.editedItem.address[i].address === this.old_value) {
+              this.editedItem.address[i] = {address: new_value, active: new_active}
+              break;
+              }
+          }
+          await this.UPDATE_CONTACTS(this.editedItem)
+          break
+        case -2:
+          for (var i = 0; i <= this.editedItem.gmail.length; i++) {
+            if (this.editedItem.gmail[i].gmail === this.old_value) {
+              this.editedItem.gmail[i] = {gmail: new_value, active: new_active}
+              break;
+            }
+          }
+          await this.UPDATE_CONTACTS(this.editedItem)
+          break
+        case -3:
+          for (var i = 0; i <= this.editedItem.phone_number.length; i++) {
+            if (this.editedItem.phone_number[i].phone_number === this.old_value) {
+              this.editedItem.phone_number[i] = {phone_number: new_value, active: new_active}
+              break;
+            }
+          }
+          await this.UPDATE_CONTACTS(this.editedItem)
+          break
+        case -4:
+          this.editedItem.footer_text = new_value
+          await this.UPDATE_CONTACTS(this.editedItem)
+          break
       }
-      await this.GET_BRANDS({
+      await this.GET_CONTACTS({
         is_active: true,
       });
       this.close()
-    }
+    },
+    // function add new item to table
+    async add(value, isActiveValue) {
+      this.editItem(value)
+      this.editedItem.id = 1
+      switch (this.type) {
+        case 1:
+          this.editedItem.address.push({address: value, active: isActiveValue})
+          await this.UPDATE_CONTACTS(this.editedItem)
+          break
+        case 2:
+          this.editedItem.gmail.push({gmail: value, active: isActiveValue})
+          await this.UPDATE_CONTACTS(this.editedItem)
+          break
+        case 3:
+          this.editedItem.phone_number.push({phone_number: value, active: isActiveValue})
+          await this.UPDATE_CONTACTS(this.editedItem)
+          break
+      }
+      await this.GET_CONTACTS({
+        is_active: true,
+      });
+      this.close()
+    },
   },
-  async created() {
-    await this.GET_BRANDS({
+  async mounted() {
+    await this.GET_CONTACTS({
       is_active: true,
     });
   },
@@ -290,5 +392,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.brdr {
+  border:solid #2C3333;
+  border-width:0px 0.1em 0px 0.1em;
+  padding:5%
+}
 </style>

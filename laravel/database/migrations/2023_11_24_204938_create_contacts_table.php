@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
-            $table->string('path', 255);
-            $table->string('address', 255);
-            $table->string('gmail', 255);
-            $table->string('phone_number', 255);
-            $table->string('footer_text', 255);
-            $table->boolean('is_active');
+            $table->string('path', 255)->default(null);
+            $table->string('address', 255)->default(null);
+            $table->string('gmail', 255)->default(null);
+            $table->string('phone_number', 255)->default(null);
+            $table->string('footer_text')->default(null);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
