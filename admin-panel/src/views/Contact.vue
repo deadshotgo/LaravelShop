@@ -9,19 +9,13 @@
   >
     <template v-slot:top>
       <div style="display: flex; align-items: center;">
-        <v-text-field
-          v-model="search"
-          label="Search"
-          class="pa-5"
-          append-icon="mdi-magnify"
-        ></v-text-field>
         <v-checkbox
           label="isActive"
           class="pa-4"
           v-model="isActive"
           @change="filterIsActive"
         ></v-checkbox>
-      </div>edit
+      </div>
       <v-toolbar
         flatfalse
       >
@@ -84,7 +78,7 @@
               <v-btn
                 color="blue-darken-1"
                 variant="text"
-                @click="(this.type < 0) ? edit(this.value, this.isActiveValue) : add(this.value, this.isActiveValue)"
+                @click="(this.type < 0) ? edit(this.value, this.isActiveValue, this.position) : add(this.value, this.isActiveValue, this.position)"
               >
                 Save
               </v-btn>
@@ -98,9 +92,30 @@
 
     <template v-slot:item="{ item }">
       <tr>
-        <td @click="this.dialog = !this.dialog; this.type = 1">New<v-icon icon="mdi-plus" size="large"></v-icon></td>
-        <td @click="this.dialog = !this.dialog; this.type = 2">New<v-icon icon="mdi-plus" size="large"></v-icon></td>
-        <td @click="this.dialog = !this.dialog; this.type = 3">New<v-icon icon="mdi-plus" size="large"></v-icon></td>
+        <td @click="this.dialog = !this.dialog; this.type = 1; this.position = 'address'"><v-btn
+          color="primary"
+          dark
+          class="mb-2"
+          v-bind="props"
+        >
+          New Item
+        </v-btn></td>
+        <td @click="this.dialog = !this.dialog; this.type = 2; this.position = 'gmail'"><v-btn
+          color="primary"
+          dark
+          class="mb-2"
+          v-bind="props"
+        >
+          New Item
+        </v-btn></td>
+        <td @click="this.dialog = !this.dialog; this.type = 3; this.position = 'phone_number'"><v-btn
+          color="primary"
+          dark
+          class="mb-2"
+          v-bind="props"
+        >
+          New Item
+        </v-btn></td>
       </tr>
       <tr>
 
@@ -114,7 +129,7 @@
                 <td><v-icon
                   size="small"
                   class="me-2"
-                  @click="this.old_value = item_ad.address; this.value = item_ad.address;  this.type=-1; this.isActiveValue = item_ad.active; this.oldIsActiveValue = item_ad.active; this.dialog = true;"
+                  @click="this.old_value = item_ad.address; this.value = item_ad.address;  this.type=-1; this.position = 'address'; this.isActiveValue = item_ad.active; this.oldIsActiveValue = item_ad.active; this.dialog = true;"
                 >
                   mdi-pencil
                 </v-icon></td>
@@ -134,7 +149,7 @@
                 <td><v-icon
                   size="small"
                   class="me-2"
-                  @click="this.old_value = item_gm.gmail; this.value = item_gm.gmail;  this.type=-2; this.isActiveValue = item_gm.active; this.oldIsActiveValue = item_gm.active; this.dialog = true;"
+                  @click="this.old_value = item_gm.gmail; this.value = item_gm.gmail;  this.type=-2; this.position = 'gmail'; this.isActiveValue = item_gm.active; this.oldIsActiveValue = item_gm.active; this.dialog = true;"
                 >
                   mdi-pencil
                 </v-icon></td>
@@ -154,7 +169,7 @@
                 <td><v-icon
                   size="small"
                   class="me-2"
-                  @click="this.old_value = item_ph.phone_number; this.value = item_ph.phone_number;  this.type=-3; this.isActiveValue = item_ph.active; this.oldIsActiveValue = item_ph.active; this.dialog = true;"
+                  @click="this.old_value = item_ph.phone_number; this.value = item_ph.phone_number;  this.type=-3; this.position = 'phone_number'; this.isActiveValue = item_ph.active; this.oldIsActiveValue = item_ph.active; this.dialog = true;"
                 >
                   mdi-pencil
                 </v-icon></td>
@@ -173,7 +188,7 @@
                 <td><v-icon
                   size="small"
                   class="me-2"
-                  @click="this.old_value = item_ft.footer_text; this.value = item_ft.footer_text;  this.type=-4; this.dialog = true;"
+                  @click="this.old_value = item_ft.footer_text; this.value = item_ft.footer_text;  this.type=-4; this.position = false; this.dialog = true;"
                 >
                   mdi-pencil
                 </v-icon></td>
@@ -184,8 +199,6 @@
         <!--    FOOTER TEXT  END  -->
 
         <td>image</td>
-
-
       </tr>
     </template>
 
@@ -206,11 +219,10 @@ export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Contact',
   data: () => ({
-    dt: '',
-    search: '',
+    copyEditItem: '',
     value: '',
     old_value: '',
-    deleteItem: '',
+    position: '',
     type: null,
     isActiveValue: false,
     oldIsActiveValue: false,
@@ -243,34 +255,18 @@ export default {
       { title: 'Footer text', key: 'footer_text', align: 'left' },
       { title: 'Actions', key: 'actions', align: 'left'},
     ],
-    desserts: [],
-    editedIndex: -1,
     editedItem: {
-      path: 'path',
-        gmail:
-            [],
-        address:
-            [],
-        phone_number:
-            [],
-      footer_text: 'asx',
+      path: '',
+      gmail: [],
+      address: [],
+      phone_number: [],
+      footer_text: '',
       is_active: true,
     },
-    defaultItem: {
-      path: 'path',
-        gmail:
-          [],
-        address:
-          [],
-        phone_number:
-          [],
-      footer_text: 'asx',
-      is_active: true,
-    }
   }),
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+      return this.type > 0 ? 'New Item' : 'Edit Item'
     },
     ...mapGetters(["CONTACTS"]),
   },
@@ -283,20 +279,15 @@ export default {
 
   methods: {
     ...mapActions(["GET_CONTACTS", "CREATE_CONTACTS", "UPDATE_CONTACTS"]),
-    editItem () {
-      this.updateCopy()
-      this.dialog = true
-    },
-
-    close () {
+    close() {
       this.dialog = false
       this.type = 0
       this.value = ''
     },
     async filterIsActive() {
       this.loading = true
-      if(this.isActive) {
-        this.GET_CONTACTS({ is_active: true }).then(() => {
+      if (this.isActive) {
+        await this.GET_CONTACTS({is_active: true}).then(() => {
           // filtering sub tables
           this.editedItem.address = this.editedItem.address.filter(item => item.active === true);
           this.editedItem.gmail = this.editedItem.gmail.filter(item => item.active === true);
@@ -304,85 +295,51 @@ export default {
           this.loading = false
         });
       } else {
-        this.GET_CONTACTS().then(() => {
+        await this.GET_CONTACTS().then(() => {
           this.loading = false
         });
+        this.updateCopy()
       }
+    },
+    async edit(newValue, newStatus, position) {
+      this.loading = true
+      this.dialog = true
       this.updateCopy()
-    },
-    async edit(new_value, new_active) {
-      this.editItem()
-      this.editedItem.id = 1
-      switch (this.type) {
-        case -1:
-          for (var i = 0; i <= this.editedItem.address.length; i++) {
-            if (this.editedItem.address[i].address === this.old_value) {
-              this.editedItem.address[i] = {address: new_value, active: new_active}
-              break;
-              }
+      if (position) {
+        for (var i = 0; i <= this.editedItem[position].length; i++) {
+          if (this.editedItem[position][i][position] === this.old_value) {
+            this.editedItem[position][i] = {[position]: newValue, active: newStatus}
+            break
           }
-          await this.UPDATE_CONTACTS(this.editedItem)
-          break
-        case -2:
-          for (var i = 0; i <= this.editedItem.gmail.length; i++) {
-            if (this.editedItem.gmail[i].gmail === this.old_value) {
-              this.editedItem.gmail[i] = {gmail: new_value, active: new_active}
-              break;
-            }
-          }
-          await this.UPDATE_CONTACTS(this.editedItem)
-          break
-        case -3:
-          for (var i = 0; i <= this.editedItem.phone_number.length; i++) {
-            if (this.editedItem.phone_number[i].phone_number === this.old_value) {
-              this.editedItem.phone_number[i] = {phone_number: new_value, active: new_active}
-              break;
-            }
-          }
-          await this.UPDATE_CONTACTS(this.editedItem)
-          break
-        case -4:
-          this.editedItem.footer_text = new_value
-          await this.UPDATE_CONTACTS(this.editedItem)
-          break
+        }
+      } else {
+        this.editedItem.footer_text = newValue
       }
-      await this.GET_CONTACTS({
-        is_active: true,
-      });
+      await this.UPDATE_CONTACTS(this.editedItem)
+      this.filterIsActive()
       this.close()
     },
-    // function add new item to table
-    async add(value, isActiveValue) {
-      this.editItem(value)
-      this.editedItem.id = 1
-      switch (this.type) {
-        case 1:
-          this.editedItem.address.push({address: value, active: isActiveValue})
-          await this.UPDATE_CONTACTS(this.editedItem)
-          break
-        case 2:
-          this.editedItem.gmail.push({gmail: value, active: isActiveValue})
-          await this.UPDATE_CONTACTS(this.editedItem)
-          break
-        case 3:
-          this.editedItem.phone_number.push({phone_number: value, active: isActiveValue})
-          await this.UPDATE_CONTACTS(this.editedItem)
-          break
-      }
-      await this.GET_CONTACTS({
-        is_active: true,
-      });
+    // function add new item to sub table
+    async add(value, isActiveValue, position) {
+      this.loading = true
+      this.updateCopy()
+      this.editedItem[position].unshift({[position]: value, active: isActiveValue})
+      await this.UPDATE_CONTACTS(this.editedItem)
+      this.filterIsActive()
       this.close()
     },
+    // just load data to worker copy variable
     updateCopy() {
       this.editedItem = {
+        id: 1,
         path: this.CONTACTS[0].path,
         gmail: JSON.parse(this.CONTACTS[0].gmail),
         address: JSON.parse(this.CONTACTS[0].address),
         phone_number: JSON.parse(this.CONTACTS[0].phone_number),
         footer_text: this.CONTACTS[0].footer_text,
-        is_active: Boolean(this.CONTACTS[0].is_active) };
-    }
+        is_active: Boolean(this.CONTACTS[0].is_active)
+      };
+    },
   },
   async mounted() {
     this.loading = true
@@ -391,7 +348,6 @@ export default {
     });
     this.updateCopy()
     this.filterIsActive()
-    this.loading = false
     },
 }
 </script>
