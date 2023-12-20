@@ -27,7 +27,6 @@ class ContactRequest extends FormRequest
             'gmail' => [''],
             'phone_number' => [''],
             'footer_text' => [''],
-            'is_active' => ['', 'boolean'],
         ];
     }
 }

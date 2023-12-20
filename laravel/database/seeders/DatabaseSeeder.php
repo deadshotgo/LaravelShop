@@ -30,16 +30,16 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::factory(1)->create();
-//        Category::factory(7)->has(SubCategory::factory(5))->create();
-//        Color::factory(10)->create();
-//        Tag::factory(8)->create();
-//        Brand::factory(10)->create();
-//        Product::factory(69)->has(ImageProduct::factory(5))->create();
-//        TagProduct::factory(6)->create();
-//        ColorProduct::factory(76)->create();
-//        Blog::factory(10)->create();
-//        Comment::factory(10)->create();
-//        TagBlog::factory(3)->create();
-//        Contact::factory(1)->create();
+        Category::factory(7)->has(SubCategory::factory(5))->create();
+        Color::factory(10)->create();
+        Tag::factory(8)->create();
+        Brand::factory(10)->create();
+        Product::factory(69)->has(ImageProduct::factory(5))->create();
+        TagProduct::factory(6)->create();
+        ColorProduct::factory(76)->create();
+        Blog::factory(10)->create();
+        Comment::factory(10)->create();
+        TagBlog::factory(3)->create();
+        Contact::factory(1)->create();
     }
 }

@@ -15,7 +15,6 @@ class Contact extends Model
         'gmail',
         'phone_number',
         'footer_text',
-        'is_active'
     ];
 
 }

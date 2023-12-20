@@ -17,12 +17,11 @@ class ContactFactory extends Factory
     public function definition(): array
     {
         return [
-            'path' => $this->faker->word(),
+            'path' => $this->faker->imageUrl(),
             'address' => $this->faker->address(),
             'gmail' => $this->faker->email(),
             'phone_number' => $this->faker->phoneNumber(),
             'footer_text' => $this->faker->word(),
-            'is_active' => true,
         ];
     }
 }

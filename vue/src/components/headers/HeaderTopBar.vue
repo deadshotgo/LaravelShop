@@ -1,6 +1,9 @@
 <script>
 export default {
   name: "HeaderTopBar",
+  props: {
+    phoneNumber: Object,
+  },
 };
 </script>
 
@@ -9,8 +12,12 @@ export default {
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-6 hidden-xs">
-          <div class="call-us">
-            <p class="mb-0 roboto">(+88) 01234-567890</p>
+          <div class="call-us" v-if="phoneNumber">
+            <div v-for="(item, key) in JSON.parse(phoneNumber)" :key="key">
+              <snap class="mb-0 roboto">
+                {{ item.active ? item.phone_number : null }}
+              </snap>
+            </div>
           </div>
         </div>
         <div class="col-sm-6 col-xs-12">

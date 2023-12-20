@@ -1,8 +1,18 @@
 <script>
 import VBreadcrumbs from "../components/VBreadcrumbs.vue";
+import { mapActions, mapGetters } from "vuex";
 export default {
   components: { VBreadcrumbs },
   name: "vContact",
+  computed: {
+    ...mapGetters(["VCONTACTS"]),
+  },
+  methods: {
+    ...mapActions(["VGET_CONTACTS"]),
+  },
+  async mounted() {
+    await this.VGET_CONTACTS();
+  },
 };
 </script>
 
@@ -22,22 +32,34 @@ export default {
             <div class="col-sm-4 col-xs-12">
               <div class="contact-address box-shadow">
                 <i class="zmdi zmdi-pin"></i>
-                <h6>House 06, Road 01, Katashur, Mohammadpur,</h6>
-                <h6>Dhaka-1207, Bangladesh</h6>
+                <div
+                  v-for="(item, key) in JSON.parse(this.VCONTACTS.address)"
+                  :key="key"
+                >
+                  {{ item.active ? item.address : null }}
+                </div>
               </div>
             </div>
             <div class="col-sm-4 col-xs-12">
               <div class="contact-address box-shadow">
                 <i class="zmdi zmdi-phone"></i>
-                <h6>(+880) 1945 082759</h6>
-                <h6>(+880) 1945 082759</h6>
+                <div
+                  v-for="(item, key) in JSON.parse(this.VCONTACTS.phone_number)"
+                  :key="key"
+                >
+                  {{ item.active ? item.phone_number : null }}
+                </div>
               </div>
             </div>
             <div class="col-sm-4 col-xs-12">
               <div class="contact-address box-shadow">
                 <i class="zmdi zmdi-email"></i>
-                <h6>companyname@gmail.com</h6>
-                <h6>info@domainname.com</h6>
+                <div
+                  v-for="(item, key) in JSON.parse(this.VCONTACTS.gmail)"
+                  :key="key"
+                >
+                  {{ item.active ? item.gmail : null }}
+                </div>
               </div>
             </div>
           </div>

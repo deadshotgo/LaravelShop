@@ -8,6 +8,7 @@ use App\Http\Resources\Contact\ContactCollection;
 use App\Http\Resources\Contact\ContactResource;
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -40,6 +41,10 @@ class ContactController extends Controller
      */
     public function store(ContactRequest $request)
     {
+        $image = $request->file('path');
+        $qwe = Storage::disk('s3')->put('path', $image);
+        $fullUrl = Storage::disk('s3')->url($qwe);
+        $contact_store['path'] = $fullUrl;
         $contact_store = Contact::create($request->validated());
 
         return new ContactRequest($contact_store);
@@ -67,7 +72,16 @@ class ContactController extends Controller
      */
     public function update(ContactRequest $request, Contact $contact)
     {
-        $contact->update($request->validated());
+        $validateArr = $request->validated();
+        if(!$validateArr['path'] || $validateArr['path'] === 'null') {
+            $validateArr['path'] = $contact['path'];
+        } else {
+            $image = $request->file('path');
+            $qwe = Storage::disk('s3')->put('path', $image);
+            $fullUrl = Storage::disk('s3')->url($qwe);
+            $validateArr['path'] = $fullUrl;
+        }
+        $contact->update($validateArr);
         return new ContactResource($contact);
     }
 

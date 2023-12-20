@@ -48,6 +48,7 @@
                     md="4"
                   >
                     <v-text-field
+                      v-if="this.position !== 'image'"
                       v-model="this.value"
                       label="Dessert name"
                     ></v-text-field>
@@ -57,7 +58,33 @@
                     sm="6"
                     md="4"
                   >
+                    <!--         IMAGE LOADER           -->
+                    <v-col
+                      cols="12"
+                      sm="12"
+                      md="12"
+                    >
+                      <v-file-input
+                        v-if="this.position === 'image'"
+                        accept="image/png, image/jpeg, image/bmp"
+                        placeholder="Pick an avatar"
+                        prepend-inner-icon="mdi-camera"
+                        prepend-icon=""
+                        @change="(e) => {this.image = e.target.files;}"
+                        label="Image"
+                      ></v-file-input>
+                    </v-col>
+                    <v-col v-if="editedItem.path"
+                           cols="12"
+                           sm="12"
+                           md="12"
+                    >
+                      <v-img width="500" :src="url" />
+                    </v-col>
+                    <!--         IMAGE LOADER END          -->
+
                     <v-checkbox
+                      v-if="this.position !== 'image' && this.position !== false"
                       v-model="this.isActiveValue"
                       label="isActive"
                     ></v-checkbox>
@@ -116,6 +143,8 @@
         >
           New Item
         </v-btn></td>
+        <td></td>
+        <td></td>
       </tr>
       <tr>
 
@@ -184,7 +213,7 @@
             <v-data-table-virtual :items="CONTACTS" :headers="foo_text_headers" class="brdr">
               <template v-slot:item="{ item: item_ft }">
               <tr>
-                <td>{{ item_ft?.footer_text }}</td>
+                <td>{{ item_ft?.footer_text.toString().slice(0,50) }}...</td>
                 <td><v-icon
                   size="small"
                   class="me-2"
@@ -198,7 +227,22 @@
         </td>
         <!--    FOOTER TEXT  END  -->
 
-        <td>image</td>
+        <!--  IMAGE  -->
+        <td><v-btn
+          color="primary"
+          @click="() => {imageModal = true; imageActive = this.editedItem.path}"
+        >
+          Link
+        </v-btn></td>
+        <td><v-icon
+          size="small"
+          class="me-2"
+          @click="this.dialog = true; this.position='image'; this.type=-5"
+        >
+          mdi-pencil
+        </v-icon></td>
+        <!--  IMAGE END -->
+
       </tr>
     </template>
 
@@ -210,6 +254,23 @@
       </v-btn>
     </template>
   </v-data-table-virtual>
+  <v-dialog
+    v-model="imageModal"
+    width="auto"
+  >
+    <v-card>
+      <v-card-text>
+        <v-img
+          width="500"
+          :aspect-ratio="1"
+          :src="imageActive"
+        ></v-img>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn color="primary" block @click="imageModal = false">Close Dialog</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -219,22 +280,24 @@ export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Contact',
   data: () => ({
-    copyEditItem: '',
-    value: '',
     old_value: '',
+    imageActive: '',
     position: '',
+    value: '',
+    image: null,
     type: null,
-    isActiveValue: false,
     oldIsActiveValue: false,
+    isActiveValue: false,
+    imageModal: false,
     isActive: true,
-    dialog: false,
     loading: false,
+    dialog: false,
     headers: [
       { title: 'Addresses', key: 'adresses', align: 'center' },
       { title: 'Gmails', key: 'gmails' , align: 'center'},
       { title: 'Phone numbers', key: 'phone_numbers', align: 'center'},
+      { title: 'Text', key: 'footer_text', align: 'center' },
       { title: 'Image', key: 'image', align: 'center'},
-      { title: 'Text', key: 'footer_text' },
     ],
     address_headers: [
       { title: 'Address', key: 'address', align: 'left'},
@@ -261,7 +324,6 @@ export default {
       address: [],
       phone_number: [],
       footer_text: '',
-      is_active: true,
     },
   }),
   computed: {
@@ -279,6 +341,13 @@ export default {
 
   methods: {
     ...mapActions(["GET_CONTACTS", "CREATE_CONTACTS", "UPDATE_CONTACTS"]),
+    url() {
+      if(typeof this.editedItem.path === "string") {
+        return this.editedItem.path
+      } else {
+        return URL.createObjectURL(this.editedItem.path[0]);
+        }
+      },
     close() {
       this.dialog = false
       this.type = 0
@@ -287,7 +356,7 @@ export default {
     async filterIsActive() {
       this.loading = true
       if (this.isActive) {
-        await this.GET_CONTACTS({is_active: true}).then(() => {
+        await this.GET_CONTACTS().then(() => {
           // filtering sub tables
           this.editedItem.address = this.editedItem.address.filter(item => item.active === true);
           this.editedItem.gmail = this.editedItem.gmail.filter(item => item.active === true);
@@ -302,17 +371,31 @@ export default {
       }
     },
     async edit(newValue, newStatus, position) {
+      // функція для редагування: лого, підтаблиць, тесту з футеру.
+      // position - позиція для редагування: image, address, gmail, phone_number.
+      // якщо position === null то редагується footer_text
       this.loading = true
       this.dialog = true
       this.updateCopy()
       if (position) {
-        for (var i = 0; i <= this.editedItem[position].length; i++) {
-          if (this.editedItem[position][i][position] === this.old_value) {
-            this.editedItem[position][i] = {[position]: newValue, active: newStatus}
-            break
+        if (position === 'image') {
+           this.editedItem.path = this.image
+        } else {
+          if(typeof this.editedItem.path === "string") {
+            this.editedItem.path = null
+          }
+          console.log(this.editedItem)
+          for (var i = 0; i <= this.editedItem[position].length; i++) {
+            if (this.editedItem[position][i][position] === this.old_value) {
+              this.editedItem[position][i] = {[position]: newValue, active: newStatus}
+              break
+            }
           }
         }
       } else {
+        if(typeof this.editedItem.path === "string") {
+          this.editedItem.path = null
+        }
         this.editedItem.footer_text = newValue
       }
       await this.UPDATE_CONTACTS(this.editedItem)
@@ -324,6 +407,9 @@ export default {
       this.loading = true
       this.updateCopy()
       this.editedItem[position].unshift({[position]: value, active: isActiveValue})
+      if(typeof this.editedItem.path === "string") {
+        this.editedItem.path = null
+      }
       await this.UPDATE_CONTACTS(this.editedItem)
       this.filterIsActive()
       this.close()
@@ -337,15 +423,12 @@ export default {
         address: JSON.parse(this.CONTACTS[0].address),
         phone_number: JSON.parse(this.CONTACTS[0].phone_number),
         footer_text: this.CONTACTS[0].footer_text,
-        is_active: Boolean(this.CONTACTS[0].is_active)
       };
     },
   },
   async mounted() {
     this.loading = true
-    await this.GET_CONTACTS({
-      is_active: true,
-    });
+    await this.GET_CONTACTS();
     this.updateCopy()
     this.filterIsActive()
     },

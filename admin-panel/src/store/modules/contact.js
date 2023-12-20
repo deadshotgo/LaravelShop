@@ -24,7 +24,13 @@ const actions = {
     await api.post(`/contacts`, payload);
   },
   UPDATE_CONTACTS: async (context, payload) => {
-    await api.put(`/contacts/${payload.id}`, payload);
+    let formData = new FormData()
+    formData.append("path", payload.path ? payload.path[0] : null)
+    formData.append("footer_text", payload.footer_text);
+    formData.append("address", Array.isArray(payload.address) && payload.address.length > 0 ? JSON.stringify(payload.address) : '[]');
+    formData.append("gmail", Array.isArray(payload.gmail) && payload.gmail.length > 0 ? JSON.stringify(payload.gmail) : '[]');
+    formData.append("phone_number", Array.isArray(payload.phone_number) && payload.phone_number.length > 0 ? JSON.stringify(payload.phone_number) : '[]');
+    await api.post(`/contacts/${payload.id}?_method=PUT`, formData);
   },
 };
 

@@ -272,6 +272,7 @@ export default {
        }
        await this.UPDATE_BRAND(this.editedItem)
       } else {
+No d
        await this.CREATE_BRAND(this.editedItem)
       }
       await this.GET_BRANDS({
