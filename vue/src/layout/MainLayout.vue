@@ -62,7 +62,7 @@ export default {
                     <div class="footer-logo">
                       <img src="img/logo/logo.png" alt="" />
                     </div>
-                    <div class="footer-brief">
+                    <div class="footer-brief" v-if="this.VCONTACTS.footer_text">
                       <p>
                         {{ this.VCONTACTS.footer_text }}
                       </p>

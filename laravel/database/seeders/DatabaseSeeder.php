@@ -40,6 +40,5 @@ class DatabaseSeeder extends Seeder
         Blog::factory(10)->create();
         Comment::factory(10)->create();
         TagBlog::factory(3)->create();
-        Contact::factory(1)->create();
     }
 }

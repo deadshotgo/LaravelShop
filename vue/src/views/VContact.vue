@@ -18,19 +18,22 @@ export default {
 
 <template>
   <div>
-    <!-- BREADCRUMBS SETCTION START -->
+    <!-- BREADCRUMBS SECTION START -->
     <VBreadcrumbs
       images="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABccA…xMC0xMlQwNTowODowNi0wNTowMJAbvWcAAAAASUVORK5CYII="
       title="Contact"
     />
-    <!-- BREADCRUMBS SETCTION END -->
+    <!-- BREADCRUMBS SECTION END -->
     <section id="page-content" class="page-wrapper">
       <!-- ADDRESS SECTION START -->
       <div class="address-section mb-80">
         <div class="container">
           <div class="row">
             <div class="col-sm-4 col-xs-12">
-              <div class="contact-address box-shadow">
+              <div
+                class="contact-address box-shadow"
+                v-if="this.VCONTACTS.address"
+              >
                 <i class="zmdi zmdi-pin"></i>
                 <div
                   v-for="(item, key) in JSON.parse(this.VCONTACTS.address)"
@@ -41,7 +44,10 @@ export default {
               </div>
             </div>
             <div class="col-sm-4 col-xs-12">
-              <div class="contact-address box-shadow">
+              <div
+                class="contact-address box-shadow"
+                v-if="this.VCONTACTS.phone_number"
+              >
                 <i class="zmdi zmdi-phone"></i>
                 <div
                   v-for="(item, key) in JSON.parse(this.VCONTACTS.phone_number)"
@@ -52,7 +58,10 @@ export default {
               </div>
             </div>
             <div class="col-sm-4 col-xs-12">
-              <div class="contact-address box-shadow">
+              <div
+                class="contact-address box-shadow"
+                v-if="this.VCONTACTS.address"
+              >
                 <i class="zmdi zmdi-email"></i>
                 <div
                   v-for="(item, key) in JSON.parse(this.VCONTACTS.gmail)"

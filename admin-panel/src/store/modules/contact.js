@@ -18,6 +18,9 @@ const actions = {
   GET_CONTACTS: async (context, payload) => {
     const filters = createFilterObject(payload);
     const data = await  api.get(`/contacts?${filters}`);
+    data.data.data[0].address = JSON.parse(data.data.data[0].address)
+    data.data.data[0].gmail = JSON.parse(data.data.data[0].gmail)
+    data.data.data[0].phone_number = JSON.parse(data.data.data[0].phone_number)
     await context.commit("SET_CONTACTS", data.data.data);
   },
   CREATE_CONTACTS: async (context, payload) => {

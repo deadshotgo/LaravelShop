@@ -9,9 +9,9 @@ export default {
 
 <template>
   <div class="col-md-2 col-sm-6 col-xs-12">
-    <div class="logo">
+    <div class="logo" v-if="this.logo">
       <a>
-        <img :src="this.logo" alt="main logo" @click="console.log(this.logo)" />
+        <img :src="this.logo" alt="main logo" />
       </a>
     </div>
   </div>

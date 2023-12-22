@@ -42,28 +42,15 @@
             <v-card-text>
               <v-container>
                 <v-row>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <v-text-field
+                    <!--         TEXT FIELD           -->
+                    <v-textarea
                       v-if="this.position !== 'image'"
                       v-model="this.value"
                       label="Dessert name"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <!--         IMAGE LOADER           -->
-                    <v-col
-                      cols="12"
-                      sm="12"
-                      md="12"
-                    >
+                    ></v-textarea>
+                    <!--         TEXT FIELD END          -->
+
+                    <!--         IMAGE LOADER FIELD           -->
                       <v-file-input
                         v-if="this.position === 'image'"
                         accept="image/png, image/jpeg, image/bmp"
@@ -73,22 +60,16 @@
                         @change="(e) => {this.image = e.target.files;}"
                         label="Image"
                       ></v-file-input>
-                    </v-col>
-                    <v-col v-if="editedItem.path"
-                           cols="12"
-                           sm="12"
-                           md="12"
-                    >
-                      <v-img width="500" :src="url" />
-                    </v-col>
-                    <!--         IMAGE LOADER END          -->
 
-                    <v-checkbox
+                    <!--         IMAGE SHOW          -->
+                      <v-img v-if="editedItem.path" width="500" :src="url" />
+                    <!--         IMAGE SHOW END          -->
+
+                  <v-checkbox
                       v-if="this.position !== 'image' && this.position !== false"
                       v-model="this.isActiveValue"
                       label="isActive"
                     ></v-checkbox>
-                  </v-col>
                 </v-row>
               </v-container>
             </v-card-text>
@@ -384,7 +365,6 @@ export default {
           if(typeof this.editedItem.path === "string") {
             this.editedItem.path = null
           }
-          console.log(this.editedItem)
           for (var i = 0; i <= this.editedItem[position].length; i++) {
             if (this.editedItem[position][i][position] === this.old_value) {
               this.editedItem[position][i] = {[position]: newValue, active: newStatus}
@@ -400,6 +380,7 @@ export default {
       }
       await this.UPDATE_CONTACTS(this.editedItem)
       this.filterIsActive()
+      this.updateCopy()
       this.close()
     },
     // function add new item to sub table
@@ -414,14 +395,14 @@ export default {
       this.filterIsActive()
       this.close()
     },
-    // just load data to worker copy variable
+    // Тут робоча копія обновлюється
     updateCopy() {
       this.editedItem = {
         id: 1,
         path: this.CONTACTS[0].path,
-        gmail: JSON.parse(this.CONTACTS[0].gmail),
-        address: JSON.parse(this.CONTACTS[0].address),
-        phone_number: JSON.parse(this.CONTACTS[0].phone_number),
+        gmail: this.CONTACTS[0].gmail,
+        address: this.CONTACTS[0].address,
+        phone_number: this.CONTACTS[0].phone_number,
         footer_text: this.CONTACTS[0].footer_text,
       };
     },

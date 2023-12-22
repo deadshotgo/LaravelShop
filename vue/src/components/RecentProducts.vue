@@ -29,7 +29,6 @@ export default {
         :key="i"
         class="product-item"
       >
-        {{ console.log(product) }}
         <div class="product-img">
           <a href="single-product.html">
             <img :src="product.imageProducts?.[0]?.path" alt="" />

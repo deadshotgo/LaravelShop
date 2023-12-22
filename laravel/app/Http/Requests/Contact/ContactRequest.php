@@ -22,11 +22,11 @@ class ContactRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'path' => [''],
-            'address' => [''],
-            'gmail' => [''],
-            'phone_number' => [''],
-            'footer_text' => [''],
+            'path' => ['required', 'max:255'],
+            'address' => ['required'],
+            'gmail' => ['required'],
+            'phone_number' => ['required'],
+            'footer_text' => ['required'],
         ];
     }
 }
