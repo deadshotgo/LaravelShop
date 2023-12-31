@@ -9,6 +9,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\ColorProduct;
+use App\Models\Contact;
 use App\Models\ImageProduct;
 use App\Models\Product;
 use App\Models\SubCategory;

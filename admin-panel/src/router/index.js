@@ -40,6 +40,11 @@ const routes = [
         component: () => import(/* webpackChunkName: "home" */ '@/views/Color.vue'),
       },
       {
+        path: '/contacts',
+        name: 'Contacts',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/Contact.vue'),
+      },
+      {
         path: '/products',
         name: 'Products',
         component: () => import(/* webpackChunkName: "home" */ '@/views/products/Product.vue'),

@@ -4,9 +4,19 @@ import NavbarMenu from "@/components/headers/NavbarMenu.vue";
 import ModalCart from "@/components/cart/ModalCart.vue";
 import NavbarLogo from "@/components/headers/NavbarLogo.vue";
 import MobileMenu from "@/components/headers/MobileMenu.vue";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "MainLayout",
   components: { HeaderTopBar, NavbarMenu, ModalCart, NavbarLogo, MobileMenu },
+  computed: {
+    ...mapGetters(["VCONTACTS"]),
+  },
+  methods: {
+    ...mapActions(["VGET_CONTACTS"]),
+  },
+  async mounted() {
+    await this.VGET_CONTACTS();
+  },
 };
 </script>
 
@@ -15,13 +25,13 @@ export default {
     <!-- START HEADER AREA -->
     <header class="header-area header-wrapper">
       <!-- header-top-bar -->
-      <HeaderTopBar />
+      <HeaderTopBar :phoneNumber="this.VCONTACTS.phone_number" />
       <div class="header-middle-area plr-185">
         <div class="container-fluid">
           <div class="full-width-mega-dropdown">
             <div class="row">
               <!-- logo -->
-              <NavbarLogo />
+              <NavbarLogo :logo="this.VCONTACTS.path" />
               <!-- primary-menu -->
               <div class="col-md-8 hidden-sm hidden-xs">
                 <NavbarMenu type="desktop" />
@@ -52,16 +62,9 @@ export default {
                     <div class="footer-logo">
                       <img src="img/logo/logo.png" alt="" />
                     </div>
-                    <div class="footer-brief">
+                    <div class="footer-brief" v-if="this.VCONTACTS.footer_text">
                       <p>
-                        Lorem Ipsum is simply dummy text of the printing and
-                        typesetting industry. Lorem Ipsum has been the subas
-                        industry's standard dummy text ever since the 1500s,
-                      </p>
-                      <p>
-                        When an unknown printer took a galley of type and If you
-                        are going to use a passage of Lorem Ipsum scrambled it
-                        to make.
+                        {{ this.VCONTACTS.footer_text }}
                       </p>
                     </div>
                     <ul class="footer-social">
