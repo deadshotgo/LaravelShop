@@ -10,6 +10,9 @@ api.interceptors.request.use(
     }
     if ((['/brands'].includes(config.url) || config.url.match('/brands/[0-9]')) || ['product-images/store'].includes(config.url)  ) {
       config.headers['Content-Type'] = 'multipart/form-data';
+    }
+    else if (['/contacts'].includes(config.url) || config.url.match('/contacts/[0-9]')) {
+      config.headers['Content-Type'] = 'multipart/form-data';
     } else {
       config.headers['Content-Type'] = 'application/json';
     }

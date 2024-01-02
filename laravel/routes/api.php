@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\BrandController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ColorController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\SubCategoryController;
 use App\Http\Controllers\Api\TagController;
 use App\Http\Controllers\Api\ProductController;
@@ -26,6 +27,9 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('token', [AuthController::class, 'token']);
 Route::apiResource('categories', CategoryController::class)->only([
+    'index', 'show'
+]);
+Route::apiResource('contacts', ContactController::class)->only([
     'index', 'show'
 ]);
 
@@ -80,6 +84,9 @@ Route::middleware(['auth:sanctum', 'ability:admin'])->group(function () {
         'create', 'store', 'update', 'destroy'
     ]);
     Route::apiResource('categories', CategoryController::class)->only([
+        'create', 'store', 'update', 'destroy'
+    ]);
+    Route::apiResource('contacts', ContactController::class)->only([
         'create', 'store', 'update', 'destroy'
     ]);
     Route::post('product-images/destroy', [ProductImageController::class, 'destroy']);

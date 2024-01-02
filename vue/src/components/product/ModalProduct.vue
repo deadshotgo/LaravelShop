@@ -48,7 +48,6 @@
                     <form method="post" class="cart">
                       <div class="numbers-row">
                         <input
-                          @click="console.log(qty_selected)"
                           type="number"
                           id="french-hens"
                           v-model="qty_selected"
