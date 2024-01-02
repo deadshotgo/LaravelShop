@@ -34,7 +34,6 @@ class ProductRequest extends FormRequest
             "category_id" =>  ['integer', 'required'],
             "sub_category_id" => ['integer', 'required'],
             "brand_id" => ['integer', 'required'],
-            'images' => 'required',
         ];
     }
 }

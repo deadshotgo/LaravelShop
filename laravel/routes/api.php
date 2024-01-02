@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\SubCategoryController;
 use App\Http\Controllers\Api\TagController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ProductImageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +32,7 @@ Route::apiResource('categories', CategoryController::class)->only([
 Route::apiResource('contacts', ContactController::class)->only([
     'index', 'show'
 ]);
+
 Route::apiResource('sub-categories', SubCategoryController::class)->only([
     'index', 'show'
 ]);
@@ -87,6 +89,8 @@ Route::middleware(['auth:sanctum', 'ability:admin'])->group(function () {
     Route::apiResource('contacts', ContactController::class)->only([
         'create', 'store', 'update', 'destroy'
     ]);
+    Route::post('product-images/destroy', [ProductImageController::class, 'destroy']);
+    Route::post('product-images/store', [ProductImageController::class, 'store']);
 });
 
 
