@@ -1,158 +1,48 @@
 <template>
-  <v-sheet width="800" class="mx-auto bg-center">
-  <form  @submit.prevent="this.onFinish()" class="justify-center align-center mt-5">
-    <div class="d-flex justify-center flex-column align-center">
-      <h1>New product</h1>
-    <v-col
-      cols="12"
-      md="9"
+  <div style="margin: 30px">
+    <V-banner-form :isFetch="isFetch" :text="response" :typeResponse="typeResponse" @close="() => this.isFetch = false" />
+    <v-tabs
+      v-model="tab"
+      color="deep-purple-accent-4"
+      align-tabs="center"
     >
-      <v-text-field
-        v-model="product.title"
-        :counter="255"
-        label="Title"
-        required
-      ></v-text-field>
-    </v-col>
-    <v-col
-      cols="12"
-      md="9"
-    >
-      <v-text-field
-        v-model="product.price"
-        label="Price"
-        prefix="$"
-      ></v-text-field>
-    </v-col>
-    <v-col
-      cols="12"
-      md="9"
-    >
-      <v-text-field
-        v-model="product.qty"
-        :counter="255"
-        label="QTY"
-        required
-      ></v-text-field>
-    </v-col>
-    <v-col
-      cols="12"
-      md="9"
-    >
-      <v-text-field
-        v-model="product.article"
-        :counter="255"
-        label="Article"
-        required
-      ></v-text-field>
-    </v-col>
-      <v-col
-        cols="12"
-        md="9"
+      <v-tab :value="1">Information</v-tab>
+      <v-tab v-if="isSaveImage" :value="2">Media</v-tab>
+    </v-tabs>
+
+    <v-window v-model="tab">
+      <v-window-item
+        :key="1"
+        :value="1"
       >
-        <v-autocomplete
-          label="Category"
-          :items="CATEGORIES"
-          item-title="name"
-          item-value="id"
-          v-model="product.category"
-        ></v-autocomplete>
-      </v-col>
-      <v-col
-        cols="12"
-        md="9"
+        <ProductForm  @saveEdit="onFinish" :product="product" :isFetch="isFetch"/>
+      </v-window-item>
+      <v-window-item
+        v-if="isSaveImage"
+        :key="2"
+        :value="2"
       >
-        <v-autocomplete
-          label="Sub categories"
-          :items="SUB_CATEGORIES"
-          item-title="name"
-          item-value="id"
-          v-model="product.sub_category"
-        ></v-autocomplete>
-      </v-col>
-      <v-col
-        cols="12"
-        md="9"
-      >
-        <v-autocomplete
-          label="Sub categories"
-          :items="BRANDS"
-          item-title="name"
-          item-value="id"
-          v-model="product.brand"
-        ></v-autocomplete>
-      </v-col>
-      <v-col
-        cols="12"
-        md="9"
-      >
-        <v-file-input
-          prepend-inner-icon="mdi-camera"
-          prepend-icon=""
-          accept="image/png, image/jpeg, image/bmp, image/jpg"
-          @change="(e) => {product.images = e.target.files}"
-          show-size
-          counter
-          multiple
-          chips
-          label="File input"
-        ></v-file-input>
-      </v-col>
-    <v-col
-      cols="12"
-      md="9"
-      id="sample"
-    >
-      <v-container fluid>
-      <v-textarea
-        name="input-7-1"
-        variant="filled"
-        label="Label"
-        v-model="product.description"
-      ></v-textarea>
-      </v-container>
-    </v-col>
-      <v-col
-        cols="12"
-        md="9"
-        id="sample"
-      >
-        <v-container fluid>
-        <v-textarea
-          name="input-7-1"
-          variant="filled"
-          label="Label"
-          v-model="product.information"
-        ></v-textarea>
-        </v-container>
-      </v-col>
-    <v-checkbox
-      v-model="product.feature"
-      label="You wont feature product"
-      required
-    ></v-checkbox>
-      <v-checkbox
-        v-model="product.is_active"
-        label="Active"
-        required
-      ></v-checkbox>
-    <v-btn
-      class="me-4"
-      type="submit"
-    >
-      submit
-    </v-btn>
-    </div>
-  </form>
-  </v-sheet>
+        <ProductMedia :product="this.PRODUCT" />
+      </v-window-item>
+    </v-window>
+  </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+import ProductForm from "@/views/products/ProductForm.vue";
+import VBannerForm from "@/components/V-banner-form.vue";
+import ProductMedia from "@/views/products/ProductMedia.vue";
 export default {
   name: 'ProductCreate',
+  components: {ProductMedia, VBannerForm, ProductForm},
   data: () => ({
+    isFetch: false,
+    isSaveImage: false,
+    tab: 1,
+    productCreate: {},
     product: {
+      id: null,
       title: '',
       description: '',
       information: '',
@@ -162,21 +52,29 @@ export default {
       article: '',
       is_active: true,
       category: null,
-      sub_category: null,
+      subCategory: null,
       brand: null,
       images: []
     },
   }),
 
   computed: {
-    ...mapGetters(["SUB_CATEGORIES", "CATEGORIES", "BRANDS"]),
+    ...mapGetters(["SUB_CATEGORIES", "CATEGORIES", "BRANDS", "PRODUCT"]),
   },
 
   methods: {
-    ...mapActions(["GET_SUB_CATEGORIES", "GET_CATEGORIES", "GET_BRANDS", "CREATE_PRODUCT"]),
+    ...mapActions(["GET_SUB_CATEGORIES", "GET_CATEGORIES", "GET_BRANDS", "CREATE_PRODUCT", "GET_PRODUCT"]),
 
-    onFinish(){
-        this.CREATE_PRODUCT(this.product)
+    onFinish(data){
+      const request = {
+        ...data,
+        category_id:  data.category,
+        sub_category_id: data.subCategory,
+        brand_id: data.brand,
+      }
+      this.CREATE_PRODUCT(request).then(() => {
+        this.isSaveImage = true
+      })
     },
   },
 

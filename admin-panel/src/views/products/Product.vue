@@ -1,66 +1,69 @@
 <template>
-  <v-infinite-scroll
-      direction="horizontal"
-  >
-  <v-data-table-server
-    v-model:items-per-page="itemsPerPage"
-    :search="search"
-    :headers="headers"
-    :items-length="TOTAL_PRODUCTS"
-    :items="PRODUCTS"
-    :loading="loading"
-    class="elevation-1"
-    item-value="name"
-    @update:options="loadItems"
-  >
-    <template v-slot:item="{ item }">
-        <tr>
-            <td>{{ item.id }}</td>
-            <td>{{ item.title }}</td>
-            <td>{{ item.category.name }}</td>
-            <td>{{ item.subCategory.name }}</td>
-            <td>{{ item.brand.name }}</td>
-            <td>{{ `${item.qty} count` }}</td>
-            <td>{{ `$ ${item.price}` }}</td>
-            <td>{{ `# ${item.article}` }}</td>
-            <td>{{ item.is_active ? 'Active' : 'Disable' }}</td>
-            <td>{{ item.like }}</td>
-            <td>{{ item.feature ? 'True' : 'False' }}</td>
-            <td>{{ item.tags.data.map((e) => e.name).join(', ') || '-' }}</td>
-            <td>{{ item.colors.data.map((e) => e.name).join(', ') || '-' }}</td>
-            <td>{{ item.createdAt }}</td>
-            <td>{{ item.updatedAt }}</td>
+    <v-data-table-server
+      v-model:items-per-page="itemsPerPage"
+      :search="search"
+      :headers="headers"
+      :items-length="TOTAL_PRODUCTS"
+      :items="PRODUCTS"
+      :loading="loading"
+      item-value="name"
+      @update:options="loadItems"
+    >
+      <template v-slot:item="{ item }">
+          <tr>
+              <td>{{ item.id }}</td>
+              <td>{{ item.title }}</td>
+              <td>{{ item.category.name }}</td>
+              <td>{{ item.subCategory.name }}</td>
+              <td>{{ item.brand.name }}</td>
+              <td>{{ `${item.qty} count` }}</td>
+              <td>{{ `$ ${item.price}` }}</td>
+              <td>{{ `# ${item.article}` }}</td>
+              <td>{{ item.is_active ? 'Active' : 'Disable' }}</td>
+              <td>{{ item.like }}</td>
+              <td>{{ item.feature ? 'True' : 'False' }}</td>
+              <td>{{ item.tags.data.map((e) => e.name).join(', ') || '-' }}</td>
+              <td>{{ item.colors.data.map((e) => e.name).join(', ') || '-' }}</td>
+              <td>{{ item.createdAt }}</td>
+              <td>{{ item.updatedAt }}</td>
+            <td><router-link :to="{ name: 'product', params: { id: item.id } }">
+              <v-icon
+                size="small"
+                class="me-2"
+              >
+                mdi-pencil
+              </v-icon>
+            </router-link></td>
+          </tr>
+      </template>
+      <template v-slot:top>
+        <tr style="display: flex; justify-content: space-between">
+          <div>
+            <td style="width: 200px">
+                  <v-text-field
+                          v-model="id"
+                          hide-details
+                          placeholder="Search id"
+                          type="number"
+                          class="ma-2"
+                          density="compact"
+                  ></v-text-field>
+            </td>
+            <td style="width: 300px">
+              <v-text-field v-model="title" hide-details placeholder="Search title..." class="ma-2" density="compact"></v-text-field>
+            </td>
+            <td style="width: 300px">
+                <v-text-field v-model="article" hide-details placeholder="Search article..." class="ma-2" density="compact"></v-text-field>
+            </td>
+          </div>
+          <div>
+            <v-btn :to="{name: 'ProductsCreate'}" color="primary" dark class="ma-4">
+              New Item
+            </v-btn>
+          </div>
         </tr>
-    </template>
-    <template v-slot:top>
-      <tr style="display: flex; justify-content: space-between">
-        <div>
-          <td style="width: 200px">
-                <v-text-field
-                        v-model="id"
-                        hide-details
-                        placeholder="Search id"
-                        type="number"
-                        class="ma-2"
-                        density="compact"
-                ></v-text-field>
-          </td>
-          <td style="width: 300px">
-            <v-text-field v-model="title" hide-details placeholder="Search title..." class="ma-2" density="compact"></v-text-field>
-          </td>
-          <td style="width: 300px">
-              <v-text-field v-model="article" hide-details placeholder="Search article..." class="ma-2" density="compact"></v-text-field>
-          </td>
-        </div>
-        <div>
-          <v-btn :to="{name: 'ProductsCreate'}" color="primary" dark class="ma-4">
-            New Item
-          </v-btn>
-        </div>
-      </tr>
-    </template>
-  </v-data-table-server>
-  </v-infinite-scroll>
+      </template>
+    </v-data-table-server>
 </template>
 
 <script>
@@ -88,6 +91,7 @@ export default {
       { title: 'Colors', key: 'colors', sortable: false, align: 'start' },
       { title: 'CreatedAt', key: 'createdAt', sortable: false, },
       { title: 'UpdatedAt', key: 'updatedAt', sortable: false, },
+      { title: 'Action', key: 'action', sortable: false, },
     ],
     loading: true,
     totalItems: 0,
@@ -133,7 +137,7 @@ export default {
           article: this.article,
           id: this.id,
           includes: ['brand', 'category', 'subCategory', 'colors', 'tags'],
-          }).then(() => {
+          }).finally(() => {
           this.loading = false
       })
     },
